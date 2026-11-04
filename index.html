@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Feeder | IoT Dashboard</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --surface: #1f2833;
+            --surface-glass: rgba(31, 40, 51, 0.75);
+            --primary: #45a29e;
+            --primary-glow: rgba(69, 162, 158, 0.6);
+            --secondary: #66fcf1;
+            --danger: #ff003c;
+            --danger-glow: rgba(255, 0, 60, 0.5);
+            --text-main: #ffffff;
+            --text-muted: #c5c6c7;
+            --border: rgba(102, 252, 241, 0.2);
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(69, 162, 158, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 60, 0.05), transparent 25%);
+        }
+
+        /* --- LOGIN OVERLAY --- */
+        #auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .login-card {
+            background: var(--surface-glass);
+            border: 1px solid var(--border);
+            padding: 40px; border-radius: var(--radius);
+            width: 90%; max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            text-align: center;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .login-card i.fa-fish { font-size: 40px; color: var(--secondary); margin-bottom: 10px; }
+        .login-card h2 { margin-bottom: 5px; font-weight: 700; letter-spacing: 1px; color: var(--secondary); }
+        .school-badge { font-size: 11px; color: var(--primary); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 25px; display: block;}
+        
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
+        .input-group input {
+            width: 100%; padding: 12px 15px; border-radius: 8px;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--primary);
+            color: white; outline: none; transition: 0.3s;
+        }
+        .input-group input:focus { box-shadow: 0 0 10px var(--primary-glow); }
+        .btn-auth {
+            width: 100%; padding: 12px; margin-top: 10px; border: none;
+            border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .btn-login { background: var(--primary); color: #000; }
+        .btn-login:hover { background: var(--secondary); box-shadow: 0 0 15px var(--primary-glow); }
+        .btn-guest { background: transparent; color: var(--text-muted); border: 1px solid var(--text-muted); margin-top: 15px;}
+        .btn-guest:hover { background: rgba(255,255,255,0.1); color: white; }
+
+        /* --- MAIN APP LAYOUT --- */
+        #app-container { display: none; width: 100%; height: 100vh; animation: fadeIn 1s ease; }
+        
+        .sidebar {
+            width: 260px; background: var(--surface); border-right: 1px solid var(--border);
+            padding: 30px 20px; display: flex; flex-direction: column; flex-shrink: 0;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+        }
+        .brand { font-size: 22px; font-weight: 800; color: var(--secondary); text-align: center; margin-bottom: 40px; letter-spacing: 1px; }
+        .brand i { margin-right: 8px; }
+        .nav-item {
+            padding: 15px 20px; margin-bottom: 10px; border-radius: 10px;
+            color: var(--text-muted); font-weight: 500; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .nav-item i { width: 20px; text-align: center; }
+        .nav-item.active, .nav-item:hover {
+            background: linear-gradient(90deg, rgba(69,162,158,0.2) 0%, transparent 100%);
+            color: var(--secondary); border-left: 4px solid var(--secondary);
+        }
+
+        .main-content { flex: 1; padding: 30px 40px; overflow-y: auto; }
+        
+        /* HEADER & STATUS */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .header h1 { font-size: 28px; font-weight: 700; }
+        .header p { color: var(--text-muted); font-size: 14px; }
+        .status-badge {
+            padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.online { background: #2ecc71; box-shadow: 0 0 10px #2ecc71; animation: pulse 2s infinite; }
+        .dot.offline { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
+
+        /* VIEWS */
+        .view-section { display: none; animation: slideUp 0.5s ease; }
+        .view-section.active { display: block; }
+
+        /* CARDS & GRID */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card {
+            background: var(--surface-glass); backdrop-filter: blur(10px);
+            border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card-title { font-size: 15px; color: var(--secondary); text-transform: uppercase; margin-bottom: 25px; font-weight: 700; display: flex; align-items: center; gap: 10px;}
+        
+        /* MAIN SWITCH BUTTON */
+        .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 30px 0; }
+        .main-btn {
+            width: 140px; height: 140px; border-radius: 50%; border: none; cursor: pointer;
+            font-size: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative;
+        }
+        .main-btn span { font-size: 12px; font-weight: 700; margin-top: 10px; font-family: 'Poppins', sans-serif; letter-spacing: 1px;}
+        
+        .btn-off {
+            background: #111; color: var(--text-muted); border: 2px solid #333;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .btn-on {
+            background: var(--primary); color: #000; border: 2px solid var(--secondary);
+            box-shadow: 0 0 40px var(--primary-glow), inset 0 0 20px rgba(255,255,255,0.4);
+            transform: scale(1.05);
+        }
+        .btn-locked { background: #111; color: #444; border: 2px dashed #444; cursor: not-allowed; }
+
+        /* LIST & FORMS */
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;}
+        .info-val { font-weight: 600; color: #fff; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+        input[type="time"], select {
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.4); color: #fff;
+            border: 1px solid var(--border); border-radius: 8px; outline: none;
+        }
+        .btn-action {
+            width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-bottom: 10px;
+        }
+        .btn-save { background: var(--secondary); color: #000; }
+        .btn-save:hover { box-shadow: 0 0 15px rgba(102, 252, 241, 0.4); }
+        .btn-del { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+        .btn-del:hover { background: var(--danger); color: #fff; }
+
+        /* LOG TABLE */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { color: var(--secondary); font-weight: 600; text-transform: uppercase; font-size: 12px; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        .log-nyala { color: #2ecc71; font-weight: 600; }
+        .log-mati { color: var(--danger); font-weight: 600; }
+
+        /* UTILS & ANIMATIONS */
+        .lock-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); border-radius: var(--radius);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: var(--text-muted); z-index: 10;
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            #app-container { flex-direction: column; }
+            .sidebar { width: 100%; padding: 15px; border-right: none; border-bottom: 1px solid var(--border); }
+            .brand { margin-bottom: 15px; }
+            .nav-container { flex-direction: row; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+            .nav-item { margin-bottom: 0; flex: 1; justify-content: center; white-space: nowrap; }
+            .nav-item span { display: none; } /* Hide text on mobile */
+            .main-content { padding: 20px; }
+            .header { flex-direction: column; align-items: flex-start; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LAYAR LOGIN OTENTIKASI -->
+    <div id="auth-overlay">
+        <div class="login-card">
+            <i class="fa-solid fa-fish-fins"></i>
+            <h2>IoT Feeder Panel</h2>
+            <span class="school-badge">Proyek Rekayasa SMAN 14 Surabaya</span>
+            
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Masukkan ID">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Masukkan Sandi">
+            </div>
+            
+            <button class="btn-auth btn-login" onclick="doLogin()">Masuk (Admin)</button>
+            <button class="btn-auth btn-guest" onclick="doGuest()">Masuk Sebagai Tamu</button>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD APLIKASI -->
+    <div id="app-container">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="brand"><i class="fa-solid fa-microchip"></i> IoT Core</div>
+            <div class="nav-container">
+                <div class="nav-item active" data-target="view-dashboard" title="Dashboard">
+                    <i class="fa-solid fa-chart-line"></i> <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-target="view-log" title="Log Riwayat">
+                    <i class="fa-solid fa-clock-rotate-left"></i> <span>Log Riwayat</span>
+                </div>
+                <div class="nav-item" data-target="view-settings" title="Sistem">
+                    <i class="fa-solid fa-gear"></i> <span>Sistem</span>
+                </div>
+                <div class="nav-item" onclick="logout()" style="margin-top: auto; color: var(--danger);" title="Keluar">
+                    <i class="fa-solid fa-right-from-bracket"></i> <span>Keluar</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- KONTEN UTAMA -->
+        <main class="main-content">
+            
+            <header class="header">
+                <div>
+                    <h1 id="greeting">Halo, Admin</h1>
+                    <p>Manajemen Perangkat Pintar & Penjadwalan</p>
+                </div>
+                <div class="status-badge" id="connBadge">
+                    <div class="dot offline" id="connDot"></div>
+                    <span id="connText">Menghubungkan...</span>
+                </div>
+            </header>
+
+            <!-- VIEW 1: DASHBOARD UTAMA -->
+            <div id="view-dashboard" class="view-section active">
+                <div class="dashboard-grid">
+                    
+                    <!-- KARTU 1: KONTROL SAKLAR -->
+                    <div class="card" style="position: relative;">
+                        <!-- Overlay untuk Tamu -->
+                        <div id="lock-control" class="lock-overlay" style="display: none;">
+                            <i class="fa-solid fa-lock" style="font-size: 30px; margin-bottom: 10px;"></i>
+                            <p style="font-size: 13px; font-weight: 600;">Hanya Untuk Admin</p>
+                        </div>
+
+                        <div class="card-title"><i class="fa-solid fa-power-off"></i> Kendali Daya</div>
+                        <div class="switch-wrapper">
+                            <!-- Secara bawaan tombol dikunci sampai mendapat sinyal koneksi -->
+                            <button id="toggleBtn" class="main-btn btn-locked" disabled>
+                                <i class="fa-solid fa-bolt"></i>
+                                <span id="btnLabel">OFFLINE</span>
+                            </button>
+                        </div>
+                        <p id="statusText" style="text-align: center; color: var(--text-muted); font-size: 13px; font-weight: 600;">Sedang menghubungkan alat...</p>
+                    </div>
+
+                    <!-- KARTU 2: INFO RIWAYAT -->
+                    <div class="card">
+                        <div class="card-title"><i class="fa-solid fa-chart-pie"></i> Statistik Singkat</div>
+                        <div class="info-row">
+                            <span>Waktu Aktif Terakhir:</span>
+                            <span class="info-val" id="lastActiveUI">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Durasi Pakan:</span>
+                            <span class="info-val" id="durationUI">-</span>
+                        </div>
+                        <div class="info-row" style="margin-top: 25px; border: none;">
+                            <span>Jadwal Aktif Web:</span>
+                            <span class="info-val" id="scheduleStatusUI" style="color: var(--secondary);">Tidak Ada</span>
+                        </div>
+                    </div>
+
+                    <!-- KARTU 3: PENJADWALAN -->
+                    <div class="card" style="position: relative;">
+                        <!-- Overlay untuk Tamu -->
+                        <div id="lock-schedule" class="lock-overlay" style="display: none;">
+                            <i class="fa-solid fa-lock" style="font-size: 30px; margin-bottom: 10px;"></i>
+                            <p style="font-size: 13px; font-weight: 600;">Hanya Untuk Admin</p>
+                        </div>
+
+                        <div class="card-title"><i class="fa-solid fa-calendar-check"></i> Jadwal Otomatis</div>
+                        <div class="form-group">
+                            <label>Tentukan Jam Pakan (HH:MM)</label>
+                            <input type="time" id="schedTime">
+                        </div>
+                        <div class="form-group">
+                            <label>Aksi Perangkat</label>
+                            <select id="schedAction">
+                                <option value="1">LONTARKAN PAKAN (NYALA)</option>
+                                <option value="0">BERHENTI (MATI)</option>
+                            </select>
+                        </div>
+                        <button class="btn-action btn-save" onclick="simpanJadwal()"><i class="fa-solid fa-floppy-disk"></i> Pasang Jadwal</button>
+                        <button class="btn-action btn-del" onclick="hapusJadwal()"><i class="fa-solid fa-trash"></i> Hapus Jadwal</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- VIEW 2: LOG AKTIVITAS -->
+            <div id="view-log" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-list"></i> Database Log Aktivitas Terakhir</div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Catatan ini direkam langsung di Firebase Server secara real-time.</p>
+                    
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu & Tanggal</th>
+                                    <th>Aksi</th>
+                                    <th>Oleh (User)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logTableBody">
+                                <tr><td colspan="3" style="text-align: center; color: #888;">Memuat data riwayat...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: SETTINGS -->
+            <div id="view-settings" class="view-section">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-server"></i> Info Sistem & Jaringan</div>
+                    <div class="info-row">
+                        <span>ID Modul ESP:</span>
+                        <span class="info-val">PAKAN-IOT-XI-7</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Status Database:</span>
+                        <span class="info-val" id="dbStatusUI" style="color: #f39c12;">Checking...</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Akses Saat Ini:</span>
+                        <span class="info-val" id="roleUI">Admin</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Firebase SDK (HANYA CORE & DATABASE) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        /* =========================================
+           1. OTENTIKASI FRONTEND & MANAJEMEN UI
+        ========================================= */
+        let userRole = 'GUEST'; 
+
+        function doLogin() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            // Pastikan huruf besar persis: XI-7 dan REKAYASA
+            if(u === 'XI-7' && p === 'REKAYASA') {
+                userRole = 'ADMIN';
+                masukAplikasi("Halo, Admin XI-7", false);
+            } else {
+                alert("Username atau Password Salah!");
+            }
+        }
+
+        function doGuest() {
+            userRole = 'GUEST';
+            masukAplikasi("Halo, Pengunjung", true);
+        }
+
+        function masukAplikasi(greetText, isGuest) {
+            document.getElementById('auth-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('auth-overlay').style.visibility = 'hidden';
+                document.getElementById('app-container').style.display = 'flex';
+                
+                document.getElementById('greeting').innerText = greetText;
+                document.getElementById('roleUI').innerText = isGuest ? "Tamu (Hanya Lihat)" : "Administrator";
+
+                if(isGuest) {
+                    document.getElementById('lock-control').style.display = 'flex';
+                    document.getElementById('lock-schedule').style.display = 'flex';
+                } else {
+                    document.getElementById('lock-control').style.display = 'none';
+                    document.getElementById('lock-schedule').style.display = 'none';
+                    
+                    // KICKSTART: Jika Admin masuk, pancing database agar tidak stuck!
+                    dbRef.once('value').then((snap) => {
+                        if (!snap.exists()) {
+                            // Suntik data agar database terinisialisasi
+                            dbRef.set({ status: 0, lastActive: 0, lastDuration: "-" });
+                        }
+                    });
+
+                    // Buka kunci secara paksa sebagai fallback
+                    btn.disabled = false;
+                    if (!isDataLoaded) {
+                        btn.className = "main-btn btn-off";
+                        btnLabel.innerText = "OFF / MATI";
+                        statusText.innerText = "Perangkat bersiaga.";
+                        statusText.style.color = "var(--text-muted)";
+                    }
+                }
+
+                renderButtonState();
+            }, 500);
+        }
+
+        function logout() { location.reload(); }
+
+        const navItems = document.querySelectorAll('.nav-item');
+        const viewSections = document.querySelectorAll('.view-section');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if(item.getAttribute('data-target')){
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    viewSections.forEach(sec => sec.classList.remove('active'));
+                    item.classList.add('active');
+                    document.getElementById(item.getAttribute('data-target')).classList.add('active');
+                }
+            });
+        });
+
+        /* =========================================
+           2. FIREBASE SETUP & KONEKSI DATABASE
+        ========================================= */
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4eYa34ymjS8yaEC2kd9xzq6yJ-BauFPo",
+            databaseURL: "https://p7-kaih-rekayasa-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        const dbRef = database.ref('perangkat/stopkontak');
+        const logRef = database.ref('perangkat/logs');
+        const connectedRef = database.ref(".info/connected");
+
+        const btn = document.getElementById('toggleBtn');
+        const btnLabel = document.getElementById('btnLabel');
+        const statusText = document.getElementById('statusText');
+        const connDot = document.getElementById('connDot');
+        const connText = document.getElementById('connText');
+        const dbStatusUI = document.getElementById('dbStatusUI');
+        
+        let currentState = 0;
+        let lastActiveTs = 0;
+        let isServerConnected = false;
+        let isDataLoaded = false;
+
+        connectedRef.on("value", (snap) => {
+            if (snap.val() === true) {
+                isServerConnected = true;
+                connDot.className = 'dot online';
+                connText.innerText = "Sistem Online";
+                dbStatusUI.innerText = "Terhubung OK";
+                dbStatusUI.style.color = "#2ecc71";
+                renderButtonState();
+            } else {
+                isServerConnected = false;
+                connDot.className = 'dot offline';
+                connText.innerText = "Sistem Offline";
+                dbStatusUI.innerText = "Terputus";
+                dbStatusUI.style.color = "var(--danger)";
+                
+                btn.disabled = true;
+                btn.className = "main-btn btn-locked";
+                btnLabel.innerText = "TERPUTUS";
+                statusText.innerText = "Koneksi ke server terputus!";
+            }
+        });
+
+        /* =========================================
+           3. BACA DATA (DENGAN ERROR CATCHER)
+        ========================================= */
+        dbRef.on('value', (snapshot) => {
+            const data = snapshot.val() || {};
+            currentState = data.status || 0;
+            lastActiveTs = data.lastActive || 0;
+            isDataLoaded = true; 
+            
+            const opt = { day:'2-digit', month:'short', hour: '2-digit', minute:'2-digit', second:'2-digit' };
+            document.getElementById('lastActiveUI').innerText = lastActiveTs > 0 ? new Date(lastActiveTs).toLocaleString('id-ID', opt) : '-';
+            
+            renderButtonState();
+
+            document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir..." : (data.lastDuration || '-');
+
+            if(data.schedule && data.schedule.active) {
+                const aksi = data.schedule.action === 1 ? 'NYALA' : 'MATI';
+                document.getElementById('scheduleStatusUI').innerText = `Jam ${data.schedule.time} -> ${aksi}`;
+            } else {
+                document.getElementById('scheduleStatusUI').innerText = "Tidak Ada";
+            }
+        }, (error) => {
+            alert("Firebase Error (Akses Ditolak): " + error.message);
+            statusText.innerText = "Gagal membaca database! Cek Rules Firebase.";
+            statusText.style.color = "var(--danger)";
+        });
+
+        function renderButtonState() {
+            if (userRole === 'ADMIN' && (isServerConnected || isDataLoaded)) {
+                btn.disabled = false;
+                
+                if(currentState === 1) {
+                    btn.className = "main-btn btn-on";
+                    btnLabel.innerText = "MENYALA";
+                    statusText.innerText = "Pakan sedang dilontarkan!";
+                    statusText.style.color = "var(--primary)";
+                } else {
+                    btn.className = "main-btn btn-off";
+                    btnLabel.innerText = "OFF / MATI";
+                    statusText.innerText = "Perangkat bersiaga.";
+                    statusText.style.color = "var(--text-muted)";
+                }
+            } else if (userRole === 'GUEST') {
+                btn.disabled = true;
+            }
+        }
+
+        /* =========================================
+           4. KONTROL MANUAL & CATAT LOG
+        ========================================= */
+        btn.onclick = () => {
+            if(btn.disabled || userRole !== 'ADMIN') return;
+            
+            const newState = currentState === 1 ? 0 : 1;
+            const now = Date.now();
+            let updates = { status: newState };
+            
+            if (newState === 1) {
+                updates.lastActive = now;
+            } else if (lastActiveTs > 0) {
+                const diff = now - lastActiveTs;
+                const m = Math.floor(diff / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                updates.lastDuration = `${m} mnt ${s} dtk`;
+            }
+            
+            btnLabel.innerText = "PROSES...";
+            
+            dbRef.update(updates).then(() => {
+                catatKeLog(newState === 1 ? 'MENYALA' : 'DIMATIKAN', 'Manual (Admin XI-7)');
+            }).catch(e => alert("Error Database: " + e.message));
+        };
+
+        function catatKeLog(aksi, oleh) {
+            logRef.push({
+                aksi: aksi,
+                oleh: oleh,
+                waktu: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+
+        /* =========================================
+           5. MEMBACA & MENAMPILKAN TABEL LOG
+        ========================================= */
+        logRef.orderByChild('waktu').limitToLast(15).on('value', snap => {
+            const tbody = document.getElementById('logTableBody');
+            if(!snap.exists()) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #888;">Belum ada log terekam.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            let logsArray = [];
+            snap.forEach(child => { logsArray.push(child.val()); });
+            logsArray.reverse();
+
+            logsArray.forEach(item => {
+                const t = new Date(item.waktu).toLocaleString('id-ID', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+                const actionClass = item.aksi.includes('NYALA') ? 'log-nyala' : 'log-mati';
+                html += `<tr>
+                            <td>${t}</td>
+                            <td class="${actionClass}">${item.aksi}</td>
+                            <td><i class="fa-solid fa-user-gear" style="font-size:10px; margin-right:5px; color:#aaa;"></i> ${item.oleh}</td>
+                         </tr>`;
+            });
+            tbody.innerHTML = html;
+        });
+
+        /* =========================================
+           6. LOGIKA PENJADWALAN (OTOMATISASI)
+        ========================================= */
+        function simpanJadwal() {
+            if(userRole !== 'ADMIN') return alert("Hanya Admin yang dapat merubah jadwal.");
+            const timeVal = document.getElementById('schedTime').value;
+            const actionVal = parseInt(document.getElementById('schedAction').value);
+            
+            if(!timeVal) return alert("Pilih waktu terlebih dahulu.");
+            dbRef.child('schedule').set({ time: timeVal, action: actionVal, active: true });
+            catatKeLog(`JADWAL DIBUAT (Jam ${timeVal})`, 'Admin (XI-7)');
+        }
+
+        function hapusJadwal() {
+            if(userRole !== 'ADMIN') return;
+            dbRef.child('schedule/active').set(false);
+            catatKeLog('JADWAL DIHAPUS', 'Admin (XI-7)');
+        }
+
+        setInterval(() => {
+            dbRef.child('schedule').once('value').then(snap => {
+                const sched = snap.val();
+                if (sched && sched.active) {
+                    const now = new Date();
+                    const curTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+                    if (curTime === sched.time && currentState !== sched.action && isServerConnected) {
+                        let updates = { status: sched.action };
+                        if(sched.action === 1) updates.lastActive = Date.now();
+                        dbRef.update(updates).then(() => {
+                            catatKeLog(sched.action === 1 ? 'MENYALA' : 'DIMATIKAN', 'Sistem (Otomatis/Timer)');
+                            dbRef.child('schedule/active').set(false); 
+                        });
+                    }
+                }
+            });
+        }, 30000);
+    </script>
+</body>
+</html>
