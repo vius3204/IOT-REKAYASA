@@ -66,7 +66,6 @@
         }
         #gopay-modal.active .gopay-box { transform: scale(1); }
         
-        /* Checkmark Animation Circle */
         .gopay-circle {
             width: 90px; height: 90px; margin: 0 auto 20px;
             border-radius: 50%; background: var(--lcd-green);
@@ -92,7 +91,6 @@
             transition: 0.5s ease;
         }
         
-        /* Frame Fisik LCD */
         .lcd-bezel-frame {
             background: #121814;
             border: 4px solid #2a382e;
@@ -107,7 +105,6 @@
             font-size: 11px; border: 1px solid #2a382e; border-radius: 4px;
         }
         
-        /* Layar Kaca LCD (Liquid Crystal Screen) */
         .lcd-screen {
             background: #021a0e;
             border: 3px solid var(--lcd-green);
@@ -115,7 +112,6 @@
             border-radius: 10px; padding: 25px 20px; text-align: center;
             position: relative; overflow: hidden;
         }
-        /* Scanlines Efek Layar */
         .lcd-screen::after {
             content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
@@ -204,7 +200,6 @@
             display: flex; align-items: center; gap: 10px;
         }
 
-        /* TOMBOL POWER UTAMA (GLOWING CYBER BUTTON) */
         .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 25px 0; }
         .main-btn {
             width: 150px; height: 150px; border-radius: 50%; border: none; cursor: pointer;
@@ -391,7 +386,7 @@
                         </button>
                     </div>
 
-                    <!-- KARTU 3: JADWAL OTOMATIS (SISTEM TIMER 2 MENIT ESP) -->
+                    <!-- KARTU 3: JADWAL OTOMATIS (SISTEM TIMER 1 MENIT ESP) -->
                     <div class="card">
                         <div id="lock-schedule" class="lock-overlay" style="display: none;">
                             <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
@@ -404,7 +399,7 @@
                             <input type="time" id="schedTime">
                         </div>
                         <p style="font-size: 11px; color: var(--lcd-yellow); font-family: var(--font-lcd); margin-bottom: 15px;">
-                            *Setiap jadwal terpicu, pakan otomatis dilontarkan 2 menit sesuai timer ESP.
+                            *Setiap jadwal terpicu, pakan otomatis dilontarkan 1 menit sesuai timer ESP.
                         </p>
                         <button class="btn-action btn-save" onclick="simpanJadwal()"><i class="fa-solid fa-check"></i> Pasang Jadwal Pakan</button>
                         <button class="btn-action btn-del" onclick="hapusJadwal()"><i class="fa-solid fa-trash"></i> Hapus Jadwal</button>
@@ -463,7 +458,7 @@
                     </div>
                     <div class="info-row">
                         <span class="info-label">Timer Auto-Off:</span>
-                        <span class="info-val">120 Detik (2 Menit)</span>
+                        <span class="info-val">60 Detik (1 Menit)</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Status Firebase:</span>
@@ -509,7 +504,6 @@
 
             modal.classList.add('active');
 
-            // Sound feedback visual effect (Auto Close 1.8 detik)
             setTimeout(() => {
                 modal.classList.remove('active');
             }, 1800);
@@ -650,7 +644,7 @@
             
             renderButtonState();
 
-            document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir (2 Mnt)" : (data.lastDuration || '-');
+            document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir (1 Mnt)" : (data.lastDuration || '-');
 
             if(data.schedule && data.schedule.active) {
                 document.getElementById('scheduleStatusUI').innerText = `Jam ${data.schedule.time} WIB`;
@@ -685,7 +679,7 @@
                 if(currentState === 1) {
                     btn.className = "main-btn btn-on";
                     btnLabel.innerText = "LONTAR PAKAN";
-                    statusText.innerText = "Mesin Blower Aktif (Timer 2 Menit berjalan)";
+                    statusText.innerText = "Mesin Blower Aktif (Timer 1 Menit berjalan)";
                     statusText.style.color = "var(--lcd-green)";
                 } else {
                     btn.className = "main-btn btn-off";
@@ -721,8 +715,8 @@
             
             dbRef.update(updates).then(() => {
                 if(newState === 1) {
-                    triggerGoPayAnim("PAKAN DILONTARKAN", "Mesin menyala selama 2 menit otomatis!");
-                    catatKeLog('LONTAR PAKAN (2 MNT)', 'Manual (Admin XI-7)');
+                    triggerGoPayAnim("PAKAN DILONTARKAN", "Mesin menyala selama 1 menit otomatis!");
+                    catatKeLog('LONTAR PAKAN (1 MNT)', 'Manual (Admin XI-7)');
                 } else {
                     triggerGoPayAnim("MESIN DIMATIKAN", "Mesin dihentikan secara manual.", true);
                     catatKeLog('MESIN DIMATIKAN', 'Manual (Admin XI-7)');
@@ -772,7 +766,7 @@
         });
 
         /* =========================================
-           5. SISTEM PENJADWALAN AUTOMATIS (ESP 2 MIN TIMER)
+           5. SISTEM PENJADWALAN AUTOMATIS (ESP 1 MIN TIMER)
         ========================================= */
         function simpanJadwal() {
             if(userRole !== 'ADMIN') return alert("Hanya Admin yang dapat merubah jadwal.");
@@ -802,13 +796,12 @@
                     const now = new Date();
                     const curTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
                     
-                    // Jika jam sekarang cocok & mesin sedang mati, kirim status 1 (pancing timer 2 menit ESP)
                     if (curTime === sched.time && currentState !== 1 && isServerConnected) {
                         let updates = { status: 1, lastActive: Date.now() };
                         dbRef.update(updates).then(() => {
-                            triggerGoPayAnim("JADWAL TERPICU!", "Pakan dilontarkan 2 menit otomatis!");
+                            triggerGoPayAnim("JADWAL TERPICU!", "Pakan dilontarkan 1 menit otomatis!");
                             catatKeLog(`JADWAL TERPICU (${sched.time})`, 'Sistem Auto-Feed');
-                            dbRef.child('schedule/active').set(false); // Nonaktifkan setelah sukses dipicu
+                            dbRef.child('schedule/active').set(false);
                         });
                     }
                 }
