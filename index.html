@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Feeder | Cyber LCD Panel</title>
     
-    <!-- Google Fonts: Share Tech Mono (LCD font) & Orbitron / Poppins -->
+    <!-- Google Fonts: Share Tech Mono & Orbitron / Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <!-- FontAwesome untuk Ikon Futuristik -->
+    <!-- FontAwesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -386,7 +386,7 @@
                         </button>
                     </div>
 
-                    <!-- KARTU 3: JADWAL OTOMATIS (SISTEM TIMER 1 MENIT ESP) -->
+                    <!-- KARTU 3: JADWAL OTOMATIS (SISTEM TIMER 30 DETIK ESP) -->
                     <div class="card">
                         <div id="lock-schedule" class="lock-overlay" style="display: none;">
                             <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
@@ -399,7 +399,7 @@
                             <input type="time" id="schedTime">
                         </div>
                         <p style="font-size: 11px; color: var(--lcd-yellow); font-family: var(--font-lcd); margin-bottom: 15px;">
-                            *Setiap jadwal terpicu, pakan otomatis dilontarkan 1 menit sesuai timer ESP.
+                            *Setiap jadwal terpicu, pakan otomatis dilontarkan 30 detik sesuai timer ESP.
                         </p>
                         <button class="btn-action btn-save" onclick="simpanJadwal()"><i class="fa-solid fa-check"></i> Pasang Jadwal Pakan</button>
                         <button class="btn-action btn-del" onclick="hapusJadwal()"><i class="fa-solid fa-trash"></i> Hapus Jadwal</button>
@@ -458,7 +458,7 @@
                     </div>
                     <div class="info-row">
                         <span class="info-label">Timer Auto-Off:</span>
-                        <span class="info-val">60 Detik (1 Menit)</span>
+                        <span class="info-val">30 Detik</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Status Firebase:</span>
@@ -644,7 +644,7 @@
             
             renderButtonState();
 
-            document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir (1 Mnt)" : (data.lastDuration || '-');
+            document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir (30 Dtk)" : (data.lastDuration || '-');
 
             if(data.schedule && data.schedule.active) {
                 document.getElementById('scheduleStatusUI').innerText = `Jam ${data.schedule.time} WIB`;
@@ -679,7 +679,7 @@
                 if(currentState === 1) {
                     btn.className = "main-btn btn-on";
                     btnLabel.innerText = "LONTAR PAKAN";
-                    statusText.innerText = "Mesin Blower Aktif (Timer 1 Menit berjalan)";
+                    statusText.innerText = "Mesin Blower Aktif (Timer 30 Detik berjalan)";
                     statusText.style.color = "var(--lcd-green)";
                 } else {
                     btn.className = "main-btn btn-off";
@@ -715,8 +715,8 @@
             
             dbRef.update(updates).then(() => {
                 if(newState === 1) {
-                    triggerGoPayAnim("PAKAN DILONTARKAN", "Mesin menyala selama 1 menit otomatis!");
-                    catatKeLog('LONTAR PAKAN (1 MNT)', 'Manual (Admin XI-7)');
+                    triggerGoPayAnim("PAKAN DILONTARKAN", "Mesin menyala selama 30 detik otomatis!");
+                    catatKeLog('LONTAR PAKAN (30 DTK)', 'Manual (Admin XI-7)');
                 } else {
                     triggerGoPayAnim("MESIN DIMATIKAN", "Mesin dihentikan secara manual.", true);
                     catatKeLog('MESIN DIMATIKAN', 'Manual (Admin XI-7)');
@@ -766,7 +766,7 @@
         });
 
         /* =========================================
-           5. SISTEM PENJADWALAN AUTOMATIS (ESP 1 MIN TIMER)
+           5. SISTEM PENJADWALAN AUTOMATIS (ESP 30 SEC TIMER)
         ========================================= */
         function simpanJadwal() {
             if(userRole !== 'ADMIN') return alert("Hanya Admin yang dapat merubah jadwal.");
@@ -788,7 +788,6 @@
             });
         }
 
-        // Pengecekan Jam Jadwal Setiap 15 Detik
         setInterval(() => {
             dbRef.child('schedule').once('value').then(snap => {
                 const sched = snap.val();
@@ -799,7 +798,7 @@
                     if (curTime === sched.time && currentState !== 1 && isServerConnected) {
                         let updates = { status: 1, lastActive: Date.now() };
                         dbRef.update(updates).then(() => {
-                            triggerGoPayAnim("JADWAL TERPICU!", "Pakan dilontarkan 1 menit otomatis!");
+                            triggerGoPayAnim("JADWAL TERPICU!", "Pakan dilontarkan 30 detik otomatis!");
                             catatKeLog(`JADWAL TERPICU (${sched.time})`, 'Sistem Auto-Feed');
                             dbRef.child('schedule/active').set(false);
                         });
