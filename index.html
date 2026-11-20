@@ -1,811 +1,745 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Feeder | Cyber LCD Panel</title>
-    
-    <!-- Google Fonts: Share Tech Mono & Orbitron / Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <!-- FontAwesome untuk Ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-dark: #050806;
-            --panel-bg: rgba(12, 22, 16, 0.85);
-            --lcd-green: #00ff66;
-            --lcd-green-glow: rgba(0, 255, 102, 0.5);
-            --lcd-yellow: #ffcc00;
-            --lcd-yellow-glow: rgba(255, 204, 0, 0.5);
-            --danger: #ff2a5f;
-            --danger-glow: rgba(255, 42, 95, 0.5);
-            --text-main: #e0ffe9;
-            --text-muted: #7ca889;
-            --border-lcd: rgba(0, 255, 102, 0.25);
-            --border-yellow: rgba(255, 204, 0, 0.3);
-            --radius: 18px;
-            --font-lcd: 'Share Tech Mono', monospace;
-            --font-head: 'Orbitron', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Feeder IoT — Kontrol & Jadwal Otomatis</title>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 14px;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(0, 255, 102, 0.06), transparent 35%),
-                radial-gradient(circle at 80% 80%, rgba(255, 204, 0, 0.05), transparent 35%),
-                linear-gradient(rgba(0, 255, 102, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
 
-        /* --- ANIMASI GOPAY OVERLAY (POP-UP SUCCESS) --- */
-        #gopay-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 6, 0.85);
-            backdrop-filter: blur(12px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10000; opacity: 0; visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        #gopay-modal.active { opacity: 1; visibility: visible; }
-        
-        .gopay-box {
-            background: linear-gradient(145deg, #0d1a12, #07100b);
-            border: 2px solid var(--lcd-green);
-            box-shadow: 0 0 50px var(--lcd-green-glow);
-            border-radius: 24px; padding: 40px 30px; text-align: center;
-            width: 85%; max-width: 360px;
-            transform: scale(0.7); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        #gopay-modal.active .gopay-box { transform: scale(1); }
-        
-        .gopay-circle {
-            width: 90px; height: 90px; margin: 0 auto 20px;
-            border-radius: 50%; background: var(--lcd-green);
-            display: flex; justify-content: center; align-items: center;
-            position: relative; box-shadow: 0 0 30px var(--lcd-green);
-            animation: pulseRing 1.5s infinite;
-        }
-        .gopay-circle.yellow-mode {
-            background: var(--lcd-yellow);
-            box-shadow: 0 0 30px var(--lcd-yellow);
-            animation: pulseRingYellow 1.5s infinite;
-        }
-        .gopay-circle i { font-size: 45px; color: #050806; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      line-height: 1.5;
+    }
 
-        .gopay-title { font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
-        .gopay-desc { font-size: 13px; color: var(--text-muted); font-family: var(--font-lcd); }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
 
-        /* --- LOGIN OVERLAY (LCD FRAME HARDWARE STYLED) --- */
-        #auth-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 5, 4, 0.96); backdrop-filter: blur(20px);
-            display: flex; justify-content: center; align-items: center; z-index: 9999;
-            transition: 0.5s ease;
-        }
-        
-        .lcd-bezel-frame {
-            background: #121814;
-            border: 4px solid #2a382e;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.8);
-            border-radius: 20px; padding: 25px; width: 92%; max-width: 420px;
-            position: relative;
-        }
-        .lcd-bezel-frame::before {
-            content: "LCD MATRIX DISPLAY Module 16x2 I2C";
-            position: absolute; top: -14px; left: 25px; background: #121814;
-            padding: 0 10px; color: var(--lcd-yellow); font-family: var(--font-lcd);
-            font-size: 11px; border: 1px solid #2a382e; border-radius: 4px;
-        }
-        
-        .lcd-screen {
-            background: #021a0e;
-            border: 3px solid var(--lcd-green);
-            box-shadow: inset 0 0 25px rgba(0, 255, 102, 0.25), 0 0 15px var(--lcd-green-glow);
-            border-radius: 10px; padding: 25px 20px; text-align: center;
-            position: relative; overflow: hidden;
-        }
-        .lcd-screen::after {
-            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px; pointer-events: none; opacity: 0.6;
-        }
+    .header {
+      background: linear-gradient(135deg, #0f766e, #134e4a);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: var(--radius);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
 
-        .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 20px; font-weight: 700; text-shadow: 0 0 10px var(--lcd-green); margin-bottom: 4px; }
-        .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; display: block;}
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
 
-        .input-group { margin-bottom: 18px; text-align: left; }
-        .input-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 5px; text-transform: uppercase;}
-        .input-group input {
-            width: 100%; padding: 12px; border-radius: 6px;
-            background: #010d07; border: 1px solid var(--lcd-green);
-            color: var(--lcd-yellow); font-family: var(--font-lcd); font-size: 15px; outline: none;
-            box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); transition: 0.3s;
-        }
-        .input-group input:focus { box-shadow: 0 0 12px var(--lcd-green-glow), inset 0 0 10px rgba(0, 255, 102, 0.4); }
+    .header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
 
-        .btn-auth {
-            width: 100%; padding: 12px; margin-top: 8px; border: none;
-            border-radius: 6px; font-family: var(--font-head); font-size: 12px; font-weight: 700;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-        }
-        .btn-login { background: var(--lcd-green); color: #021a0e; box-shadow: 0 0 15px var(--lcd-green-glow); }
-        .btn-login:hover { background: #33ff85; box-shadow: 0 0 25px var(--lcd-green); transform: translateY(-2px); }
-        .btn-guest { background: transparent; color: var(--lcd-yellow); border: 1px solid var(--lcd-yellow); margin-top: 12px; }
-        .btn-guest:hover { background: rgba(255, 204, 0, 0.15); box-shadow: 0 0 15px var(--lcd-yellow-glow); }
+    .clock-box {
+      background: rgba(255, 255, 255, 0.14);
+      padding: 12px 18px;
+      border-radius: 10px;
+      text-align: right;
+    }
 
-        /* --- LAYOUT UTAMA DASHBOARD --- */
-        #app-container { display: none; width: 100%; height: 100vh; animation: fadeIn 0.8s ease; }
-        
-        .sidebar {
-            width: 270px; background: var(--panel-bg); border-right: 1px solid var(--border-lcd);
-            padding: 30px 20px; display: flex; flex-direction: column; flex-shrink: 0;
-            backdrop-filter: blur(10px);
-        }
-        .brand { 
-            font-family: var(--font-head); font-size: 18px; font-weight: 900; 
-            color: var(--lcd-green); text-align: center; margin-bottom: 35px; 
-            text-shadow: 0 0 10px var(--lcd-green-glow); letter-spacing: 1px;
-        }
-        .brand i { color: var(--lcd-yellow); margin-right: 8px; }
-        
-        .nav-item {
-            padding: 14px 18px; margin-bottom: 12px; border-radius: 10px;
-            color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; gap: 12px; border: 1px solid transparent;
-        }
-        .nav-item i { width: 20px; text-align: center; font-size: 16px; }
-        .nav-item.active, .nav-item:hover {
-            background: rgba(0, 255, 102, 0.08); color: var(--lcd-green);
-            border-color: var(--border-lcd); box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
-        }
-        .nav-item.active i { color: var(--lcd-yellow); }
+    .clock-time {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+    }
 
-        .main-content { flex: 1; padding: 30px 40px; overflow-y: auto; }
-        
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; }
-        .header h1 { font-family: var(--font-head); font-size: 24px; color: #fff; letter-spacing: 1px; }
-        .header p { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 13px; }
-        
-        .status-badge {
-            padding: 8px 18px; border-radius: 30px; font-family: var(--font-lcd); font-size: 13px;
-            display: flex; align-items: center; gap: 10px; background: #08120b; border: 1px solid var(--border-lcd);
-        }
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.online { background: var(--lcd-green); box-shadow: 0 0 12px var(--lcd-green); animation: pulseGreen 2s infinite; }
-        .dot.offline { background: var(--danger); box-shadow: 0 0 12px var(--danger); }
+    .clock-date {
+      font-size: 0.82rem;
+      opacity: 0.9;
+    }
 
-        .view-section { display: none; animation: slideUp 0.4s ease; }
-        .view-section.active { display: block; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
 
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 25px; }
-        
-        .card {
-            background: var(--panel-bg); backdrop-filter: blur(15px);
-            border: 1px solid var(--border-lcd); border-radius: var(--radius);
-            padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .card:hover { transform: translateY(-4px); border-color: var(--lcd-green); }
-        .card-title {
-            font-family: var(--font-head); font-size: 13px; color: var(--lcd-yellow);
-            text-transform: uppercase; margin-bottom: 22px; letter-spacing: 1px;
-            display: flex; align-items: center; gap: 10px;
-        }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 25px 0; }
-        .main-btn {
-            width: 150px; height: 150px; border-radius: 50%; border: none; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; outline: none;
-        }
-        .main-btn i { font-size: 38px; }
-        .main-btn span { font-family: var(--font-head); font-size: 11px; margin-top: 8px; letter-spacing: 1px; }
-        
-        .btn-off {
-            background: #0c140e; color: var(--text-muted); border: 3px solid #1a2b1f;
-            box-shadow: inset 0 0 20px #000, 0 5px 15px rgba(0,0,0,0.6);
-        }
-        .btn-on {
-            background: var(--lcd-green); color: #021a0e; border: 3px solid var(--lcd-yellow);
-            box-shadow: 0 0 50px var(--lcd-green-glow), inset 0 0 20px rgba(255,255,255,0.6);
-            transform: scale(1.06);
-        }
-        .btn-locked { background: #0a0e0b; color: #334438; border: 3px dashed #1a2b1f; cursor: not-allowed; }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
 
-        .info-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 13px; border-bottom: 1px solid rgba(0, 255, 102, 0.08); padding-bottom: 8px;}
-        .info-label { color: var(--text-muted); font-family: var(--font-lcd); }
-        .info-val { font-family: var(--font-lcd); font-weight: 700; color: var(--lcd-green); }
-        
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 8px; text-transform: uppercase; }
-        input[type="time"] {
-            width: 100%; padding: 12px; background: #040a06; color: var(--lcd-yellow);
-            border: 1px solid var(--border-lcd); border-radius: 8px; font-family: var(--font-lcd); font-size: 16px; outline: none;
-        }
-        input[type="time"]:focus { border-color: var(--lcd-yellow); box-shadow: 0 0 10px var(--lcd-yellow-glow); }
+    .stat-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
 
-        .btn-action {
-            width: 100%; padding: 12px; border: none; border-radius: 8px; font-family: var(--font-head);
-            font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
-        }
-        .btn-save { background: var(--lcd-yellow); color: #050806; box-shadow: 0 0 15px var(--lcd-yellow-glow); }
-        .btn-save:hover { background: #ffe066; box-shadow: 0 0 25px var(--lcd-yellow); transform: translateY(-2px); }
-        .btn-del { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-        .btn-del:hover { background: var(--danger); color: #fff; box-shadow: 0 0 15px var(--danger-glow); }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
 
-        /* LOG TABLE */
-        .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-family: var(--font-lcd); font-size: 13px; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(0, 255, 102, 0.08); }
-        th { color: var(--lcd-yellow); font-family: var(--font-head); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-        tr:hover { background: rgba(0, 255, 102, 0.03); }
-        .log-nyala { color: var(--lcd-green); font-weight: 700; }
-        .log-mati { color: var(--danger); font-weight: 700; }
+    .stat-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
 
-        .lock-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 6, 0.85); backdrop-filter: blur(4px); border-radius: var(--radius);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: var(--lcd-yellow); font-family: var(--font-lcd); z-index: 10;
-        }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
 
-        /* ANIMATION KEYFRAMES */
-        @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(0, 255, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); } }
-        @keyframes pulseRingYellow { 0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 204, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); } }
-        @keyframes pulseGreen { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
 
-        @media (max-width: 768px) {
-            #app-container { flex-direction: column; }
-            .sidebar { width: 100%; padding: 15px; border-right: none; border-bottom: 1px solid var(--border-lcd); }
-            .brand { margin-bottom: 15px; }
-            .nav-container { flex-direction: row; gap: 8px; overflow-x: auto; }
-            .nav-item { margin-bottom: 0; flex: 1; justify-content: center; white-space: nowrap; padding: 10px; }
-            .nav-item span { display: none; }
-            .main-content { padding: 20px; }
-            .header { flex-direction: column; align-items: flex-start; gap: 12px; }
-        }
-    </style>
+    input[type="time"],
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    .days-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+    }
+
+    .day-chip {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .day-chip input {
+      display: none;
+    }
+
+    .day-chip span {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: var(--muted);
+      transition: 0.15s;
+    }
+
+    .day-chip input:checked + span {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 18px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-accent:hover {
+      filter: brightness(0.95);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      color: var(--text);
+    }
+
+    .btn-danger-sm {
+      background: #fee2e2;
+      color: var(--danger);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+    }
+
+    .schedule-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .schedule-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+    }
+
+    .schedule-item.inactive {
+      opacity: 0.55;
+      background: #f8fafc;
+    }
+
+    .sched-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sched-time {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sched-meta h4 {
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .sched-meta p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .sched-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Switch toggle */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #cbd5e1;
+      border-radius: 24px;
+      transition: 0.2s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .log-list {
+      max-height: 180px;
+      overflow-y: auto;
+      display: grid;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .log-item {
+      padding: 8px 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    .esp-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .esp-bar input {
+      flex: 1;
+      min-width: 200px;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <div>
+        <h1>Smart Feeder IoT</h1>
+        <p>Sistem Jadwal Bertumpuk &amp; Berulang Otomatis Tanpa Kedaluwarsa</p>
+      </div>
+      <div class="clock-box">
+        <div class="clock-time" id="liveClock">00:00:00</div>
+        <div class="clock-date" id="liveDate">Memuat tanggal...</div>
+      </div>
+    </div>
 
-    <!-- GOPAY STYLE ANIMATION POP-UP MODAL -->
-    <div id="gopay-modal">
-        <div class="gopay-box">
-            <div class="gopay-circle" id="gopayCircle">
-                <i class="fa-solid fa-check" id="gopayIcon"></i>
-            </div>
-            <div class="gopay-title" id="gopayTitle">BERHASIL!</div>
-            <div class="gopay-desc" id="gopayDesc">Perintah Eksekusi Dikirim ke Alat</div>
+    <!-- RINGKASAN & KONTROL MANUAL -->
+    <div class="card">
+      <div class="card-title">
+        <span>Status Sistem &amp; Kontrol Cepat</span>
+        <button class="btn-accent" onclick="triggerFeed('Manual Sekarang', 50)">
+          Beri Pakan Sekarang (50g)
+        </button>
+      </div>
+      <div class="status-grid">
+        <div class="stat-box">
+          <div class="stat-label">Total Jadwal Tersimpan</div>
+          <div class="stat-value" id="totalSchedules">0 Jadwal</div>
         </div>
-    </div>
-
-    <!-- LAYAR LOGIN LCD FRAME HARDWARE -->
-    <div id="auth-overlay">
-        <div class="lcd-bezel-frame">
-            <div class="lcd-screen">
-                <div class="lcd-header"><i class="fa-solid fa-microchip"></i> SMART FEEDER</div>
-                <span class="lcd-sub">[ Proyek Rekayasa SMAN 14 ]</span>
-                
-                <div class="input-group">
-                    <label>> USERNAME_</label>
-                    <input type="text" id="username" placeholder="ID Admin">
-                </div>
-                <div class="input-group">
-                    <label>> PASSWORD_</label>
-                    <input type="password" id="password" placeholder="Kunci Sandi">
-                </div>
-                
-                <button class="btn-auth btn-login" onclick="doLogin()">Masuk (Admin XI-7)</button>
-                <button class="btn-auth btn-guest" onclick="doGuest()">Akses Tamu</button>
-            </div>
+        <div class="stat-box">
+          <div class="stat-label">Jadwal Aktif Berikutnya</div>
+          <div class="stat-value" id="nextScheduleInfo">-</div>
         </div>
+        <div class="stat-box">
+          <div class="stat-label">Hitung Mundur Eksekusi</div>
+          <div class="stat-value" id="countdownInfo">-</div>
+        </div>
+      </div>
     </div>
 
-    <!-- DASHBOARD UTAMA -->
-    <div id="app-container">
-        
-        <aside class="sidebar">
-            <div class="brand"><i class="fa-solid fa-terminal"></i> LCD CORE</div>
-            <div class="nav-container">
-                <div class="nav-item active" data-target="view-dashboard" title="Dashboard">
-                    <i class="fa-solid fa-gauge-high"></i> <span>Dashboard</span>
-                </div>
-                <div class="nav-item" data-target="view-log" title="Log Riwayat">
-                    <i class="fa-solid fa-list-check"></i> <span>Log Riwayat</span>
-                </div>
-                <div class="nav-item" data-target="view-settings" title="Sistem">
-                    <i class="fa-solid fa-sliders"></i> <span>Sistem</span>
-                </div>
-                <div class="nav-item" onclick="logout()" style="margin-top: auto; color: var(--danger);" title="Keluar">
-                    <i class="fa-solid fa-power-off"></i> <span>Keluar</span>
-                </div>
-            </div>
-        </aside>
+    <!-- TAMBAH JADWAL BERTUMPUK (BERULANG) -->
+    <div class="card">
+      <div class="card-title">
+        <span>Tambah Jadwal Pakan Berulang</span>
+      </div>
+      <form id="scheduleForm">
+        <div class="form-grid">
+          <div>
+            <label for="schedTime">Waktu Eksekusi (Jam : Menit)</label>
+            <input type="time" id="schedTime" required />
+          </div>
+          <div>
+            <label for="schedLabel">Label Sesi (Opsional)</label>
+            <input type="text" id="schedLabel" placeholder="Contoh: Pakan Pagi" />
+          </div>
+          <div>
+            <label for="schedPortion">Takaran Pakan (gram)</label>
+            <input type="number" id="schedPortion" min="5" max="1000" value="50" required />
+          </div>
+        </div>
 
-        <main class="main-content">
-            
-            <header class="header">
-                <div>
-                    <h1 id="greeting">SISTEM KONTROL</h1>
-                    <p id="subGreeting">Panel Otomatisasi Pakan Ikan IoT</p>
-                </div>
-                <div class="status-badge" id="connBadge">
-                    <div class="dot offline" id="connDot"></div>
-                    <span id="connText">Koneksi...</span>
-                </div>
-            </header>
+        <label>Hari Pengulangan (Otomatis berjalan terus setiap minggu):</label>
+        <div class="days-picker" id="daysPicker">
+          <label class="day-chip"><input type="checkbox" value="1" checked /><span>Sen</span></label>
+          <label class="day-chip"><input type="checkbox" value="2" checked /><span>Sel</span></label>
+          <label class="day-chip"><input type="checkbox" value="3" checked /><span>Rab</span></label>
+          <label class="day-chip"><input type="checkbox" value="4" checked /><span>Kam</span></label>
+          <label class="day-chip"><input type="checkbox" value="5" checked /><span>Jum</span></label>
+          <label class="day-chip"><input type="checkbox" value="6" checked /><span>Sab</span></label>
+          <label class="day-chip"><input type="checkbox" value="0" checked /><span>Min</span></label>
+        </div>
 
-            <!-- VIEW 1: DASHBOARD UTAMA -->
-            <div id="view-dashboard" class="view-section active">
-                <div class="dashboard-grid">
-                    
-                    <!-- KARTU 1: KONTROL PAKAN MANUAL -->
-                    <div class="card">
-                        <div id="lock-control" class="lock-overlay" style="display: none;">
-                            <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
-                            <p style="font-size: 11px;">HANYA UNTUK ADMIN</p>
-                        </div>
-
-                        <div class="card-title"><i class="fa-solid fa-bolt"></i> Lontar Pakan Manual</div>
-                        <div class="switch-wrapper">
-                            <button id="toggleBtn" class="main-btn btn-locked" disabled>
-                                <i class="fa-solid fa-fish-fins"></i>
-                                <span id="btnLabel">OFFLINE</span>
-                            </button>
-                        </div>
-                        <p id="statusText" style="text-align: center; color: var(--text-muted); font-family: var(--font-lcd); font-size: 12px;">Menghubungkan ke NodeMCU...</p>
-                    </div>
-
-                    <!-- KARTU 2: KONTROL LAYAR LCD -->
-                    <div class="card">
-                        <div id="lock-lcd" class="lock-overlay" style="display: none;">
-                            <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
-                            <p style="font-size: 11px;">HANYA UNTUK ADMIN</p>
-                        </div>
-
-                        <div class="card-title"><i class="fa-solid fa-display"></i> Lampu Layar LCD</div>
-                        <div class="info-row" style="margin-top: 10px;">
-                            <span class="info-label">Status Backlight:</span>
-                            <span class="info-val" id="lcdStatusUI">NYALA</span>
-                        </div>
-                        <p style="font-size: 12px; color: var(--text-muted); font-family: var(--font-lcd); margin-bottom: 20px;">
-                            Auto-sleep otomatis mati setelah 5 menit idle.
-                        </p>
-                        <button id="btnToggleLcd" class="btn-action btn-del" onclick="toggleLcdBacklight()">
-                            <i class="fa-solid fa-lightbulb"></i> <span id="btnLcdText">Matikan Layar LCD</span>
-                        </button>
-                    </div>
-
-                    <!-- KARTU 3: JADWAL OTOMATIS (SISTEM TIMER 30 DETIK ESP) -->
-                    <div class="card">
-                        <div id="lock-schedule" class="lock-overlay" style="display: none;">
-                            <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
-                            <p style="font-size: 11px;">HANYA UNTUK ADMIN</p>
-                        </div>
-
-                        <div class="card-title"><i class="fa-solid fa-clock"></i> Jadwal Pakan Otomatis</div>
-                        <div class="form-group">
-                            <label>> Tentukan Jam Pakan (HH:MM)</label>
-                            <input type="time" id="schedTime">
-                        </div>
-                        <p style="font-size: 11px; color: var(--lcd-yellow); font-family: var(--font-lcd); margin-bottom: 15px;">
-                            *Setiap jadwal terpicu, pakan otomatis dilontarkan 30 detik sesuai timer ESP.
-                        </p>
-                        <button class="btn-action btn-save" onclick="simpanJadwal()"><i class="fa-solid fa-check"></i> Pasang Jadwal Pakan</button>
-                        <button class="btn-action btn-del" onclick="hapusJadwal()"><i class="fa-solid fa-trash"></i> Hapus Jadwal</button>
-                    </div>
-
-                    <!-- KARTU 4: STATISTIK & MONITORING -->
-                    <div class="card">
-                        <div class="card-title"><i class="fa-solid fa-chart-line"></i> Monitoring Sistem</div>
-                        <div class="info-row">
-                            <span class="info-label">Pakan Terakhir:</span>
-                            <span class="info-val" id="lastActiveUI">-</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Durasi Lontar:</span>
-                            <span class="info-val" id="durationUI">-</span>
-                        </div>
-                        <div class="info-row" style="margin-top: 20px; border: none;">
-                            <span class="info-label">Jadwal Aktif:</span>
-                            <span class="info-val" id="scheduleStatusUI" style="color: var(--lcd-yellow);">Tidak Ada</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- VIEW 2: LOG AKTIVITAS -->
-            <div id="view-log" class="view-section">
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-database"></i> Database Log Aktivitas</div>
-                    <p style="font-size: 12px; color: var(--text-muted); font-family: var(--font-lcd); margin-bottom: 15px;">Riwayat realtime yang tersimpan di Firebase RTDB.</p>
-                    
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Waktu & Tanggal</th>
-                                    <th>Aksi Sistem</th>
-                                    <th>Operator</th>
-                                </tr>
-                            </thead>
-                            <tbody id="logTableBody">
-                                <tr><td colspan="3" style="text-align: center; color: #666;">Memuat log server...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIEW 3: SETTINGS -->
-            <div id="view-settings" class="view-section">
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-microchip"></i> Informasi Hardware & Server</div>
-                    <div class="info-row">
-                        <span class="info-label">Perangkat IoT:</span>
-                        <span class="info-val">NodeMCU ESP8266</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Timer Auto-Off:</span>
-                        <span class="info-val">30 Detik</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Status Firebase:</span>
-                        <span class="info-val" id="dbStatusUI" style="color: var(--lcd-yellow);">Mengecek...</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Role Pengguna:</span>
-                        <span class="info-val" id="roleUI">Admin</span>
-                    </div>
-                </div>
-            </div>
-
-        </main>
+        <div class="btn-row">
+          <button type="submit" class="btn-primary">+ Tambah ke Daftar Jadwal</button>
+          <button type="button" class="btn-outline" onclick="selectAllDays(true)">Pilih Semua Hari</button>
+          <button type="button" class="btn-outline" onclick="selectAllDays(false)">Reset Hari</button>
+        </div>
+      </form>
     </div>
 
-    <!-- Firebase SDK 8.10.1 -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <!-- DAFTAR JADWAL BERTUMPUK -->
+    <div class="card">
+      <div class="card-title">
+        <span>Daftar Jadwal Aktif (Bertumpuk &amp; Berulang)</span>
+        <button class="btn-danger-sm" onclick="clearAllSchedules()">Hapus Semua</button>
+      </div>
+      <div class="schedule-list" id="scheduleList"></div>
+    </div>
 
-    <script>
-        /* =========================================
-           1. FUNGSI GOPAY ANIMATION POP-UP
-        ========================================= */
-        function triggerGoPayAnim(titleText, descText, isYellow = false) {
-            const modal = document.getElementById('gopay-modal');
-            const circle = document.getElementById('gopayCircle');
-            const icon = document.getElementById('gopayIcon');
-            const title = document.getElementById('gopayTitle');
-            const desc = document.getElementById('gopayDesc');
+    <!-- KONEKSI PERANGKAT ESP32 / ESP8266 (OPSIONAL) -->
+    <div class="card">
+      <div class="card-title">
+        <span>Endpoint Perangkat IoT (ESP32 / ESP8266)</span>
+      </div>
+      <div class="esp-bar">
+        <input type="text" id="espEndpoint" placeholder="http://192.168.1.100 (kosongkan jika mode simulasi)" />
+        <button class="btn-outline" onclick="saveEndpoint()">Simpan IP Perangkat</button>
+      </div>
+    </div>
 
-            title.innerText = titleText;
-            desc.innerText = descText;
+    <!-- RIWAYAT EKSEKUSI -->
+    <div class="card">
+      <div class="card-title">
+        <span>Riwayat Pemberian Pakan Otomatis &amp; Manual</span>
+        <button class="btn-outline" style="padding:5px 10px;font-size:0.8rem;" onclick="clearLogs()">Bersihkan Log</button>
+      </div>
+      <div class="log-list" id="logList"></div>
+    </div>
+  </div>
 
-            if (isYellow) {
-                circle.className = "gopay-circle yellow-mode";
-                title.style.color = "var(--lcd-yellow)";
-                icon.className = "fa-solid fa-clock";
-            } else {
-                circle.className = "gopay-circle";
-                title.style.color = "var(--lcd-green)";
-                icon.className = "fa-solid fa-check";
-            }
+  <script>
+    const DAY_NAMES = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+    const STORAGE_KEY = 'smart_feeder_recurring_schedules_v1';
+    const LOG_KEY = 'smart_feeder_logs_v1';
+    const ENDPOINT_KEY = 'smart_feeder_esp_endpoint';
 
-            modal.classList.add('active');
+    // Muat data dari localStorage (tetap tersimpan meski browser ditutup/refresh)
+    let schedules = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+      { id: 1, time: '07:00', label: 'Pakan Pagi', portion: 50, days: [0,1,2,3,4,5,6], active: true, lastTriggeredDate: '' },
+      { id: 2, time: '12:30', label: 'Pakan Siang', portion: 50, days: [0,1,2,3,4,5,6], active: true, lastTriggeredDate: '' },
+      { id: 3, time: '18:00', label: 'Pakan Sore', portion: 60, days: [0,1,2,3,4,5,6], active: true, lastTriggeredDate: '' }
+    ];
 
-            setTimeout(() => {
-                modal.classList.remove('active');
-            }, 1800);
+    let logs = JSON.parse(localStorage.getItem(LOG_KEY)) || [];
+    document.getElementById('espEndpoint').value = localStorage.getItem(ENDPOINT_KEY) || '';
+
+    function saveSchedules() {
+      // Urutkan jadwal berdasarkan jam (00:00 -> 23:59)
+      schedules.sort((a, b) => a.time.localeCompare(b.time));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(schedules));
+      syncSchedulesToESP();
+      renderSchedules();
+    }
+
+    function saveEndpoint() {
+      const val = document.getElementById('espEndpoint').value.trim();
+      localStorage.setItem(ENDPOINT_KEY, val);
+      addLog('Konfigurasi endpoint ESP disimpan: ' + (val || 'Mode Simulasi Lokal'));
+      syncSchedulesToESP();
+    }
+
+    // Kirim daftar jadwal bertumpuk ke ESP32/ESP8266 jika endpoint diisi
+    function syncSchedulesToESP() {
+      const endpoint = localStorage.getItem(ENDPOINT_KEY);
+      if (!endpoint) return;
+      fetch(`${endpoint}/sync-schedules`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ schedules })
+      }).catch(() => {
+        // Tetap berjalan di sisi client meskipun perangkat belum terhubung
+      });
+    }
+
+    function selectAllDays(state) {
+      document.querySelectorAll('#daysPicker input[type="checkbox"]').forEach(cb => cb.checked = state);
+    }
+
+    // Tambah jadwal baru tanpa menghapus jadwal sebelumnya (bertumpuk)
+    document.getElementById('scheduleForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const time = document.getElementById('schedTime').value;
+      const labelInput = document.getElementById('schedLabel').value.trim();
+      const portion = parseInt(document.getElementById('schedPortion').value, 10) || 50;
+      const selectedDays = Array.from(document.querySelectorAll('#daysPicker input:checked'))
+        .map(cb => parseInt(cb.value, 10));
+
+      if (!time) return;
+      if (selectedDays.length === 0) {
+        alert('Pilih minimal 1 hari pengulangan agar jadwal berjalan otomatis.');
+        return;
+      }
+
+      const newSchedule = {
+        id: Date.now(),
+        time: time,
+        label: labelInput || `Jadwal ${time}`,
+        portion: portion,
+        days: selectedDays,
+        active: true,
+        lastTriggeredDate: '' // Reset otomatis setiap pergantian hari
+      };
+
+      schedules.push(newSchedule);
+      saveSchedules();
+      addLog(`Jadwal baru ditambahkan: ${newSchedule.time} (${newSchedule.label} - ${newSchedule.portion}g)`);
+      document.getElementById('schedLabel').value = '';
+    });
+
+    function toggleSchedule(id) {
+      const item = schedules.find(s => s.id === id);
+      if (item) {
+        item.active = !item.active;
+        saveSchedules();
+      }
+    }
+
+    function deleteSchedule(id) {
+      schedules = schedules.filter(s => s.id !== id);
+      saveSchedules();
+    }
+
+    function clearAllSchedules() {
+      if (schedules.length === 0) return;
+      if (confirm('Hapus semua jadwal pakan?')) {
+        schedules = [];
+        saveSchedules();
+      }
+    }
+
+    function formatDaysLabel(days) {
+      if (days.length === 7) return 'Setiap Hari (Berulang Otomatis)';
+      const sorted = [...days].sort((a, b) => (a === 0 ? 7 : a) - (b === 0 ? 7 : b));
+      return 'Setiap: ' + sorted.map(d => DAY_NAMES[d]).join(', ');
+    }
+
+    function renderSchedules() {
+      const listEl = document.getElementById('scheduleList');
+      const activeCount = schedules.filter(s => s.active).length;
+      document.getElementById('totalSchedules').textContent = `${schedules.length} Jadwal (${activeCount} Aktif)`;
+
+      if (schedules.length === 0) {
+        listEl.innerHTML = `<div class="empty-state">Belum ada jadwal. Tambahkan jadwal di atas untuk pengulangan otomatis setiap hari.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = schedules.map(s => `
+        <div class="schedule-item ${s.active ? '' : 'inactive'}">
+          <div class="sched-main">
+            <div class="sched-time">${s.time}</div>
+            <div class="sched-meta">
+              <h4>${escapeHtml(s.label)} &bull; ${s.portion}g</h4>
+              <p>${formatDaysLabel(s.days)}</p>
+            </div>
+          </div>
+          <div class="sched-actions">
+            <label class="switch" title="Aktifkan / Nonaktifkan Jadwal">
+              <input type="checkbox" ${s.active ? 'checked' : ''} onchange="toggleSchedule(${s.id})">
+              <span class="slider"></span>
+            </label>
+            <button class="btn-danger-sm" onclick="deleteSchedule(${s.id})">Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function triggerFeed(sourceLabel, portion) {
+      const endpoint = localStorage.getItem(ENDPOINT_KEY);
+      if (endpoint) {
+        fetch(`${endpoint}/feed?portion=${portion}`).catch(() => {});
+      }
+      addLog(`Pakan keluar (${portion}g) — Sumber: ${sourceLabel}`);
+    }
+
+    function addLog(message) {
+      const now = new Date();
+      const timestamp = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) +
+        ' ' + now.toLocaleTimeString('id-ID', { hour12: false });
+      logs.unshift({ timestamp, message });
+      if (logs.length > 50) logs.pop();
+      localStorage.setItem(LOG_KEY, JSON.stringify(logs));
+      renderLogs();
+    }
+
+    function clearLogs() {
+      logs = [];
+      localStorage.setItem(LOG_KEY, JSON.stringify(logs));
+      renderLogs();
+    }
+
+    function renderLogs() {
+      const logEl = document.getElementById('logList');
+      if (logs.length === 0) {
+        logEl.innerHTML = `<div class="empty-state">Belum ada riwayat pemberian pakan.</div>`;
+        return;
+      }
+      logEl.innerHTML = logs.map(l => `
+        <div class="log-item">
+          <span>${escapeHtml(l.message)}</span>
+          <strong style="white-space:nowrap;color:#64748b;">${l.timestamp}</strong>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    // ENGINE PENJADWALAN BERULANG (BERJALAN TERUS TANPA KEDALUWARSA)
+    function updateClockAndScheduler() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      const currentHM = `${hh}:${mm}`;
+      const todayKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+      const currentDay = now.getDay();
+
+      document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss}`;
+      document.getElementById('liveDate').textContent = now.toLocaleDateString('id-ID', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      });
+
+      // Cek setiap jadwal aktif secara bertumpuk
+      let updated = false;
+      schedules.forEach(s => {
+        if (!s.active) return;
+        if (!s.days.includes(currentDay)) return;
+
+        // Eksekusi tepat saat jam:menit cocok dan belum dieksekusi pada tanggal hari ini
+        if (s.time === currentHM && s.lastTriggeredDate !== todayKey) {
+          s.lastTriggeredDate = todayKey; // Menandai sudah jalan hari ini, besok otomatis jalan lagi!
+          updated = true;
+          triggerFeed(`Otomatis (${s.label} - ${s.time})`, s.portion);
         }
+      });
 
-        /* =========================================
-           2. OTENTIKASI & USER MANAGEMENT
-        ========================================= */
-        let userRole = 'GUEST'; 
+      if (updated) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(schedules));
+      }
 
-        function doLogin() {
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
-            if(u === 'XI-7' && p === 'REKAYASA') {
-                userRole = 'ADMIN';
-                masukAplikasi("HALO, ADMIN XI-7", false);
-                triggerGoPayAnim("LOGIN SUCCESS", "Selamat Datang, Admin XI-7!");
-            } else {
-                alert("Username atau Password Salah!");
-            }
-        }
+      updateNextScheduleCountdown(now);
+    }
 
-        function doGuest() {
-            userRole = 'GUEST';
-            masukAplikasi("HALO, TAMU", true);
-        }
+    // Hitung jadwal terdekat berikutnya (hari ini, besok, atau hari aktif berikutnya)
+    function updateNextScheduleCountdown(now) {
+      const activeSchedules = schedules.filter(s => s.active && s.days.length > 0);
+      if (activeSchedules.length === 0) {
+        document.getElementById('nextScheduleInfo').textContent = 'Tidak ada jadwal aktif';
+        document.getElementById('countdownInfo').textContent = '-';
+        return;
+      }
 
-        function masukAplikasi(greetText, isGuest) {
-            document.getElementById('auth-overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('auth-overlay').style.visibility = 'hidden';
-                document.getElementById('app-container').style.display = 'flex';
-                
-                document.getElementById('greeting').innerText = greetText;
-                document.getElementById('roleUI').innerText = isGuest ? "Tamu (Hanya Lihat)" : "Administrator";
+      let nearestTarget = null;
+      let nearestSched = null;
 
-                if(isGuest) {
-                    document.getElementById('lock-control').style.display = 'flex';
-                    document.getElementById('lock-lcd').style.display = 'flex';
-                    document.getElementById('lock-schedule').style.display = 'flex';
-                } else {
-                    document.getElementById('lock-control').style.display = 'none';
-                    document.getElementById('lock-lcd').style.display = 'none';
-                    document.getElementById('lock-schedule').style.display = 'none';
-                    
-                    dbRef.once('value').then((snap) => {
-                        if (!snap.exists()) {
-                            dbRef.set({ status: 0, lastActive: 0, lastDuration: "-" });
-                        }
-                    });
+      // Cari jadwal terdekat dalam 7 hari ke depan
+      for (let dayOffset = 0; dayOffset <= 7; dayOffset++) {
+        const candidateDate = new Date(now);
+        candidateDate.setDate(now.getDate() + dayOffset);
+        const dayOfWeek = candidateDate.getDay();
 
-                    btn.disabled = false;
-                    if (!isDataLoaded) {
-                        btn.className = "main-btn btn-off";
-                        btnLabel.innerText = "OFF / STANDBY";
-                        statusText.innerText = "Sistem bersiaga.";
-                        statusText.style.color = "var(--text-muted)";
-                    }
-                }
+        activeSchedules.forEach(s => {
+          if (!s.days.includes(dayOfWeek)) return;
+          const [h, m] = s.time.split(':').map(Number);
+          const target = new Date(candidateDate);
+          target.setHours(h, m, 0, 0);
 
-                renderButtonState();
-            }, 400);
-        }
-
-        function logout() { location.reload(); }
-
-        const navItems = document.querySelectorAll('.nav-item');
-        const viewSections = document.querySelectorAll('.view-section');
-        navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                if(item.getAttribute('data-target')){
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    viewSections.forEach(sec => sec.classList.remove('active'));
-                    item.classList.add('active');
-                    document.getElementById(item.getAttribute('data-target')).classList.add('active');
-                }
-            });
+          if (target > now && (!nearestTarget || target < nearestTarget)) {
+            nearestTarget = target;
+            nearestSched = s;
+          }
         });
 
-        /* =========================================
-           3. FIREBASE REALTIME DATABASE CONFIG
-        ========================================= */
-        const firebaseConfig = {
-            apiKey: "AIzaSyB4eYa34ymjS8yaEC2kd9xzq6yJ-BauFPo",
-            databaseURL: "https://p7-kaih-rekayasa-default-rtdb.asia-southeast1.firebasedatabase.app"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        
-        const dbRef = database.ref('perangkat/stopkontak');
-        const lcdRef = database.ref('perangkat/lcd/backlight');
-        const logRef = database.ref('perangkat/logs');
-        const connectedRef = database.ref(".info/connected");
+        if (nearestTarget) break;
+      }
 
-        const btn = document.getElementById('toggleBtn');
-        const btnLabel = document.getElementById('btnLabel');
-        const statusText = document.getElementById('statusText');
-        const connDot = document.getElementById('connDot');
-        const connText = document.getElementById('connText');
-        const dbStatusUI = document.getElementById('dbStatusUI');
-        
-        let currentState = 0;
-        let currentLcdState = 1;
-        let lastActiveTs = 0;
-        let isServerConnected = false;
-        let isDataLoaded = false;
+      if (nearestTarget && nearestSched) {
+        const diffMs = nearestTarget - now;
+        const totalSec = Math.floor(diffMs / 1000);
+        const hrs = Math.floor(totalSec / 3600);
+        const mins = Math.floor((totalSec % 3600) / 60);
+        const secs = totalSec % 60;
 
-        connectedRef.on("value", (snap) => {
-            if (snap.val() === true) {
-                isServerConnected = true;
-                connDot.className = 'dot online';
-                connText.innerText = "ONLINE";
-                dbStatusUI.innerText = "Terhubung OK";
-                dbStatusUI.style.color = "var(--lcd-green)";
-                renderButtonState();
-            } else {
-                isServerConnected = false;
-                connDot.className = 'dot offline';
-                connText.innerText = "OFFLINE";
-                dbStatusUI.innerText = "Terputus";
-                dbStatusUI.style.color = "var(--danger)";
-                
-                btn.disabled = true;
-                btn.className = "main-btn btn-locked";
-                btnLabel.innerText = "TERPUTUS";
-                statusText.innerText = "Koneksi ke server terputus!";
-            }
-        });
+        const isTomorrow = nearestTarget.getDate() !== now.getDate();
+        const dayTag = isTomorrow ? ` (${DAY_NAMES[nearestTarget.getDay()]})` : ' (Hari ini)';
 
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val() || {};
-            currentState = data.status || 0;
-            lastActiveTs = data.lastActive || 0;
-            isDataLoaded = true; 
-            
-            const opt = { day:'2-digit', month:'short', hour: '2-digit', minute:'2-digit', second:'2-digit' };
-            document.getElementById('lastActiveUI').innerText = lastActiveTs > 0 ? new Date(lastActiveTs).toLocaleString('id-ID', opt) : '-';
-            
-            renderButtonState();
+        document.getElementById('nextScheduleInfo').textContent = `${nearestSched.time}${dayTag} • ${nearestSched.label}`;
+        document.getElementById('countdownInfo').textContent = `${hrs}j ${mins}m ${secs}d lagi`;
+      }
+    }
 
-            document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir (30 Dtk)" : (data.lastDuration || '-');
-
-            if(data.schedule && data.schedule.active) {
-                document.getElementById('scheduleStatusUI').innerText = `Jam ${data.schedule.time} WIB`;
-            } else {
-                document.getElementById('scheduleStatusUI').innerText = "Tidak Ada";
-            }
-        });
-
-        lcdRef.on('value', (snapshot) => {
-            currentLcdState = snapshot.val() !== null ? snapshot.val() : 1;
-            const lcdStatusUI = document.getElementById('lcdStatusUI');
-            const btnToggleLcd = document.getElementById('btnToggleLcd');
-            const btnLcdText = document.getElementById('btnLcdText');
-
-            if (currentLcdState === 1) {
-                lcdStatusUI.innerText = "NYALA";
-                lcdStatusUI.style.color = "var(--lcd-green)";
-                btnLcdText.innerText = "Matikan Layar LCD";
-                btnToggleLcd.className = "btn-action btn-del";
-            } else {
-                lcdStatusUI.innerText = "MATI (SLEEP)";
-                lcdStatusUI.style.color = "var(--danger)";
-                btnLcdText.innerText = "Nyalakan Layar LCD";
-                btnToggleLcd.className = "btn-action btn-save";
-            }
-        });
-
-        function renderButtonState() {
-            if (userRole === 'ADMIN' && (isServerConnected || isDataLoaded)) {
-                btn.disabled = false;
-                
-                if(currentState === 1) {
-                    btn.className = "main-btn btn-on";
-                    btnLabel.innerText = "LONTAR PAKAN";
-                    statusText.innerText = "Mesin Blower Aktif (Timer 30 Detik berjalan)";
-                    statusText.style.color = "var(--lcd-green)";
-                } else {
-                    btn.className = "main-btn btn-off";
-                    btnLabel.innerText = "OFF / STANDBY";
-                    statusText.innerText = "Sistem bersiaga.";
-                    statusText.style.color = "var(--text-muted)";
-                }
-            } else if (userRole === 'GUEST') {
-                btn.disabled = true;
-            }
-        }
-
-        /* =========================================
-           4. AKSI KONTROL KELUARAN PAKAN MANUAL
-        ========================================= */
-        btn.onclick = () => {
-            if(btn.disabled || userRole !== 'ADMIN') return;
-            
-            const newState = currentState === 1 ? 0 : 1;
-            const now = Date.now();
-            let updates = { status: newState };
-            
-            if (newState === 1) {
-                updates.lastActive = now;
-            } else if (lastActiveTs > 0) {
-                const diff = now - lastActiveTs;
-                const m = Math.floor(diff / 60000);
-                const s = Math.floor((diff % 60000) / 1000);
-                updates.lastDuration = `${m} mnt ${s} dtk`;
-            }
-            
-            btnLabel.innerText = "PROSES...";
-            
-            dbRef.update(updates).then(() => {
-                if(newState === 1) {
-                    triggerGoPayAnim("PAKAN DILONTARKAN", "Mesin menyala selama 30 detik otomatis!");
-                    catatKeLog('LONTAR PAKAN (30 DTK)', 'Manual (Admin XI-7)');
-                } else {
-                    triggerGoPayAnim("MESIN DIMATIKAN", "Mesin dihentikan secara manual.", true);
-                    catatKeLog('MESIN DIMATIKAN', 'Manual (Admin XI-7)');
-                }
-            }).catch(e => alert("Error Database: " + e.message));
-        };
-
-        function toggleLcdBacklight() {
-            if (userRole !== 'ADMIN') return alert("Akses Ditolak: Hanya Admin yang dapat mengontrol layar.");
-            const newLcdState = currentLcdState === 1 ? 0 : 1;
-            lcdRef.set(newLcdState).then(() => {
-                triggerGoPayAnim(newLcdState === 1 ? "LCD NYALA" : "LCD SLEEP", "Status backlight LCD diperbarui.", newLcdState === 0);
-                catatKeLog(newLcdState === 1 ? 'LCD DINYALAKAN' : 'LCD DIMATIKAN', 'Admin (XI-7)');
-            });
-        }
-
-        function catatKeLog(aksi, oleh) {
-            logRef.push({
-                aksi: aksi,
-                oleh: oleh,
-                waktu: firebase.database.ServerValue.TIMESTAMP
-            });
-        }
-
-        logRef.orderByChild('waktu').limitToLast(15).on('value', snap => {
-            const tbody = document.getElementById('logTableBody');
-            if(!snap.exists()) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #666;">Belum ada log terekam.</td></tr>';
-                return;
-            }
-
-            let html = '';
-            let logsArray = [];
-            snap.forEach(child => { logsArray.push(child.val()); });
-            logsArray.reverse();
-
-            logsArray.forEach(item => {
-                const t = new Date(item.waktu).toLocaleString('id-ID', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', second:'2-digit'});
-                const actionClass = item.aksi.includes('LONTAR') || item.aksi.includes('NYALA') ? 'log-nyala' : 'log-mati';
-                html += `<tr>
-                            <td>${t}</td>
-                            <td class="${actionClass}">${item.aksi}</td>
-                            <td><i class="fa-solid fa-user-gear" style="font-size:10px; margin-right:5px; color:var(--lcd-yellow);"></i> ${item.oleh}</td>
-                         </tr>`;
-            });
-            tbody.innerHTML = html;
-        });
-
-        /* =========================================
-           5. SISTEM PENJADWALAN AUTOMATIS (ESP 30 SEC TIMER)
-        ========================================= */
-        function simpanJadwal() {
-            if(userRole !== 'ADMIN') return alert("Hanya Admin yang dapat merubah jadwal.");
-            const timeVal = document.getElementById('schedTime').value;
-            
-            if(!timeVal) return alert("Pilih jam terlebih dahulu.");
-            
-            dbRef.child('schedule').set({ time: timeVal, active: true }).then(() => {
-                triggerGoPayAnim("JADWAL DIPASANG", `Pakan akan dilontarkan jam ${timeVal} WIB`, true);
-                catatKeLog(`JADWAL DIBUAT (${timeVal} WIB)`, 'Admin (XI-7)');
-            });
-        }
-
-        function hapusJadwal() {
-            if(userRole !== 'ADMIN') return;
-            dbRef.child('schedule/active').set(false).then(() => {
-                triggerGoPayAnim("JADWAL DIHAPUS", "Jadwal pakan otomatis dinonaktifkan.", true);
-                catatKeLog('JADWAL DIHAPUS', 'Admin (XI-7)');
-            });
-        }
-
-        setInterval(() => {
-            dbRef.child('schedule').once('value').then(snap => {
-                const sched = snap.val();
-                if (sched && sched.active) {
-                    const now = new Date();
-                    const curTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-                    
-                    if (curTime === sched.time && currentState !== 1 && isServerConnected) {
-                        let updates = { status: 1, lastActive: Date.now() };
-                        dbRef.update(updates).then(() => {
-                            triggerGoPayAnim("JADWAL TERPICU!", "Pakan dilontarkan 30 detik otomatis!");
-                            catatKeLog(`JADWAL TERPICU (${sched.time})`, 'Sistem Auto-Feed');
-                            dbRef.child('schedule/active').set(false);
-                        });
-                    }
-                }
-            });
-        }, 15000);
-    </script>
+    // Inisialisasi awal
+    renderSchedules();
+    renderLogs();
+    updateClockAndScheduler();
+    setInterval(updateClockAndScheduler, 1000);
+  </script>
 </body>
 </html>
