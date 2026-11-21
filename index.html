@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Feeder | Cyber LCD Panel</title>
+    <title>Smart Feeder IoT | Cyber LCD Panel - SMAN 14 Surabaya</title>
+
+    <!-- SEO META TAGS UNTUK PENCARIAN GOOGLE -->
+    <meta name="description" content="Smart Feeder IoT adalah sistem pemberi pakan ikan otomatis berbasis pneumatik, NodeMCU ESP8266, dan Firebase Cloud karya Kelompok Rekayasa Kelas XI-7 SMAN 14 Surabaya.">
+    <meta name="keywords" content="Smart Feeder IoT, Smart Feeder SMAN 14 Surabaya, P7 KAIH Rekayasa XI-7, Pakan Ikan Otomatis ESP8266, Cyber LCD Panel, Kelompok Rekayasa SMAN 14">
+    <meta name="author" content="Kelompok Rekayasa XI-7 SMAN 14 Surabaya">
+    <meta name="robots" content="index, follow">
+
+    <!-- TEMPEL KODE VERIFIKASI GOOGLE SEARCH CONSOLE DI BARIS BAWAH INI -->
+    <!-- <meta name="google-site-verification" content="KODE_VERIFIKASI_DARI_GOOGLE_SEARCH_CONSOLE" /> -->
+
+    <!-- OPEN GRAPH & PREVIEW SOSIAL MEDIA (WHATSAPP / INSTAGRAM / DLL) -->
+    <meta property="og:title" content="Smart Feeder IoT | Cyber LCD Panel - SMAN 14 Surabaya">
+    <meta property="og:description" content="Panel kontrol dan monitoring sistem pakan ikan otomatis berbasis IoT dan Cloud karya Kelompok Rekayasa XI-7 SMAN 14 Surabaya.">
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta name="twitter:card" content="summary_large_image">
     
     <!-- Google Fonts: Share Tech Mono (LCD font) & Orbitron / Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -564,9 +581,8 @@
             display: block;
         }
         .camera-viewport video {
-            transform: scaleX(-1); /* Efek cermin alami untuk kamera depan */
+            transform: scaleX(-1);
         }
-        /* Bingkai Bidik HUD Kamera */
         .hud-reticle {
             position: absolute;
             inset: 14px;
@@ -662,7 +678,6 @@
         .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 19px; font-weight: 700; text-shadow: 0 0 10px var(--lcd-green); margin-bottom: 2px; }
         .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; display: block;}
 
-        /* Tab Switcher Login / Daftar Email */
         .auth-tabs {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -2268,14 +2283,12 @@
             canvas.width = 320;
             canvas.height = 240;
 
-            // Gambar frame video secara mirror agar sesuai pratinjau
             ctx.save();
             ctx.translate(canvas.width, 0);
             ctx.scale(-1, 1);
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             ctx.restore();
 
-            // Tambahkan watermark waktu & operator di pojok bawah foto bukti
             ctx.fillStyle = "rgba(2, 18, 9, 0.78)";
             ctx.fillRect(0, canvas.height - 24, canvas.width, 24);
             ctx.fillStyle = "#00ff66";
@@ -2289,7 +2302,6 @@
             stopCameraStream();
             document.getElementById('selfie-modal').classList.remove('active');
 
-            // Jalankan pompa pakan dengan melampirkan bukti selfie
             eksekusiPerintahPompa(1, selfieBase64);
         }
 
@@ -2333,20 +2345,17 @@
             });
         }
 
-        // Klik Tombol Utama Lontar Pakan
         btn.onclick = () => {
             if (btn.disabled) return;
             if (userRole !== 'ADMIN' && userRole !== 'USER_EMAIL') return;
 
             const newState = currentState === 1 ? 0 : 1;
 
-            // Jika User Terdaftar (Email) ingin MENYALAKAN pompa -> Wajib Selfie dulu!
             if (userRole === 'USER_EMAIL' && newState === 1) {
                 openSelfieVerificationModal();
                 return;
             }
 
-            // Jika Master Admin XI-7, atau jika mematikan pompa secara manual -> langsung eksekusi
             CyberAudio.play('ui_click');
             eksekusiPerintahPompa(newState, null);
         };
