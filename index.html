@@ -45,6 +45,282 @@
             background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
         }
 
+        /* --- TOMBOL MUTE / UNMUTE AUDIO GLOBAL --- */
+        .audio-float-btn {
+            position: fixed;
+            bottom: 18px;
+            right: 18px;
+            z-index: 10005;
+            background: rgba(8, 18, 11, 0.92);
+            border: 1px solid var(--lcd-green);
+            color: var(--lcd-green);
+            box-shadow: 0 0 18px rgba(0, 255, 102, 0.25);
+            padding: 9px 14px;
+            border-radius: 30px;
+            font-family: var(--font-lcd);
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.25s;
+        }
+        .audio-float-btn:hover {
+            background: rgba(0, 255, 102, 0.15);
+            transform: translateY(-2px);
+        }
+        .audio-float-btn.muted {
+            border-color: var(--danger);
+            color: var(--danger);
+            box-shadow: 0 0 15px rgba(255, 42, 95, 0.2);
+        }
+
+        /* --- LOGO EMBLEM STYLING (INTRO & LOGIN) --- */
+        .project-logo-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        .project-logo-badge {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: #021209;
+            border: 2px solid var(--lcd-green);
+            box-shadow: 0 0 25px var(--lcd-green-glow), inset 0 0 15px rgba(0, 255, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 3px;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .project-logo-badge::after {
+            content: "";
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1.5px dashed var(--lcd-yellow);
+            opacity: 0.8;
+            animation: spinSlow 14s linear infinite;
+            pointer-events: none;
+        }
+        .project-logo-badge.small {
+            width: 76px;
+            height: 76px;
+        }
+        .project-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+        .logo-school-tag {
+            margin-top: 12px;
+            font-family: var(--font-lcd);
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--lcd-yellow);
+            background: rgba(255, 204, 0, 0.08);
+            border: 1px solid var(--border-yellow);
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        /* --- INTERACTIVE INTRO SCENE OVERLAY --- */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #08180e 0%, #020503 100%);
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #intro-overlay::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+            background-size: 26px 26px;
+            pointer-events: none;
+        }
+        .intro-container {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(7, 17, 11, 0.92);
+            border: 2px solid var(--border-lcd);
+            box-shadow: 0 0 60px rgba(0, 255, 102, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.8);
+            border-radius: 22px;
+            padding: 34px 26px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease;
+        }
+        .intro-corner {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-color: var(--lcd-yellow);
+            border-style: solid;
+        }
+        .intro-corner.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
+        .intro-corner.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
+        .intro-corner.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
+        .intro-corner.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+
+        .intro-title {
+            font-family: var(--font-head);
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--lcd-green);
+            text-shadow: 0 0 14px var(--lcd-green-glow);
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .intro-subtitle {
+            font-family: var(--font-lcd);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+
+        /* Tombol Interaktif Klik Awal */
+        .intro-trigger-zone {
+            cursor: pointer;
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px dashed var(--border-yellow);
+            background: rgba(255, 204, 0, 0.04);
+            transition: 0.3s;
+            margin-bottom: 14px;
+        }
+        .intro-trigger-zone:hover {
+            border-color: var(--lcd-green);
+            background: rgba(0, 255, 102, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
+        }
+        .click-prompt-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-head);
+            font-size: 11px;
+            font-weight: 700;
+            color: #041209;
+            background: var(--lcd-yellow);
+            padding: 10px 18px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px var(--lcd-yellow-glow);
+            animation: pulseSoft 1.8s infinite;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Visualizer Equalizer Musik Intro */
+        .music-visualizer {
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 18px;
+            margin-bottom: 12px;
+        }
+        .music-visualizer.playing {
+            display: flex;
+        }
+        .eq-bar {
+            width: 4px;
+            height: 6px;
+            background: var(--lcd-green);
+            border-radius: 2px;
+            box-shadow: 0 0 6px var(--lcd-green);
+            animation: eqBounce 0.6s ease-in-out infinite alternate;
+        }
+        .eq-bar:nth-child(2) { animation-delay: 0.15s; background: var(--lcd-yellow); }
+        .eq-bar:nth-child(3) { animation-delay: 0.3s; }
+        .eq-bar:nth-child(4) { animation-delay: 0.1s; background: var(--lcd-yellow); }
+        .eq-bar:nth-child(5) { animation-delay: 0.25s; }
+
+        /* Terminal Diagnostic Boot Sequence */
+        .boot-console {
+            display: none;
+            text-align: left;
+            background: #020a05;
+            border: 1px solid var(--border-lcd);
+            border-radius: 10px;
+            padding: 14px;
+            font-family: var(--font-lcd);
+            font-size: 12px;
+            color: var(--lcd-green);
+            margin-bottom: 18px;
+        }
+        .boot-line {
+            margin-bottom: 6px;
+            opacity: 0;
+            transform: translateX(-6px);
+            transition: 0.25s ease;
+        }
+        .boot-line.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .boot-line span.ok {
+            color: var(--lcd-yellow);
+            font-weight: 700;
+        }
+        .boot-progress-wrap {
+            width: 100%;
+            height: 6px;
+            background: #091c11;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 1px solid rgba(0, 255, 102, 0.2);
+        }
+        .boot-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--lcd-green), var(--lcd-yellow));
+            box-shadow: 0 0 12px var(--lcd-green);
+            transition: width 0.35s ease;
+        }
+        .btn-enter-login {
+            display: none;
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: var(--lcd-green);
+            color: #021a0e;
+            font-family: var(--font-head);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 0 25px var(--lcd-green-glow);
+            transition: 0.3s;
+        }
+        .btn-enter-login:hover {
+            background: #4dff94;
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px var(--lcd-green);
+        }
+
         /* --- ANIMASI GOPAY OVERLAY (POP-UP SUCCESS) --- */
         #gopay-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -89,13 +365,14 @@
             background: rgba(3, 5, 4, 0.96); backdrop-filter: blur(20px);
             display: flex; justify-content: center; align-items: center; z-index: 9999;
             transition: 0.5s ease;
+            padding: 16px;
         }
         
         .lcd-bezel-frame {
             background: #121814;
             border: 4px solid #2a382e;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.8);
-            border-radius: 20px; padding: 25px; width: 92%; max-width: 420px;
+            border-radius: 20px; padding: 24px; width: 95%; max-width: 420px;
             position: relative;
         }
         .lcd-bezel-frame::before {
@@ -109,7 +386,7 @@
             background: #021a0e;
             border: 3px solid var(--lcd-green);
             box-shadow: inset 0 0 25px rgba(0, 255, 102, 0.25), 0 0 15px var(--lcd-green-glow);
-            border-radius: 10px; padding: 25px 20px; text-align: center;
+            border-radius: 10px; padding: 22px 20px; text-align: center;
             position: relative; overflow: hidden;
         }
         .lcd-screen::after {
@@ -118,13 +395,13 @@
             background-size: 100% 4px; pointer-events: none; opacity: 0.6;
         }
 
-        .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 20px; font-weight: 700; text-shadow: 0 0 10px var(--lcd-green); margin-bottom: 4px; }
-        .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; display: block;}
+        .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 20px; font-weight: 700; text-shadow: 0 0 10px var(--lcd-green); margin-bottom: 3px; }
+        .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; display: block;}
 
-        .input-group { margin-bottom: 18px; text-align: left; }
+        .input-group { margin-bottom: 15px; text-align: left; position: relative; z-index: 2; }
         .input-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 5px; text-transform: uppercase;}
         .input-group input {
-            width: 100%; padding: 12px; border-radius: 6px;
+            width: 100%; padding: 11px 12px; border-radius: 6px;
             background: #010d07; border: 1px solid var(--lcd-green);
             color: var(--lcd-yellow); font-family: var(--font-lcd); font-size: 15px; outline: none;
             box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); transition: 0.3s;
@@ -132,13 +409,14 @@
         .input-group input:focus { box-shadow: 0 0 12px var(--lcd-green-glow), inset 0 0 10px rgba(0, 255, 102, 0.4); }
 
         .btn-auth {
-            width: 100%; padding: 12px; margin-top: 8px; border: none;
+            width: 100%; padding: 12px; margin-top: 6px; border: none;
             border-radius: 6px; font-family: var(--font-head); font-size: 12px; font-weight: 700;
             cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            position: relative; z-index: 2;
         }
         .btn-login { background: var(--lcd-green); color: #021a0e; box-shadow: 0 0 15px var(--lcd-green-glow); }
         .btn-login:hover { background: #33ff85; box-shadow: 0 0 25px var(--lcd-green); transform: translateY(-2px); }
-        .btn-guest { background: transparent; color: var(--lcd-yellow); border: 1px solid var(--lcd-yellow); margin-top: 12px; }
+        .btn-guest { background: transparent; color: var(--lcd-yellow); border: 1px solid var(--lcd-yellow); margin-top: 10px; }
         .btn-guest:hover { background: rgba(255, 204, 0, 0.15); box-shadow: 0 0 15px var(--lcd-yellow-glow); }
 
         /* --- LAYOUT UTAMA DASHBOARD --- */
@@ -317,6 +595,9 @@
         /* ANIMATION KEYFRAMES */
         @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(0, 255, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); } }
         @keyframes pulseRingYellow { 0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 204, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); } }
+        @keyframes pulseSoft { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes eqBounce { 0% { height: 4px; } 100% { height: 18px; } }
         @keyframes pulseGreen { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -335,6 +616,73 @@
 </head>
 <body>
 
+    <!-- TOMBOL KONTROL AUDIO GLOBAL -->
+    <button class="audio-float-btn" id="audioToggleBtn" onclick="CyberAudio.toggleMute()" title="Aktifkan / Matikan Suara">
+        <i class="fa-solid fa-volume-high" id="audioToggleIcon"></i>
+        <span id="audioToggleText">SFX &amp; MUSIC: ON</span>
+    </button>
+
+    <!-- 0. INTERACTIVE INTRO SCENE (KLIK AWAL + FOTO LOGO + MUSIK INTRO) -->
+    <div id="intro-overlay">
+        <div class="intro-container">
+            <div class="intro-corner tl"></div>
+            <div class="intro-corner tr"></div>
+            <div class="intro-corner bl"></div>
+            <div class="intro-corner br"></div>
+
+            <!-- LOGO RESMI PROYEK REKAYASA SMART FEEDER -->
+            <div class="project-logo-wrap">
+                <div class="project-logo-badge" id="introLogoBadge">
+                    <img
+                        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+                        alt="Logo Smart Feeder Rekayasa XI-7"
+                        class="project-logo-img"
+                    />
+                </div>
+                <span class="logo-school-tag">SMAN 14 SURABAYA • KELOMPOK REKAYASA</span>
+            </div>
+
+            <div class="intro-title">SMART FEEDER IoT</div>
+            <div class="intro-subtitle">PNEUMATIC &amp; CLOUD AUTOMATION SYSTEM</div>
+
+            <!-- INDIKATOR MUSIK INTRO -->
+            <div class="music-visualizer" id="musicVisualizer">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+
+            <!-- AREA INTERAKTIF KLIK PERTAMA -->
+            <div class="intro-trigger-zone" id="introTriggerZone" onclick="startBootSequence()">
+                <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-green); margin-bottom: 12px;">
+                    [ STATUS: STANDBY — MENUNGGU INISIALISASI OPERATOR ]
+                </p>
+                <div class="click-prompt-badge">
+                    <i class="fa-solid fa-power-off"></i>
+                    <span>Klik di Sini untuk Mengaktifkan Sistem</span>
+                </div>
+            </div>
+
+            <!-- KONSOL DIAGNOSTIK (MUNCUL SETELAH DIKLIK) -->
+            <div class="boot-console" id="bootConsole">
+                <div class="boot-line" id="bootLine1">&gt; Memuat modul NodeMCU ESP8266... <span class="ok">[OK]</span></div>
+                <div class="boot-line" id="bootLine2">&gt; Kalibrasi LCD Matrix 16x2 I2C... <span class="ok">[OK]</span></div>
+                <div class="boot-line" id="bootLine3">&gt; Sinkronisasi Firebase RTDB &amp; Jadwal... <span class="ok">[OK]</span></div>
+                <div class="boot-line" id="bootLine4">&gt; Sistem Siap! Silakan masuk ke Terminal Login.</div>
+                <div class="boot-progress-wrap">
+                    <div class="boot-progress-bar" id="bootProgressBar"></div>
+                </div>
+            </div>
+
+            <!-- TOMBOL LANJUT KE LOGIN (INTERAKTIF TAHAP 2) -->
+            <button class="btn-enter-login" id="btnEnterLogin" onclick="proceedToLogin()">
+                <i class="fa-solid fa-right-to-bracket"></i> Masuk ke Terminal Login &gt;&gt;
+            </button>
+        </div>
+    </div>
+
     <!-- GOPAY STYLE ANIMATION POP-UP MODAL -->
     <div id="gopay-modal">
         <div class="gopay-box">
@@ -346,19 +694,30 @@
         </div>
     </div>
 
-    <!-- LAYAR LOGIN LCD FRAME HARDWARE -->
+    <!-- LAYAR LOGIN LCD FRAME HARDWARE + FOTO LOGO -->
     <div id="auth-overlay">
         <div class="lcd-bezel-frame">
             <div class="lcd-screen">
+                <!-- FOTO LOGO DI DALAM HALAMAN LOGIN -->
+                <div class="project-logo-wrap" style="margin-bottom: 12px;">
+                    <div class="project-logo-badge small">
+                        <img
+                            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+                            alt="Logo Smart Feeder Rekayasa XI-7"
+                            class="project-logo-img"
+                        />
+                    </div>
+                </div>
+
                 <div class="lcd-header"><i class="fa-solid fa-microchip"></i> SMART FEEDER</div>
                 <span class="lcd-sub">[ Proyek Rekayasa SMAN 14 ]</span>
                 
                 <div class="input-group">
-                    <label>> USERNAME_</label>
+                    <label>&gt; USERNAME_</label>
                     <input type="text" id="username" placeholder="ID Admin" autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label>> PASSWORD_</label>
+                    <label>&gt; PASSWORD_</label>
                     <input type="password" id="password" placeholder="Kunci Sandi">
                 </div>
                 
@@ -490,25 +849,25 @@
 
                         <div class="form-row">
                             <div class="form-group" style="margin-bottom: 0;">
-                                <label>> Jam Pakan (HH:MM)</label>
+                                <label>&gt; Jam Pakan (HH:MM)</label>
                                 <input type="time" id="schedTime">
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
-                                <label>> Label Sesi (Opsional)</label>
+                                <label>&gt; Label Sesi (Opsional)</label>
                                 <input type="text" id="schedLabel" class="cyber-input" placeholder="Contoh: Pakan Pagi / Sore">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label>> Hari Pengulangan (Tetap aktif terus tanpa perlu buat ulang):</label>
+                            <label>&gt; Hari Pengulangan (Tetap aktif terus tanpa perlu buat ulang):</label>
                             <div class="days-selector" id="daysSelector">
-                                <label class="day-chip"><input type="checkbox" value="1" checked><span>Sen</span></label>
-                                <label class="day-chip"><input type="checkbox" value="2" checked><span>Sel</span></label>
-                                <label class="day-chip"><input type="checkbox" value="3" checked><span>Rab</span></label>
-                                <label class="day-chip"><input type="checkbox" value="4" checked><span>Kam</span></label>
-                                <label class="day-chip"><input type="checkbox" value="5" checked><span>Jum</span></label>
-                                <label class="day-chip"><input type="checkbox" value="6" checked><span>Sab</span></label>
-                                <label class="day-chip"><input type="checkbox" value="0" checked><span>Min</span></label>
+                                <label class="day-chip"><input type="checkbox" value="1" checked onchange="CyberAudio.play('ui_click')"><span>Sen</span></label>
+                                <label class="day-chip"><input type="checkbox" value="2" checked onchange="CyberAudio.play('ui_click')"><span>Sel</span></label>
+                                <label class="day-chip"><input type="checkbox" value="3" checked onchange="CyberAudio.play('ui_click')"><span>Rab</span></label>
+                                <label class="day-chip"><input type="checkbox" value="4" checked onchange="CyberAudio.play('ui_click')"><span>Kam</span></label>
+                                <label class="day-chip"><input type="checkbox" value="5" checked onchange="CyberAudio.play('ui_click')"><span>Jum</span></label>
+                                <label class="day-chip"><input type="checkbox" value="6" checked onchange="CyberAudio.play('ui_click')"><span>Sab</span></label>
+                                <label class="day-chip"><input type="checkbox" value="0" checked onchange="CyberAudio.play('ui_click')"><span>Min</span></label>
                             </div>
                         </div>
 
@@ -528,7 +887,7 @@
                         <!-- DAFTAR JADWAL TERSIMPAN -->
                         <div style="border-top: 1px solid var(--border-lcd); padding-top: 16px;">
                             <label style="display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-yellow); margin-bottom: 10px; text-transform: uppercase;">
-                                > Daftar Jadwal Aktif Tersimpan:
+                                &gt; Daftar Jadwal Aktif Tersimpan:
                             </label>
                             <div id="stackedScheduleList" class="stacked-list">
                                 <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--text-muted);">Memuat daftar jadwal...</p>
@@ -605,6 +964,257 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        /* =========================================================
+           CYBER AUDIO ENGINE (MUSIK INTRO + SOUND EFFECTS PROGRES)
+        ========================================================= */
+        const CyberAudio = (() => {
+            let ctx = null;
+            let isMuted = false;
+            let introTimer = null;
+            let stepIdx = 0;
+
+            // Melodi arpeggio futuristik untuk Intro Scene (dalam Hz)
+            const introMelody = [
+                261.63, 329.63, 392.00, 493.88, // Cmaj7 naik
+                523.25, 493.88, 392.00, 329.63, // turun halus
+                293.66, 349.23, 440.00, 523.25, // Dm7 naik
+                493.88, 392.00, 329.63, 293.66  // kembali ke nada dasar
+            ];
+            const introBass = [
+                130.81, 130.81, 130.81, 130.81,
+                98.00,  98.00,  98.00,  98.00,
+                110.00, 110.00, 110.00, 110.00,
+                98.00,  98.00,  98.00,  98.00
+            ];
+
+            function ensureCtx() {
+                if (!ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) ctx = new AudioCtx();
+                }
+                if (ctx && ctx.state === 'suspended') {
+                    ctx.resume().catch(() => {});
+                }
+                return ctx;
+            }
+
+            function playTone(freq, type = 'sine', duration = 0.15, vol = 0.08, delay = 0, endFreq = null) {
+                if (isMuted) return;
+                const audio = ensureCtx();
+                if (!audio) return;
+
+                try {
+                    const now = audio.currentTime + delay;
+                    const osc = audio.createOscillator();
+                    const gain = audio.createGain();
+
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, now);
+                    if (endFreq !== null) {
+                        osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), now + duration);
+                    }
+
+                    gain.gain.setValueAtTime(0.0001, now);
+                    gain.gain.linearRampToValueAtTime(vol, now + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+                    osc.connect(gain);
+                    gain.connect(audio.destination);
+
+                    osc.start(now);
+                    osc.stop(now + duration + 0.02);
+                } catch (e) {}
+            }
+
+            function startIntroMusic() {
+                if (introTimer) return;
+                ensureCtx();
+                stepIdx = 0;
+
+                const viz = document.getElementById('musicVisualizer');
+                if (viz && !isMuted) viz.classList.add('playing');
+
+                const tickMusic = () => {
+                    if (!isMuted) {
+                        const note = introMelody[stepIdx % introMelody.length];
+                        const bass = introBass[stepIdx % introBass.length];
+                        playTone(note, 'triangle', 0.24, 0.045, 0);
+                        if (stepIdx % 2 === 0) {
+                            playTone(bass, 'sine', 0.42, 0.055, 0);
+                        }
+                    }
+                    stepIdx++;
+                };
+
+                tickMusic();
+                introTimer = setInterval(tickMusic, 280);
+            }
+
+            function stopIntroMusic() {
+                if (introTimer) {
+                    clearInterval(introTimer);
+                    introTimer = null;
+                }
+                const viz = document.getElementById('musicVisualizer');
+                if (viz) viz.classList.remove('playing');
+            }
+
+            function play(effect) {
+                if (isMuted) return;
+                ensureCtx();
+
+                switch (effect) {
+                    case 'ui_click':
+                        playTone(950, 'sine', 0.055, 0.06, 0, 1250);
+                        break;
+
+                    case 'boot_step':
+                        playTone(680, 'square', 0.06, 0.035, 0, 920);
+                        break;
+
+                    case 'boot_ready':
+                        playTone(523.25, 'triangle', 0.14, 0.08, 0);
+                        playTone(659.25, 'triangle', 0.14, 0.08, 0.09);
+                        playTone(783.99, 'triangle', 0.16, 0.08, 0.18);
+                        playTone(1046.50, 'sine', 0.28, 0.09, 0.27);
+                        break;
+
+                    case 'login_success':
+                        playTone(587.33, 'sine', 0.12, 0.09, 0);
+                        playTone(739.99, 'sine', 0.12, 0.09, 0.08);
+                        playTone(880.00, 'sine', 0.14, 0.09, 0.16);
+                        playTone(1174.66, 'triangle', 0.30, 0.10, 0.24);
+                        break;
+
+                    case 'login_guest':
+                        playTone(440, 'sine', 0.12, 0.07, 0);
+                        playTone(554.37, 'sine', 0.18, 0.07, 0.10);
+                        break;
+
+                    case 'error':
+                        playTone(190, 'sawtooth', 0.14, 0.08, 0, 150);
+                        playTone(165, 'sawtooth', 0.18, 0.08, 0.16, 120);
+                        break;
+
+                    case 'pump_on':
+                        // Suara relay klik + turbin blower naik + nada konfirmasi pakan aktif
+                        playTone(140, 'sawtooth', 0.42, 0.075, 0, 560);
+                        playTone(280, 'triangle', 0.38, 0.06, 0.05, 740);
+                        playTone(880, 'sine', 0.14, 0.08, 0.36);
+                        playTone(1174.66, 'sine', 0.22, 0.09, 0.46);
+                        break;
+
+                    case 'pump_off':
+                        // Suara blower turun (spin-down) + klik relay mati
+                        playTone(520, 'sawtooth', 0.35, 0.07, 0, 110);
+                        playTone(320, 'sine', 0.18, 0.06, 0.22, 180);
+                        break;
+
+                    case 'lcd_on':
+                        // Nada kristal terang saat lampu backlight LCD menyala
+                        playTone(783.99, 'sine', 0.10, 0.07, 0);
+                        playTone(1318.51, 'sine', 0.22, 0.08, 0.08);
+                        break;
+
+                    case 'lcd_off':
+                        // Nada turun lembut saat LCD masuk mode sleep/mati
+                        playTone(987.77, 'sine', 0.12, 0.07, 0, 520);
+                        playTone(440.00, 'triangle', 0.20, 0.06, 0.10, 240);
+                        break;
+
+                    case 'sched_add':
+                        playTone(659.25, 'triangle', 0.11, 0.08, 0);
+                        playTone(987.77, 'triangle', 0.20, 0.09, 0.09);
+                        break;
+
+                    case 'sched_toggle':
+                        playTone(720, 'sine', 0.08, 0.07, 0, 960);
+                        break;
+
+                    case 'sched_delete':
+                        playTone(540, 'triangle', 0.10, 0.07, 0, 320);
+                        playTone(300, 'sine', 0.14, 0.07, 0.09, 180);
+                        break;
+                }
+            }
+
+            function toggleMute() {
+                isMuted = !isMuted;
+                const btn = document.getElementById('audioToggleBtn');
+                const icon = document.getElementById('audioToggleIcon');
+                const text = document.getElementById('audioToggleText');
+                const viz = document.getElementById('musicVisualizer');
+
+                if (isMuted) {
+                    btn.classList.add('muted');
+                    icon.className = 'fa-solid fa-volume-xmark';
+                    text.innerText = 'SFX & MUSIC: OFF';
+                    if (viz) viz.classList.remove('playing');
+                } else {
+                    btn.classList.remove('muted');
+                    icon.className = 'fa-solid fa-volume-high';
+                    text.innerText = 'SFX & MUSIC: ON';
+                    ensureCtx();
+                    play('ui_click');
+                    if (introTimer && viz) viz.classList.add('playing');
+                }
+            }
+
+            return { startIntroMusic, stopIntroMusic, play, toggleMute };
+        })();
+
+        /* =========================================
+           0. INTERACTIVE INTRO SCENE & BOOT SEQUENCE
+        ========================================= */
+        let isBootStarted = false;
+
+        function startBootSequence() {
+            if (isBootStarted) return;
+            isBootStarted = true;
+
+            // Mulai musik intro + suara inisialisasi
+            CyberAudio.startIntroMusic();
+            CyberAudio.play('boot_step');
+
+            const triggerZone = document.getElementById('introTriggerZone');
+            const bootConsole = document.getElementById('bootConsole');
+            const progressBar = document.getElementById('bootProgressBar');
+            const btnEnter = document.getElementById('btnEnterLogin');
+
+            triggerZone.style.display = 'none';
+            bootConsole.style.display = 'block';
+
+            const steps = [
+                { id: 'bootLine1', pct: 30, delay: 180, sfx: 'boot_step' },
+                { id: 'bootLine2', pct: 60, delay: 560, sfx: 'boot_step' },
+                { id: 'bootLine3', pct: 88, delay: 940, sfx: 'boot_step' },
+                { id: 'bootLine4', pct: 100, delay: 1320, sfx: 'boot_ready' }
+            ];
+
+            steps.forEach(step => {
+                setTimeout(() => {
+                    document.getElementById(step.id).classList.add('show');
+                    progressBar.style.width = step.pct + '%';
+                    CyberAudio.play(step.sfx);
+                }, step.delay);
+            });
+
+            setTimeout(() => {
+                btnEnter.style.display = 'block';
+                btnEnter.style.animation = 'slideUp 0.35s ease';
+            }, 1600);
+        }
+
+        function proceedToLogin() {
+            CyberAudio.play('ui_click');
+            const intro = document.getElementById('intro-overlay');
+            intro.style.opacity = '0';
+            setTimeout(() => {
+                intro.style.visibility = 'hidden';
+                document.getElementById('username').focus();
+            }, 500);
+        }
+
         /* =========================================
            1. FUNGSI GOPAY ANIMATION POP-UP
         ========================================= */
@@ -649,15 +1259,20 @@
             const p = document.getElementById('password').value;
             if(u === 'XI-7' && p === 'REKAYASA') {
                 userRole = 'ADMIN';
+                CyberAudio.stopIntroMusic();
+                CyberAudio.play('login_success');
                 masukAplikasi("HALO, ADMIN XI-7", false);
                 triggerGoPayAnim("LOGIN SUCCESS", "Selamat Datang, Admin XI-7!");
             } else {
+                CyberAudio.play('error');
                 alert("Username atau Password Salah!");
             }
         }
 
         function doGuest() {
             userRole = 'GUEST';
+            CyberAudio.stopIntroMusic();
+            CyberAudio.play('login_guest');
             masukAplikasi("HALO, TAMU", true);
         }
 
@@ -699,13 +1314,17 @@
             }, 400);
         }
 
-        function logout() { location.reload(); }
+        function logout() {
+            CyberAudio.play('lcd_off');
+            setTimeout(() => location.reload(), 250);
+        }
 
         const navItems = document.querySelectorAll('.nav-item');
         const viewSections = document.querySelectorAll('.view-section');
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 if(item.getAttribute('data-target')){
+                    CyberAudio.play('ui_click');
                     navItems.forEach(nav => nav.classList.remove('active'));
                     viewSections.forEach(sec => sec.classList.remove('active'));
                     item.classList.add('active');
@@ -836,7 +1455,7 @@
         }
 
         /* =========================================
-           4. AKSI KONTROL KELUARAN PAKAN MANUAL
+           4. AKSI KONTROL KELUARAN PAKAN & LCD + SFX
         ========================================= */
         btn.onclick = () => {
             if(btn.disabled || userRole !== 'ADMIN') return;
@@ -855,22 +1474,32 @@
             }
             
             btnLabel.innerText = "PROSES...";
+            CyberAudio.play('ui_click');
             
             dbRef.update(updates).then(() => {
                 if(newState === 1) {
-                    triggerGoPayAnim("PAKAN DILONTARKAN", "Mesin menyala selama 30 detik otomatis!");
+                    CyberAudio.play('pump_on');
+                    triggerGoPayAnim("PAKAN DILONTARKAN", "Pompa menyala selama 30 detik otomatis!");
                     catatKeLog('LONTAR PAKAN (30 DTK)', 'Manual (Admin XI-7)');
                 } else {
-                    triggerGoPayAnim("MESIN DIMATIKAN", "Mesin dihentikan secara manual.", true);
+                    CyberAudio.play('pump_off');
+                    triggerGoPayAnim("MESIN DIMATIKAN", "Pompa dihentikan secara manual.", true);
                     catatKeLog('MESIN DIMATIKAN', 'Manual (Admin XI-7)');
                 }
-            }).catch(e => alert("Error Database: " + e.message));
+            }).catch(e => {
+                CyberAudio.play('error');
+                alert("Error Database: " + e.message);
+            });
         };
 
         function toggleLcdBacklight() {
-            if (userRole !== 'ADMIN') return alert("Akses Ditolak: Hanya Admin yang dapat mengontrol layar.");
+            if (userRole !== 'ADMIN') {
+                CyberAudio.play('error');
+                return alert("Akses Ditolak: Hanya Admin yang dapat mengontrol layar.");
+            }
             const newLcdState = currentLcdState === 1 ? 0 : 1;
             lcdRef.set(newLcdState).then(() => {
+                CyberAudio.play(newLcdState === 1 ? 'lcd_on' : 'lcd_off');
                 triggerGoPayAnim(newLcdState === 1 ? "LCD NYALA" : "LCD SLEEP", "Status backlight LCD diperbarui.", newLcdState === 0);
                 catatKeLog(newLcdState === 1 ? 'LCD DINYALAKAN' : 'LCD DIMATIKAN', 'Admin (XI-7)');
             });
@@ -928,14 +1557,23 @@
         }
 
         function tambahJadwalBertumpuk() {
-            if(userRole !== 'ADMIN') return alert("Hanya Admin yang dapat menambah jadwal.");
+            if(userRole !== 'ADMIN') {
+                CyberAudio.play('error');
+                return alert("Hanya Admin yang dapat menambah jadwal.");
+            }
             const timeVal = document.getElementById('schedTime').value;
             const labelVal = document.getElementById('schedLabel').value.trim();
             const selectedDays = Array.from(document.querySelectorAll('#daysSelector input:checked'))
                 .map(cb => parseInt(cb.value, 10));
 
-            if(!timeVal) return alert("Pilih jam pakan terlebih dahulu!");
-            if(selectedDays.length === 0) return alert("Pilih minimal 1 hari pengulangan!");
+            if(!timeVal) {
+                CyberAudio.play('error');
+                return alert("Pilih jam pakan terlebih dahulu!");
+            }
+            if(selectedDays.length === 0) {
+                CyberAudio.play('error');
+                return alert("Pilih minimal 1 hari pengulangan!");
+            }
 
             const finalLabel = labelVal || `Jadwal ${timeVal} WIB`;
 
@@ -947,14 +1585,19 @@
                 lastTriggeredDate: ""
             }).then(() => {
                 document.getElementById('schedLabel').value = "";
+                CyberAudio.play('sched_add');
                 triggerGoPayAnim("JADWAL DITAMBAH", `${finalLabel} (${timeVal} WIB) masuk daftar berulang!`, true);
                 catatKeLog(`JADWAL DITAMBAH (${timeVal} - ${finalLabel})`, 'Admin (XI-7)');
-            }).catch(e => alert("Gagal menyimpan jadwal: " + e.message));
+            }).catch(e => {
+                CyberAudio.play('error');
+                alert("Gagal menyimpan jadwal: " + e.message);
+            });
         }
 
         function toggleStatusJadwal(id, currentStatus) {
             if(userRole !== 'ADMIN') return;
             schedulesRef.child(id).update({ active: !currentStatus }).then(() => {
+                CyberAudio.play('sched_toggle');
                 triggerGoPayAnim(!currentStatus ? "JADWAL AKTIF" : "JADWAL DIJEDA", "Status jadwal berhasil diubah.", true);
             });
         }
@@ -962,6 +1605,7 @@
         function hapusSatuJadwal(id, timeText) {
             if(userRole !== 'ADMIN') return;
             schedulesRef.child(id).remove().then(() => {
+                CyberAudio.play('sched_delete');
                 triggerGoPayAnim("JADWAL DIHAPUS", `Jadwal jam ${timeText} WIB dihapus.`, true);
                 catatKeLog(`JADWAL DIHAPUS (${timeText} WIB)`, 'Admin (XI-7)');
             });
@@ -969,10 +1613,14 @@
 
         function hapusSemuaJadwal() {
             if(userRole !== 'ADMIN') return;
-            if(stackedSchedules.length === 0) return alert("Daftar jadwal sudah kosong.");
+            if(stackedSchedules.length === 0) {
+                CyberAudio.play('error');
+                return alert("Daftar jadwal sudah kosong.");
+            }
             if(!confirm("Hapus semua jadwal bertumpuk yang tersimpan?")) return;
 
             schedulesRef.remove().then(() => {
+                CyberAudio.play('sched_delete');
                 triggerGoPayAnim("SEMUA DIHAPUS", "Seluruh jadwal otomatis telah dikosongkan.", true);
                 catatKeLog('SEMUA JADWAL DIHAPUS', 'Admin (XI-7)');
             });
@@ -1078,7 +1726,6 @@
 
             document.getElementById('liveClockUI').innerText = `${hh}:${mm}:${ss} WIB`;
 
-            // Cek semua jadwal bertumpuk secara otomatis tanpa menghapus/menonaktifkannya
             stackedSchedules.forEach(sched => {
                 if (!sched.active) return;
                 if (!sched.days.includes(todayDay)) return;
@@ -1089,6 +1736,7 @@
 
                     if (currentState !== 1 && isServerConnected) {
                         dbRef.update({ status: 1, lastActive: Date.now() }).then(() => {
+                            CyberAudio.play('pump_on');
                             triggerGoPayAnim("JADWAL TERPICU!", `${sched.label} (${sched.time} WIB) - Lontar 30 detik!`);
                             catatKeLog(`JADWAL TERPICU (${sched.time} - ${sched.label})`, 'Sistem Auto-Repeat');
                         });
