@@ -9,9 +9,62 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <!-- FontAwesome untuk Ikon Futuristik -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- FAVICON (Logo di Tab Browser & Shortcut HP) -->
-    <link rel="icon" type="image/jpeg" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
-    <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
+    
+    <!-- FAVICON MELINGKAR (Default SVG Bulat + Auto-Crop Circular PNG dari Logo) -->
+    <link id="dynamicFavicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23021209' stroke='%2300ff66' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23ffcc00' stroke-width='2' stroke-dasharray='6 3'/%3E%3Cpath d='M18 33c5-7 14-7 20-1l7-5v11l-7-5c-6 6-15 6-20 0z' fill='%2300ff66'/%3E%3C/svg%3E">
+    <link id="dynamicAppleIcon" rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
+
+    <script>
+        // Mengubah gambar logo menjadi Favicon bulat sempurna (transparent corners) agar tidak kotak-kotak di tab browser
+        (function createCircularFavicon() {
+            const logoUrl = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg";
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function () {
+                try {
+                    const size = 128;
+                    const canvas = document.createElement("canvas");
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext("2d");
+
+                    // Potong lingkaran penuh tanpa sudut kotak
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(size / 2, size / 2, size / 2 - 4, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.clip();
+
+                    // Center-crop rasio gambar agar tidak gepeng
+                    const minSide = Math.min(img.width, img.height);
+                    const sx = (img.width - minSide) / 2;
+                    const sy = (img.height - minSide) / 2;
+                    ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+                    ctx.restore();
+
+                    // Bingkai cincin neon hijau tipis di tepi lingkaran
+                    ctx.beginPath();
+                    ctx.arc(size / 2, size / 2, size / 2 - 3, 0, Math.PI * 2);
+                    ctx.lineWidth = 5;
+                    ctx.strokeStyle = "#00ff66";
+                    ctx.stroke();
+
+                    const pngDataUrl = canvas.toDataURL("image/png");
+                    const link = document.getElementById("dynamicFavicon");
+                    const appleLink = document.getElementById("dynamicAppleIcon");
+                    if (link) {
+                        link.type = "image/png";
+                        link.href = pngDataUrl;
+                    }
+                    if (appleLink) {
+                        appleLink.href = pngDataUrl;
+                    }
+                } catch (e) {}
+            };
+            img.src = logoUrl;
+        })();
+    </script>
+
     <style>
         :root {
             --bg-dark: #050806;
@@ -45,6 +98,99 @@
                 linear-gradient(rgba(0, 255, 102, 0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 102, 0.02) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        }
+
+        /* --- 0A. NON-INTERACTIVE LOGO SPLASH SCENE (SEBELUM INTRO INTERAKTIF) --- */
+        #splash-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #081c10 0%, #020403 80%);
+            z-index: 10003;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: all;
+            transition: opacity 0.75s ease, visibility 0.75s ease;
+        }
+        #splash-overlay::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .splash-cyber-frame {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            border-radius: 28px;
+            background: linear-gradient(145deg, rgba(10, 26, 17, 0.9), rgba(3, 10, 6, 0.96));
+            border: 2px solid var(--border-lcd);
+            box-shadow:
+                0 0 65px rgba(0, 255, 102, 0.22),
+                inset 0 0 30px rgba(0, 255, 102, 0.12);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            animation: splashZoomIn 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        /* Garis Laser Scan Halus pada Frame Splash */
+        .splash-cyber-frame::before {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 45%;
+            background: linear-gradient(to bottom, transparent, rgba(0, 255, 102, 0.22), transparent);
+            animation: scanSweep 2.4s ease-in-out infinite;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .splash-bracket {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-color: var(--lcd-yellow);
+            border-style: solid;
+            z-index: 4;
+        }
+        .splash-bracket.tl { top: 14px; left: 14px; border-width: 2.5px 0 0 2.5px; border-top-left-radius: 6px; }
+        .splash-bracket.tr { top: 14px; right: 14px; border-width: 2.5px 2.5px 0 0; border-top-right-radius: 6px; }
+        .splash-bracket.bl { bottom: 14px; left: 14px; border-width: 0 0 2.5px 2.5px; border-bottom-left-radius: 6px; }
+        .splash-bracket.br { bottom: 14px; right: 14px; border-width: 0 2.5px 2.5px 0; border-bottom-right-radius: 6px; }
+
+        .splash-ring-outer {
+            position: relative;
+            width: 158px;
+            height: 158px;
+            border-radius: 50%;
+            padding: 5px;
+            background: #021209;
+            border: 2.5px solid var(--lcd-green);
+            box-shadow: 0 0 35px var(--lcd-green-glow), inset 0 0 18px rgba(0, 255, 102, 0.35);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .splash-ring-outer::after {
+            content: "";
+            position: absolute;
+            inset: -11px;
+            border-radius: 50%;
+            border: 2px dashed var(--lcd-yellow);
+            opacity: 0.85;
+            animation: spinSlow 10s linear infinite;
+        }
+        .splash-ring-outer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
         }
 
         /* --- TOMBOL MUTE / UNMUTE AUDIO GLOBAL --- */
@@ -489,6 +635,56 @@
         }
         .card-title-left { display: flex; align-items: center; gap: 10px; }
 
+        /* --- STYLING KATA PENGANTAR --- */
+        .foreword-hero {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-lcd);
+            flex-wrap: wrap;
+        }
+        .foreword-logo {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            border: 2px solid var(--lcd-green);
+            box-shadow: 0 0 20px var(--lcd-green-glow);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .foreword-body p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .foreword-highlight {
+            background: rgba(0, 255, 102, 0.06);
+            border-left: 3px solid var(--lcd-yellow);
+            padding: 14px 18px;
+            border-radius: 0 10px 10px 0;
+            font-family: var(--font-lcd);
+            font-size: 13px;
+            color: var(--lcd-green);
+            margin: 18px 0;
+        }
+        .foreword-sign {
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-lcd);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-family: var(--font-lcd);
+            font-size: 12px;
+            color: var(--lcd-yellow);
+        }
+
         .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 25px 0; }
         .main-btn {
             width: 150px; height: 150px; border-radius: 50%; border: none; cursor: pointer;
@@ -595,6 +791,14 @@
         }
 
         /* ANIMATION KEYFRAMES */
+        @keyframes splashZoomIn {
+            0% { opacity: 0; transform: scale(0.75); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes scanSweep {
+            0% { top: -45%; }
+            100% { top: 115%; }
+        }
         @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(0, 255, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); } }
         @keyframes pulseRingYellow { 0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 204, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); } }
         @keyframes pulseSoft { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
@@ -618,13 +822,29 @@
 </head>
 <body>
 
+    <!-- 0A. NON-INTERACTIVE LOGO SPLASH SCENE (TAMPIL LOGO SAJA DENGAN CYBER FRAME) -->
+    <div id="splash-overlay">
+        <div class="splash-cyber-frame">
+            <div class="splash-bracket tl"></div>
+            <div class="splash-bracket tr"></div>
+            <div class="splash-bracket bl"></div>
+            <div class="splash-bracket br"></div>
+            <div class="splash-ring-outer">
+                <img
+                    src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+                    alt="Logo Smart Feeder"
+                />
+            </div>
+        </div>
+    </div>
+
     <!-- TOMBOL KONTROL AUDIO GLOBAL -->
     <button class="audio-float-btn" id="audioToggleBtn" onclick="CyberAudio.toggleMute()" title="Aktifkan / Matikan Suara">
         <i class="fa-solid fa-volume-high" id="audioToggleIcon"></i>
         <span id="audioToggleText">SFX &amp; MUSIC: ON</span>
     </button>
 
-    <!-- 0. INTERACTIVE INTRO SCENE (KLIK AWAL + FOTO LOGO + MUSIK INTRO) -->
+    <!-- 0B. INTERACTIVE INTRO SCENE (KLIK AWAL + FOTO LOGO + MUSIK INTRO) -->
     <div id="intro-overlay">
         <div class="intro-container">
             <div class="intro-corner tl"></div>
@@ -737,6 +957,9 @@
             <div class="nav-container">
                 <div class="nav-item active" data-target="view-dashboard" title="Dashboard">
                     <i class="fa-solid fa-gauge-high"></i> <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-target="view-foreword" title="Kata Pengantar">
+                    <i class="fa-solid fa-book-open"></i> <span>Kata Pengantar</span>
                 </div>
                 <div class="nav-item" data-target="view-log" title="Log Riwayat">
                     <i class="fa-solid fa-list-check"></i> <span>Log Riwayat</span>
@@ -900,7 +1123,58 @@
                 </div>
             </div>
 
-            <!-- VIEW 2: LOG AKTIVITAS -->
+            <!-- VIEW 2: KATA PENGANTAR PROYEK -->
+            <div id="view-foreword" class="view-section">
+                <div class="card">
+                    <div class="card-title">
+                        <div class="card-title-left"><i class="fa-solid fa-book-open"></i> Kata Pengantar Proyek</div>
+                        <span style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-green);">KELOMPOK REKAYASA • XI-7</span>
+                    </div>
+
+                    <div class="foreword-hero">
+                        <img
+                            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+                            alt="Logo Kelompok Rekayasa"
+                            class="foreword-logo"
+                        />
+                        <div>
+                            <h2 style="font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 4px;">
+                                SMART FEEDER IoT — PNEUMATIC &amp; CLOUD SYSTEM
+                            </h2>
+                            <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-yellow);">
+                                Proyek Rekayasa Teknologi • Kelas XI-7 • SMAN 14 Surabaya
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="foreword-body">
+                        <p>
+                            Puji syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa karena atas rahmat dan karunia-Nya, perancangan serta pengembangan sistem <strong>Smart Feeder IoT</strong> ini dapat diselesaikan dengan baik oleh <strong>Kelompok Rekayasa (Kelas XI-7, SMAN 14 Surabaya)</strong>.
+                        </p>
+                        <p>
+                            Pemeliharaan ikan di lingkungan sekolah maupun budidaya skala kecil sering kali terkendala oleh ketidakteraturan jadwal pemberian pakan, takaran yang kurang konsisten, serta keterbatasan pemantauan secara langsung. Berangkat dari permasalahan tersebut, proyek ini menghadirkan solusi otomasi yang memadukan mekanisme lontar pakan berbasis pneumatik dengan teknologi <em>Internet of Things</em> (IoT).
+                        </p>
+
+                        <div class="foreword-highlight">
+                            &gt; ARSITEKTUR UTAMA: NodeMCU ESP8266 + Relay 1-Channel + LCD Matrix 16x2 I2C (Auto-Sleep) + Firebase Realtime Database + Cyber LCD Web Control Panel.
+                        </div>
+
+                        <p>
+                            Melalui antarmuka web <strong>Cyber LCD Panel</strong>, operator dapat melakukan pelontaran pakan manual dengan durasi pengaman otomatis 30 detik, menyusun jadwal bertumpuk (<em>multi-schedule</em>) yang berulang otomatis setiap hari maupun mingguan, mengontrol lampu latar layar LCD, serta memantau riwayat aktivitas perangkat secara <em>real-time</em>.
+                        </p>
+                        <p>
+                            Besar harapan kami karya ini dapat menjadi wujud nyata penerapan pembelajaran berbasis proyek (<em>Project-Based Learning</em>) yang melatih kolaborasi tim serta menghadirkan teknologi tepat guna bagi lingkungan SMAN 14 Surabaya. Kritik dan saran yang membangun sangat kami harapkan demi penyempurnaan sistem di masa mendatang.
+                        </p>
+                    </div>
+
+                    <div class="foreword-sign">
+                        <span><i class="fa-solid fa-school"></i> SMAN 14 SURABAYA</span>
+                        <span>TIM PENYUSUN: KELOMPOK REKAYASA (XI-7)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: LOG AKTIVITAS -->
             <div id="view-log" class="view-section">
                 <div class="card">
                     <div class="card-title">
@@ -925,7 +1199,7 @@
                 </div>
             </div>
 
-            <!-- VIEW 3: SETTINGS -->
+            <!-- VIEW 4: SETTINGS -->
             <div id="view-settings" class="view-section">
                 <div class="card">
                     <div class="card-title">
@@ -967,6 +1241,22 @@
 
     <script>
         /* =========================================================
+           TRANSISI OTOMATIS SPLASH LOGO NON-INTERAKTIF -> INTRO SCENE
+        ========================================================= */
+        window.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splash-overlay');
+            if (splash) {
+                setTimeout(() => {
+                    splash.style.opacity = '0';
+                    setTimeout(() => {
+                        splash.style.visibility = 'hidden';
+                        splash.style.display = 'none';
+                    }, 750);
+                }, 2600);
+            }
+        });
+
+        /* =========================================================
            CYBER AUDIO ENGINE (MUSIK INTRO + SOUND EFFECTS PROGRES)
         ========================================================= */
         const CyberAudio = (() => {
@@ -975,12 +1265,11 @@
             let introTimer = null;
             let stepIdx = 0;
 
-            // Melodi arpeggio futuristik untuk Intro Scene (dalam Hz)
             const introMelody = [
-                261.63, 329.63, 392.00, 493.88, // Cmaj7 naik
-                523.25, 493.88, 392.00, 329.63, // turun halus
-                293.66, 349.23, 440.00, 523.25, // Dm7 naik
-                493.88, 392.00, 329.63, 293.66  // kembali ke nada dasar
+                261.63, 329.63, 392.00, 493.88,
+                523.25, 493.88, 392.00, 329.63,
+                293.66, 349.23, 440.00, 523.25,
+                493.88, 392.00, 329.63, 293.66
             ];
             const introBass = [
                 130.81, 130.81, 130.81, 130.81,
@@ -1099,7 +1388,6 @@
                         break;
 
                     case 'pump_on':
-                        // Suara relay klik + turbin blower naik + nada konfirmasi pakan aktif
                         playTone(140, 'sawtooth', 0.42, 0.075, 0, 560);
                         playTone(280, 'triangle', 0.38, 0.06, 0.05, 740);
                         playTone(880, 'sine', 0.14, 0.08, 0.36);
@@ -1107,19 +1395,16 @@
                         break;
 
                     case 'pump_off':
-                        // Suara blower turun (spin-down) + klik relay mati
                         playTone(520, 'sawtooth', 0.35, 0.07, 0, 110);
                         playTone(320, 'sine', 0.18, 0.06, 0.22, 180);
                         break;
 
                     case 'lcd_on':
-                        // Nada kristal terang saat lampu backlight LCD menyala
                         playTone(783.99, 'sine', 0.10, 0.07, 0);
                         playTone(1318.51, 'sine', 0.22, 0.08, 0.08);
                         break;
 
                     case 'lcd_off':
-                        // Nada turun lembut saat LCD masuk mode sleep/mati
                         playTone(987.77, 'sine', 0.12, 0.07, 0, 520);
                         playTone(440.00, 'triangle', 0.20, 0.06, 0.10, 240);
                         break;
@@ -1166,7 +1451,7 @@
         })();
 
         /* =========================================
-           0. INTERACTIVE INTRO SCENE & BOOT SEQUENCE
+           0B. INTERACTIVE INTRO SCENE & BOOT SEQUENCE
         ========================================= */
         let isBootStarted = false;
 
@@ -1174,7 +1459,6 @@
             if (isBootStarted) return;
             isBootStarted = true;
 
-            // Mulai musik intro + suara inisialisasi
             CyberAudio.startIntroMusic();
             CyberAudio.play('boot_step');
 
