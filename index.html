@@ -12,8 +12,8 @@
     <meta property="og:description" content="Panel kontrol wireless sistem pakan ikan otomatis berbasis IoT karya Kelompok Rekayasa XI-7 SMAN 14 Surabaya.">
     <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
 
-    <!-- FAVICON MELINGKAR -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23021209' stroke='%2300ff66' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23ffcc00' stroke-width='2' stroke-dasharray='6 3'/%3E%3Cpath d='M18 33c5-7 14-7 20-1l7-5v11l-7-5c-6 6-15 6-20 0z' fill='%2300ff66'/%3E%3C/svg%3E">
+    <!-- FAVICON MELINGKAR (TIDAK DIUBAH) -->
+    <link id="dynamicFavicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23021209' stroke='%2300ff66' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23ffcc00' stroke-width='2' stroke-dasharray='6 3'/%3E%3Cpath d='M18 33c5-7 14-7 20-1l7-5v11l-7-5c-6 6-15 6-20 0z' fill='%2300ff66'/%3E%3C/svg%3E">
 
     <style>
         :root {
@@ -307,7 +307,7 @@
         .card-title {
             font-size: 12px; font-weight: 800; color: var(--lcd-yellow);
             text-transform: uppercase; margin-bottom: 14px; letter-spacing: 0.8px;
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
         }
 
         .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 16px 0; }
@@ -582,7 +582,7 @@
         </div>
     </div>
 
-    <!-- DASHBOARD UTAMA (1 MODE: ONLINE CLOUD) -->
+    <!-- DASHBOARD UTAMA -->
     <div id="app-container">
         <aside class="sidebar">
             <div class="brand">&#9881; WIRELESS CORE</div>
@@ -736,11 +736,14 @@
             <!-- LOG RIWAYAT -->
             <div id="view-log" class="view-section">
                 <div class="card">
-                    <div class="card-title">Database Log Aktivitas</div>
+                    <div class="card-title">
+                        <span>Database Log Aktivitas</span>
+                        <button type="button" class="btn-mini" onclick="refreshLogsNow(true)">&#8635; Refresh Log</button>
+                    </div>
                     <div class="table-responsive">
                         <table>
                             <thead><tr><th>Waktu &amp; Tanggal</th><th>Aksi Sistem</th><th>Operator</th><th>Bukti Foto</th></tr></thead>
-                            <tbody id="logTableBody"><tr><td colspan="4" style="text-align: center; color: #666;">Memuat log server...</td></tr></tbody>
+                            <tbody id="logTableBody"><tr><td colspan="4" style="text-align: center; color: #7ca889;">Memuat log server...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
@@ -750,8 +753,36 @@
 
     <script>
         /* =========================================================
-           0. SPLASH & POP-UP INFORMASI OFFLINE
+           0. FAVICON MELINGKAR (ORIGINAL) & SPLASH / POP-UP OFFLINE
         ========================================================= */
+        (function initCircularFavicon() {
+            try {
+                const favEl = document.getElementById('dynamicFavicon');
+                if (!favEl) return;
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = () => {
+                    try {
+                        const c = document.createElement('canvas');
+                        c.width = 64; c.height = 64;
+                        const ctx = c.getContext('2d');
+                        ctx.beginPath();
+                        ctx.arc(32, 32, 30, 0, Math.PI * 2);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(img, 0, 0, 64, 64);
+                        ctx.beginPath();
+                        ctx.arc(32, 32, 30, 0, Math.PI * 2);
+                        ctx.lineWidth = 4;
+                        ctx.strokeStyle = '#00ff66';
+                        ctx.stroke();
+                        favEl.href = c.toDataURL('image/png');
+                    } catch (e) {}
+                };
+                img.src = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg';
+            } catch (e) {}
+        })();
+
         function dismissSplashNow() {
             const splash = document.getElementById('splash-overlay');
             if (splash) splash.style.display = 'none';
@@ -898,7 +929,7 @@
         }
 
         /* =========================================================
-           4. FIREBASE NON-BLOCKING (1 MODE: ONLINE CLOUD)
+           4. FIREBASE NON-BLOCKING & DATABASE LOG REAL-TIME
         ========================================================= */
         let auth = null, database = null, dbRef = null, schedulesRef = null, lcdRef = null, logRef = null, usersRef = null, connectedRef = null;
         let isServerConnected = false;
@@ -932,7 +963,10 @@
                 usersRef = database.ref('users');
                 connectedRef = database.ref(".info/connected");
                 attachFirebaseListeners();
-            } catch (e) {}
+            } catch (e) {
+                const tbody = document.getElementById('logTableBody');
+                if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #ff2a5f;">Gagal memuat modul database (periksa koneksi internet).</td></tr>';
+            }
         }
 
         /* =========================================================
@@ -1066,8 +1100,8 @@
                 }
 
                 renderButtonState();
+                refreshLogsNow(false);
 
-                // Tampilkan Pop-up Informasi Mode Offline (Captive Portal) saat masuk dashboard
                 if (!hasShownOfflinePopup) {
                     hasShownOfflinePopup = true;
                     setTimeout(() => {
@@ -1092,6 +1126,9 @@
                     document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
                     item.classList.add('active');
                     document.getElementById(target).classList.add('active');
+                    if (target === 'view-log') {
+                        refreshLogsNow(false);
+                    }
                 }
             });
         });
@@ -1137,6 +1174,41 @@
             }, 3000);
         }
 
+        function parseLogsSnapshot(snap) {
+            const list = [];
+            if (snap && snap.exists()) {
+                snap.forEach(c => {
+                    const v = c.val();
+                    if (v && typeof v === 'object') {
+                        list.push({ id: c.key, ...v });
+                    }
+                });
+            }
+            list.reverse();
+            cachedLogsList = list;
+            renderLogTable();
+        }
+
+        function refreshLogsNow(showFeedback = false) {
+            const tbody = document.getElementById('logTableBody');
+            if (!logRef) {
+                if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #7ca889;">Menunggu koneksi database...</td></tr>';
+                return;
+            }
+            if (showFeedback) {
+                CyberAudio.play('ui_click');
+                if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--lcd-yellow);">Menyegarkan log dari server...</td></tr>';
+            }
+            logRef.limitToLast(25).once('value')
+                .then(snap => {
+                    parseLogsSnapshot(snap);
+                    if (showFeedback) triggerGoPayAnim("LOG DIPERBARUI", `${cachedLogsList.length} riwayat aktivitas dimuat.`, true);
+                })
+                .catch(err => {
+                    if (tbody) tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #ff2a5f;">Gagal memuat log: ${err.message}</td></tr>`;
+                });
+        }
+
         function attachFirebaseListeners() {
             if (!connectedRef) return;
             connectedRef.on("value", (snap) => {
@@ -1144,6 +1216,7 @@
                 connDot.className = isServerConnected ? 'dot online' : 'dot offline';
                 connText.innerText = isServerConnected ? "CLOUD ONLINE" : "OFFLINE";
                 renderButtonState();
+                if (isServerConnected) refreshLogsNow(false);
             });
 
             dbRef.on('value', (snapshot) => {
@@ -1183,12 +1256,14 @@
                 document.getElementById('btnLcdText').innerText = currentLcdState === 1 ? "Matikan Layar LCD" : "Nyalakan Layar LCD";
             });
 
-            logRef.orderByChild('waktu').limitToLast(15).on('value', snap => {
-                cachedLogsList = [];
-                if (snap.exists()) snap.forEach(c => cachedLogsList.push(c.val()));
-                cachedLogsList.reverse();
-                renderLogTable();
-            });
+            // Listener Real-Time Database Log (tanpa orderByChild agar langsung aktif)
+            logRef.limitToLast(25).on('value',
+                snap => parseLogsSnapshot(snap),
+                err => {
+                    const tbody = document.getElementById('logTableBody');
+                    if (tbody) tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #ff2a5f;">Akses log ditolak: ${err.message}</td></tr>`;
+                }
+            );
         }
 
         function renderButtonState() {
@@ -1295,9 +1370,13 @@
             dbRef.update({ status: 1, lastActive: Date.now() }).then(() => {
                 triggerGoPayAnim("PAKAN DILONTARKAN", "Pompa menyala 3 detik otomatis!");
                 if (logRef && typeof firebase !== 'undefined') {
-                    const payload = { aksi: 'LONTAR PAKAN (3 DTK)', oleh: operatorLabel, waktu: firebase.database.ServerValue.TIMESTAMP };
+                    const payload = {
+                        aksi: 'LONTAR PAKAN (3 DTK)',
+                        oleh: operatorLabel,
+                        waktu: firebase.database.ServerValue.TIMESTAMP
+                    };
                     if (selfieData) payload.selfieData = selfieData;
-                    logRef.push(payload);
+                    logRef.push(payload).then(() => refreshLogsNow(false)).catch(() => {});
                 }
             }).catch(e => {
                 clearAutoOffTimers();
@@ -1330,22 +1409,41 @@
         function openProofModal(idx) {
             const item = cachedLogsList[idx];
             if (!item || !item.selfieData) return;
-            document.getElementById('proofMetaText').innerText = item.oleh;
+            document.getElementById('proofMetaText').innerText = item.oleh || '-';
             document.getElementById('proofImageEl').src = item.selfieData;
             document.getElementById('proof-modal').classList.add('active');
         }
         function closeProofModal() { document.getElementById('proof-modal').classList.remove('active'); }
 
+        function formatLogTime(rawWaktu) {
+            if (!rawWaktu) return '-';
+            if (typeof rawWaktu === 'number') {
+                return new Date(rawWaktu).toLocaleString('id-ID', {
+                    day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit'
+                });
+            }
+            const parsed = Date.parse(rawWaktu);
+            if (!isNaN(parsed)) {
+                return new Date(parsed).toLocaleString('id-ID', {
+                    day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit'
+                });
+            }
+            return String(rawWaktu);
+        }
+
         function renderLogTable() {
             const tbody = document.getElementById('logTableBody');
+            if (!tbody) return;
             if (!cachedLogsList.length) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">Belum ada log terekam.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #7ca889;">Belum ada log terekam di server.</td></tr>';
                 return;
             }
             tbody.innerHTML = cachedLogsList.map((item, idx) => {
-                const t = new Date(item.waktu).toLocaleString('id-ID', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+                const t = formatLogTime(item.waktu);
+                const aksi = item.aksi || 'LONTAR PAKAN';
+                const oleh = item.oleh || 'Sistem';
                 const proof = item.selfieData ? `<button type="button" class="btn-mini" onclick="openProofModal(${idx})">Lihat Selfie</button>` : '-';
-                return `<tr><td>${t}</td><td class="log-nyala">${item.aksi}</td><td>${item.oleh}</td><td>${proof}</td></tr>`;
+                return `<tr><td>${t}</td><td class="log-nyala">${aksi}</td><td>${oleh}</td><td>${proof}</td></tr>`;
             }).join('');
         }
 
