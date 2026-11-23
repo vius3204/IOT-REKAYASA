@@ -611,7 +611,7 @@
     <!-- DASHBOARD UTAMA -->
     <div id="app-container">
         <aside class="sidebar">
-            <div class="brand">&#9881; REKAYASA XI-7 </div>
+            <div class="brand">&#9881; REKAYASA XI-7</div>
             <div class="nav-container">
                 <div class="nav-item active" data-target="view-dashboard">&#9889; Dashboard</div>
                 <div class="nav-item" data-target="view-foreword">&#128214; Kata Pengantar</div>
@@ -885,6 +885,7 @@
                 else if (ef === 'boot_step') playTone(680, 'square', 0.05, 0.03);
                 else if (ef === 'boot_ready') { playTone(523.25, 'triangle', 0.12, 0.07, 0); playTone(783.99, 'triangle', 0.16, 0.07, 0.1); }
                 else if (ef === 'login_success') { playTone(587.33, 'sine', 0.12, 0.08, 0); playTone(880, 'sine', 0.18, 0.08, 0.12); }
+                else if (ef === 'logout_bye') { playTone(783.99, 'sine', 0.12, 0.07, 0); playTone(587.33, 'sine', 0.18, 0.07, 0.12); }
                 else if (ef === 'error') playTone(180, 'sawtooth', 0.16, 0.07);
                 else if (ef === 'pump_on') { playTone(220, 'sawtooth', 0.3, 0.06); playTone(880, 'sine', 0.14, 0.07, 0.25); }
                 else if (ef === 'pump_off') playTone(480, 'sawtooth', 0.25, 0.06);
@@ -942,16 +943,19 @@
         /* =========================================================
            3. GOPAY ANIMATION POP-UP
         ========================================================= */
-        function triggerGoPayAnim(titleText, descText, isYellow = false) {
+        let gopayTimeout = null;
+        function triggerGoPayAnim(titleText, descText, isYellow = false, iconHtml = '&#10004;') {
             const modal = document.getElementById('gopay-modal');
             const circle = document.getElementById('gopayCircle');
             const title = document.getElementById('gopayTitle');
+            circle.innerHTML = iconHtml;
             title.innerText = titleText;
             document.getElementById('gopayDesc').innerText = descText;
             circle.className = isYellow ? "gopay-circle yellow-mode" : "gopay-circle";
             title.style.color = isYellow ? "var(--lcd-yellow)" : "var(--lcd-green)";
             modal.classList.add('active');
-            setTimeout(() => modal.classList.remove('active'), 1650);
+            if (gopayTimeout) clearTimeout(gopayTimeout);
+            gopayTimeout = setTimeout(() => modal.classList.remove('active'), 1650);
         }
 
         /* =========================================================
@@ -1004,6 +1008,7 @@
         let currentUserProfile = { name: 'Tamu', email: '' };
         let cachedLogsList = [];
         let hasShownOfflinePopup = false;
+        let isLoggingOut = false;
 
         function previewReferralCode(val) {
             const inputEl = document.getElementById('regReferral');
@@ -1103,7 +1108,6 @@
                 return alert("Lengkapi nama, email valid, dan password minimal 6 karakter.");
             }
 
-            // Validasi kode referal (opsional: boleh kosong, tetapi jika diisi harus sesuai)
             let isReferralAdmin = false;
             if (referralInput !== "") {
                 if (referralInput === ADMIN_REFERRAL_CODE) {
@@ -1172,6 +1176,15 @@
             const appEl = document.getElementById('app-container');
             authEl.style.opacity = '0';
 
+            // Tampilkan Pop-up Login Berhasil
+            if (roleType === 'GUEST') {
+                triggerGoPayAnim("LOGIN BERHASIL!", "Masuk sebagai Tamu (Mode Pantau).", true);
+            } else if (roleType === 'ADMIN') {
+                triggerGoPayAnim("LOGIN BERHASIL!", `Selamat datang, Master Admin ${currentUserProfile.name}!`);
+            } else {
+                triggerGoPayAnim("LOGIN BERHASIL!", `Selamat datang, ${currentUserProfile.name}!`);
+            }
+
             setTimeout(() => {
                 authEl.style.display = 'none';
                 appEl.style.display = 'flex';
@@ -1197,19 +1210,41 @@
                 renderButtonState();
                 refreshLogsNow(false);
 
+                // Munculkan Pop-up Informasi Mode Offline setelah pop-up Login Berhasil selesai
                 if (!hasShownOfflinePopup) {
                     hasShownOfflinePopup = true;
                     setTimeout(() => {
-                        document.getElementById('offline-info-modal').classList.add('active');
-                    }, 450);
+                        if (!isLoggingOut) {
+                            document.getElementById('offline-info-modal').classList.add('active');
+                        }
+                    }, 1550);
                 }
             }, 280);
         }
 
         function logout() {
+            if (isLoggingOut) return;
+            isLoggingOut = true;
+
             stopCameraStream();
+            document.getElementById('offline-info-modal').classList.remove('active');
+            document.getElementById('selfie-modal').classList.remove('active');
+            document.getElementById('proof-modal').classList.remove('active');
+
             if (auth) auth.signOut().catch(() => {});
-            location.reload();
+
+            CyberAudio.play('logout_bye');
+            const namaKeluar = currentUserProfile.name ? `, ${currentUserProfile.name}` : '';
+            triggerGoPayAnim(
+                "TERIMA KASIH!",
+                `Terima kasih telah menggunakan Smart Feeder IoT${namaKeluar}.`,
+                true,
+                '&#10004;'
+            );
+
+            setTimeout(() => {
+                location.reload();
+            }, 1750);
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
