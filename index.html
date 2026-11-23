@@ -5,29 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Feeder IoT | Cyber LCD Panel - SMAN 14 Surabaya</title>
 
-    <!-- SEO META TAGS UNTUK PENCARIAN GOOGLE -->
     <meta name="description" content="Smart Feeder IoT adalah sistem pemberi pakan ikan otomatis berbasis pneumatik, NodeMCU ESP8266 Wireless, dan Firebase Cloud karya Kelompok Rekayasa Kelas XI-7 SMAN 14 Surabaya.">
     <meta name="keywords" content="Smart Feeder IoT, Smart Feeder SMAN 14 Surabaya, P7 KAIH Rekayasa XI-7, Pakan Ikan Otomatis ESP8266, Cyber LCD Panel, Kelompok Rekayasa SMAN 14">
     <meta name="author" content="Kelompok Rekayasa XI-7 SMAN 14 Surabaya">
     <meta name="robots" content="index, follow">
 
-    <!-- TEMPEL KODE VERIFIKASI GOOGLE SEARCH CONSOLE DI BARIS BAWAH INI -->
-    <!-- <meta name="google-site-verification" content="KODE_VERIFIKASI_DARI_GOOGLE_SEARCH_CONSOLE" /> -->
-
-    <!-- OPEN GRAPH & PREVIEW SOSIAL MEDIA -->
     <meta property="og:title" content="Smart Feeder IoT | Cyber LCD Panel - SMAN 14 Surabaya">
-    <meta property="og:description" content="Panel kontrol wireless dan monitoring sistem pakan ikan otomatis berbasis IoT karya Kelompok Rekayasa XI-7 SMAN 14 Surabaya.">
+    <meta property="og:description" content="Panel kontrol wireless online maupun offline lokal sistem pakan ikan otomatis berbasis IoT karya Kelompok Rekayasa XI-7 SMAN 14 Surabaya.">
     <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
     <meta name="twitter:card" content="summary_large_image">
     
-    <!-- Google Fonts: Share Tech Mono (LCD font) & Orbitron / Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <!-- FontAwesome untuk Ikon Futuristik -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- FAVICON MELINGKAR -->
     <link id="dynamicFavicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23021209' stroke='%2300ff66' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23ffcc00' stroke-width='2' stroke-dasharray='6 3'/%3E%3Cpath d='M18 33c5-7 14-7 20-1l7-5v11l-7-5c-6 6-15 6-20 0z' fill='%2300ff66'/%3E%3C/svg%3E">
     <link id="dynamicAppleIcon" rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
 
@@ -93,11 +85,11 @@
             --border-lcd: rgba(0, 255, 102, 0.25);
             --border-yellow: rgba(255, 204, 0, 0.3);
             --radius: 18px;
-            --font-lcd: 'Share Tech Mono', monospace;
+            --font-lcd: 'Share Tech Mono', monospace, sans-serif;
             --font-head: 'Orbitron', sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', system-ui, -apple-system, sans-serif; }
         
         body {
             background-color: var(--bg-dark);
@@ -113,7 +105,6 @@
             background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
         }
 
-        /* --- 0A. NON-INTERACTIVE LOGO SPLASH SCENE --- */
         #splash-overlay {
             position: fixed;
             inset: 0;
@@ -125,15 +116,6 @@
             pointer-events: all;
             transition: opacity 0.75s ease, visibility 0.75s ease;
         }
-        #splash-overlay::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
-            background-size: 32px 32px;
-        }
         .splash-cyber-frame {
             position: relative;
             width: 240px;
@@ -141,40 +123,13 @@
             border-radius: 28px;
             background: linear-gradient(145deg, rgba(10, 26, 17, 0.9), rgba(3, 10, 6, 0.96));
             border: 2px solid var(--border-lcd);
-            box-shadow:
-                0 0 65px rgba(0, 255, 102, 0.22),
-                inset 0 0 30px rgba(0, 255, 102, 0.12);
+            box-shadow: 0 0 65px rgba(0, 255, 102, 0.22), inset 0 0 30px rgba(0, 255, 102, 0.12);
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             animation: splashZoomIn 0.85s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .splash-cyber-frame::before {
-            content: "";
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 45%;
-            background: linear-gradient(to bottom, transparent, rgba(0, 255, 102, 0.22), transparent);
-            animation: scanSweep 2.4s ease-in-out infinite;
-            z-index: 3;
-            pointer-events: none;
-        }
-        .splash-bracket {
-            position: absolute;
-            width: 22px;
-            height: 22px;
-            border-color: var(--lcd-yellow);
-            border-style: solid;
-            z-index: 4;
-        }
-        .splash-bracket.tl { top: 14px; left: 14px; border-width: 2.5px 0 0 2.5px; border-top-left-radius: 6px; }
-        .splash-bracket.tr { top: 14px; right: 14px; border-width: 2.5px 2.5px 0 0; border-top-right-radius: 6px; }
-        .splash-bracket.bl { bottom: 14px; left: 14px; border-width: 0 0 2.5px 2.5px; border-bottom-left-radius: 6px; }
-        .splash-bracket.br { bottom: 14px; right: 14px; border-width: 0 2.5px 2.5px 0; border-bottom-right-radius: 6px; }
-
         .splash-ring-outer {
             position: relative;
             width: 158px;
@@ -183,19 +138,10 @@
             padding: 5px;
             background: #021209;
             border: 2.5px solid var(--lcd-green);
-            box-shadow: 0 0 35px var(--lcd-green-glow), inset 0 0 18px rgba(0, 255, 102, 0.35);
+            box-shadow: 0 0 35px var(--lcd-green-glow);
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        .splash-ring-outer::after {
-            content: "";
-            position: absolute;
-            inset: -11px;
-            border-radius: 50%;
-            border: 2px dashed var(--lcd-yellow);
-            opacity: 0.85;
-            animation: spinSlow 10s linear infinite;
         }
         .splash-ring-outer img {
             width: 100%;
@@ -205,7 +151,6 @@
             display: block;
         }
 
-        /* --- TOMBOL MUTE / UNMUTE AUDIO GLOBAL --- */
         .audio-float-btn {
             position: fixed;
             bottom: 18px;
@@ -225,17 +170,11 @@
             gap: 8px;
             transition: 0.25s;
         }
-        .audio-float-btn:hover {
-            background: rgba(0, 255, 102, 0.15);
-            transform: translateY(-2px);
-        }
         .audio-float-btn.muted {
             border-color: var(--danger);
             color: var(--danger);
-            box-shadow: 0 0 15px rgba(255, 42, 95, 0.2);
         }
 
-        /* --- LOGO EMBLEM STYLING --- */
         .project-logo-wrap {
             display: flex;
             flex-direction: column;
@@ -251,35 +190,15 @@
             border-radius: 50%;
             background: #021209;
             border: 2px solid var(--lcd-green);
-            box-shadow: 0 0 25px var(--lcd-green-glow), inset 0 0 15px rgba(0, 255, 102, 0.3);
+            box-shadow: 0 0 25px var(--lcd-green-glow);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             padding: 3px;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
         }
-        .project-logo-badge::after {
-            content: "";
-            position: absolute;
-            inset: -6px;
-            border-radius: 50%;
-            border: 1.5px dashed var(--lcd-yellow);
-            opacity: 0.8;
-            animation: spinSlow 14s linear infinite;
-            pointer-events: none;
-        }
-        .project-logo-badge.small {
-            width: 68px;
-            height: 68px;
-        }
-        .project-logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            display: block;
-        }
+        .project-logo-badge.small { width: 68px; height: 68px; }
+        .project-logo-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
         .logo-school-tag {
             margin-top: 12px;
             font-family: var(--font-lcd);
@@ -293,7 +212,6 @@
             text-transform: uppercase;
         }
 
-        /* --- INTERACTIVE INTRO SCENE OVERLAY --- */
         #intro-overlay {
             position: fixed;
             inset: 0;
@@ -305,41 +223,18 @@
             padding: 20px;
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
-        #intro-overlay::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
-            background-size: 26px 26px;
-            pointer-events: none;
-        }
         .intro-container {
             width: 100%;
             max-width: 480px;
             background: rgba(7, 17, 11, 0.92);
             border: 2px solid var(--border-lcd);
-            box-shadow: 0 0 60px rgba(0, 255, 102, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 60px rgba(0, 255, 102, 0.15);
             border-radius: 22px;
             padding: 34px 26px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            animation: slideUp 0.6s ease;
         }
-        .intro-corner {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-color: var(--lcd-yellow);
-            border-style: solid;
-        }
-        .intro-corner.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
-        .intro-corner.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
-        .intro-corner.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
-        .intro-corner.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
-
         .intro-title {
             font-family: var(--font-head);
             font-size: 22px;
@@ -356,7 +251,6 @@
             margin-bottom: 24px;
             letter-spacing: 1px;
         }
-
         .intro-trigger-zone {
             cursor: pointer;
             padding: 18px;
@@ -365,12 +259,6 @@
             background: rgba(255, 204, 0, 0.04);
             transition: 0.3s;
             margin-bottom: 14px;
-        }
-        .intro-trigger-zone:hover {
-            border-color: var(--lcd-green);
-            background: rgba(0, 255, 102, 0.08);
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
         }
         .click-prompt-badge {
             display: inline-flex;
@@ -384,35 +272,8 @@
             padding: 10px 18px;
             border-radius: 30px;
             box-shadow: 0 0 20px var(--lcd-yellow-glow);
-            animation: pulseSoft 1.8s infinite;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
-
-        .music-visualizer {
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 4px;
-            height: 18px;
-            margin-bottom: 12px;
-        }
-        .music-visualizer.playing {
-            display: flex;
-        }
-        .eq-bar {
-            width: 4px;
-            height: 6px;
-            background: var(--lcd-green);
-            border-radius: 2px;
-            box-shadow: 0 0 6px var(--lcd-green);
-            animation: eqBounce 0.6s ease-in-out infinite alternate;
-        }
-        .eq-bar:nth-child(2) { animation-delay: 0.15s; background: var(--lcd-yellow); }
-        .eq-bar:nth-child(3) { animation-delay: 0.3s; }
-        .eq-bar:nth-child(4) { animation-delay: 0.1s; background: var(--lcd-yellow); }
-        .eq-bar:nth-child(5) { animation-delay: 0.25s; }
-
         .boot-console {
             display: none;
             text-align: left;
@@ -425,36 +286,11 @@
             color: var(--lcd-green);
             margin-bottom: 18px;
         }
-        .boot-line {
-            margin-bottom: 6px;
-            opacity: 0;
-            transform: translateX(-6px);
-            transition: 0.25s ease;
-        }
-        .boot-line.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .boot-line span.ok {
-            color: var(--lcd-yellow);
-            font-weight: 700;
-        }
-        .boot-progress-wrap {
-            width: 100%;
-            height: 6px;
-            background: #091c11;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-top: 10px;
-            border: 1px solid rgba(0, 255, 102, 0.2);
-        }
-        .boot-progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--lcd-green), var(--lcd-yellow));
-            box-shadow: 0 0 12px var(--lcd-green);
-            transition: width 0.35s ease;
-        }
+        .boot-line { margin-bottom: 6px; opacity: 0; transition: 0.25s ease; }
+        .boot-line.show { opacity: 1; }
+        .boot-line span.ok { color: var(--lcd-yellow); font-weight: 700; }
+        .boot-progress-wrap { width: 100%; height: 6px; background: #091c11; border-radius: 6px; overflow: hidden; margin-top: 10px; }
+        .boot-progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--lcd-green), var(--lcd-yellow)); transition: width 0.35s ease; }
         .btn-enter-login {
             display: none;
             width: 100%;
@@ -466,57 +302,37 @@
             font-family: var(--font-head);
             font-size: 12px;
             font-weight: 900;
-            letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 0 25px var(--lcd-green-glow);
-            transition: 0.3s;
-        }
-        .btn-enter-login:hover {
-            background: #4dff94;
-            transform: translateY(-2px);
-            box-shadow: 0 0 35px var(--lcd-green);
         }
 
-        /* --- ANIMASI GOPAY OVERLAY (POP-UP SUCCESS) --- */
         #gopay-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 8, 6, 0.85);
             backdrop-filter: blur(12px);
             display: flex; justify-content: center; align-items: center;
             z-index: 10006; opacity: 0; visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
         }
         #gopay-modal.active { opacity: 1; visibility: visible; }
-        
         .gopay-box {
             background: linear-gradient(145deg, #0d1a12, #07100b);
             border: 2px solid var(--lcd-green);
             box-shadow: 0 0 50px var(--lcd-green-glow);
             border-radius: 24px; padding: 40px 30px; text-align: center;
             width: 85%; max-width: 360px;
-            transform: scale(0.7); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        #gopay-modal.active .gopay-box { transform: scale(1); }
-        
         .gopay-circle {
             width: 90px; height: 90px; margin: 0 auto 20px;
             border-radius: 50%; background: var(--lcd-green);
             display: flex; justify-content: center; align-items: center;
-            position: relative; box-shadow: 0 0 30px var(--lcd-green);
-            animation: pulseRing 1.5s infinite;
+            box-shadow: 0 0 30px var(--lcd-green);
         }
-        .gopay-circle.yellow-mode {
-            background: var(--lcd-yellow);
-            box-shadow: 0 0 30px var(--lcd-yellow);
-            animation: pulseRingYellow 1.5s infinite;
-        }
+        .gopay-circle.yellow-mode { background: var(--lcd-yellow); box-shadow: 0 0 30px var(--lcd-yellow); }
         .gopay-circle i { font-size: 45px; color: #050806; }
-
-        .gopay-title { font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
+        .gopay-title { font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 8px; text-transform: uppercase; }
         .gopay-desc { font-size: 13px; color: var(--text-muted); font-family: var(--font-lcd); }
 
-        /* --- MODAL VERIFIKASI SELFIE KAMERA --- */
         #selfie-modal, #proof-modal {
             position: fixed;
             inset: 0;
@@ -531,35 +347,18 @@
             visibility: hidden;
             transition: 0.3s ease;
         }
-        #selfie-modal.active, #proof-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        #selfie-modal.active, #proof-modal.active { opacity: 1; visibility: visible; }
         .selfie-box {
             width: 100%;
             max-width: 440px;
             background: linear-gradient(155deg, #0b1810, #050c08);
             border: 2px solid var(--lcd-green);
-            box-shadow: 0 0 45px rgba(0, 255, 102, 0.25);
             border-radius: 20px;
             padding: 22px;
             text-align: center;
-            position: relative;
         }
-        .selfie-header {
-            font-family: var(--font-head);
-            font-size: 15px;
-            color: var(--lcd-green);
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        .selfie-sub {
-            font-family: var(--font-lcd);
-            font-size: 11px;
-            color: var(--lcd-yellow);
-            margin-bottom: 14px;
-        }
+        .selfie-header { font-family: var(--font-head); font-size: 15px; color: var(--lcd-green); margin-bottom: 4px; text-transform: uppercase; }
+        .selfie-sub { font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); margin-bottom: 14px; }
         .camera-viewport {
             position: relative;
             width: 100%;
@@ -573,110 +372,32 @@
             justify-content: center;
             align-items: center;
         }
-        .camera-viewport video, .camera-viewport img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .camera-viewport video {
-            transform: scaleX(-1);
-        }
-        .hud-reticle {
-            position: absolute;
-            inset: 14px;
-            border: 1px dashed rgba(0, 255, 102, 0.45);
-            border-radius: 12px;
-            pointer-events: none;
-        }
-        .hud-face-oval {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -52%);
-            width: 46%;
-            height: 68%;
-            border: 2px solid var(--lcd-yellow);
-            border-radius: 50%;
-            box-shadow: 0 0 18px rgba(255, 204, 0, 0.35);
-            pointer-events: none;
-        }
-        .hud-rec-tag {
-            position: absolute;
-            top: 10px;
-            left: 12px;
-            background: rgba(2, 12, 6, 0.8);
-            border: 1px solid var(--danger);
-            color: var(--danger);
-            font-family: var(--font-lcd);
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            pointer-events: none;
-        }
-        .hud-rec-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--danger);
-            animation: pulseGreen 1s infinite;
-        }
-        .camera-error-box {
-            display: none;
-            padding: 16px;
-            font-family: var(--font-lcd);
-            font-size: 12px;
-            color: var(--danger);
-            line-height: 1.5;
-        }
-        .selfie-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        .camera-viewport video, .camera-viewport img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .camera-viewport video { transform: scaleX(-1); }
+        .camera-error-box { display: none; padding: 16px; font-family: var(--font-lcd); font-size: 12px; color: var(--danger); }
+        .selfie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-        /* --- LOGIN OVERLAY --- */
         #auth-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 5, 4, 0.96); backdrop-filter: blur(20px);
+            background: rgba(3, 5, 4, 0.96);
             display: flex; justify-content: center; align-items: center; z-index: 9999;
             transition: 0.5s ease;
             padding: 14px;
         }
-        
         .lcd-bezel-frame {
             background: #121814;
             border: 4px solid #2a382e;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.8);
             border-radius: 20px; padding: 20px; width: 96%; max-width: 430px;
             position: relative;
         }
-        .lcd-bezel-frame::before {
-            content: "WIRELESS IOT MATRIX Module 16x2";
-            position: absolute; top: -14px; left: 25px; background: #121814;
-            padding: 0 10px; color: var(--lcd-yellow); font-family: var(--font-lcd);
-            font-size: 11px; border: 1px solid #2a382e; border-radius: 4px;
-        }
-        
         .lcd-screen {
             background: #021a0e;
             border: 3px solid var(--lcd-green);
-            box-shadow: inset 0 0 25px rgba(0, 255, 102, 0.25), 0 0 15px var(--lcd-green-glow);
-            border-radius: 10px; padding: 18px 18px; text-align: center;
+            border-radius: 10px; padding: 18px; text-align: center;
             position: relative; overflow-y: auto; max-height: 90vh;
         }
-        .lcd-screen::after {
-            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px; pointer-events: none; opacity: 0.55;
-        }
-
-        .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 19px; font-weight: 700; text-shadow: 0 0 10px var(--lcd-green); margin-bottom: 2px; }
-        .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; display: block;}
-
+        .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 19px; font-weight: 700; margin-bottom: 2px; }
+        .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; display: block; }
         .auth-tabs {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -686,8 +407,6 @@
             border-radius: 8px;
             border: 1px solid var(--border-lcd);
             margin-bottom: 14px;
-            position: relative;
-            z-index: 2;
         }
         .auth-tab-btn {
             padding: 8px 6px;
@@ -699,36 +418,17 @@
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.25s;
             text-transform: uppercase;
         }
-        .auth-tab-btn.active {
-            background: rgba(0, 255, 102, 0.18);
-            color: var(--lcd-green);
-            box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.25);
-        }
-
-        .input-group { margin-bottom: 12px; text-align: left; position: relative; z-index: 2; }
-        .input-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 4px; text-transform: uppercase;}
+        .auth-tab-btn.active { background: rgba(0, 255, 102, 0.18); color: var(--lcd-green); }
+        .input-group { margin-bottom: 12px; text-align: left; }
+        .input-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 4px; text-transform: uppercase; }
         .input-group input {
             width: 100%; padding: 10px 12px; border-radius: 6px;
             background: #010d07; border: 1px solid var(--lcd-green);
             color: var(--lcd-yellow); font-family: var(--font-lcd); font-size: 14px; outline: none;
-            box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); transition: 0.3s;
         }
-        .input-group input:focus { box-shadow: 0 0 12px var(--lcd-green-glow), inset 0 0 10px rgba(0, 255, 102, 0.4); }
-
-        .forgot-link {
-            display: inline-block;
-            font-family: var(--font-lcd);
-            font-size: 11px;
-            color: var(--lcd-yellow);
-            text-decoration: underline;
-            cursor: pointer;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 2;
-        }
+        .forgot-link { display: inline-block; font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); text-decoration: underline; cursor: pointer; margin-bottom: 8px; }
         .selfie-policy-note {
             font-family: var(--font-lcd);
             font-size: 11px;
@@ -739,177 +439,111 @@
             padding: 7px 9px;
             margin-bottom: 10px;
             text-align: left;
-            position: relative;
-            z-index: 2;
         }
-
         .btn-auth {
             width: 100%; padding: 11px; margin-top: 4px; border: none;
             border-radius: 6px; font-family: var(--font-head); font-size: 11px; font-weight: 700;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-            position: relative; z-index: 2;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
         }
-        .btn-login { background: var(--lcd-green); color: #021a0e; box-shadow: 0 0 15px var(--lcd-green-glow); }
-        .btn-login:hover { background: #33ff85; box-shadow: 0 0 25px var(--lcd-green); transform: translateY(-2px); }
-        .btn-login:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-login { background: var(--lcd-green); color: #021a0e; }
         .btn-guest { background: transparent; color: var(--lcd-yellow); border: 1px solid var(--lcd-yellow); margin-top: 9px; }
-        .btn-guest:hover { background: rgba(255, 204, 0, 0.15); box-shadow: 0 0 15px var(--lcd-yellow-glow); }
 
-        /* --- LAYOUT UTAMA DASHBOARD --- */
-        #app-container { display: none; width: 100%; height: 100vh; animation: fadeIn 0.8s ease; }
-        
+        #app-container { display: none; width: 100%; height: 100vh; }
         .sidebar {
             width: 270px; background: var(--panel-bg); border-right: 1px solid var(--border-lcd);
             padding: 30px 20px; display: flex; flex-direction: column; flex-shrink: 0;
-            backdrop-filter: blur(10px);
         }
-        .brand { 
-            font-family: var(--font-head); font-size: 18px; font-weight: 900; 
-            color: var(--lcd-green); text-align: center; margin-bottom: 35px; 
-            text-shadow: 0 0 10px var(--lcd-green-glow); letter-spacing: 1px;
-        }
+        .brand { font-family: var(--font-head); font-size: 18px; font-weight: 900; color: var(--lcd-green); text-align: center; margin-bottom: 35px; }
         .brand i { color: var(--lcd-yellow); margin-right: 8px; }
-        
         .nav-container { display: flex; flex-direction: column; flex: 1; }
         .nav-item {
             padding: 14px 18px; margin-bottom: 12px; border-radius: 10px;
-            color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer;
             display: flex; align-items: center; gap: 12px; border: 1px solid transparent;
         }
-        .nav-item i { width: 20px; text-align: center; font-size: 16px; }
-        .nav-item.active, .nav-item:hover {
-            background: rgba(0, 255, 102, 0.08); color: var(--lcd-green);
-            border-color: var(--border-lcd); box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
-        }
-        .nav-item.active i { color: var(--lcd-yellow); }
-
+        .nav-item.active, .nav-item:hover { background: rgba(0, 255, 102, 0.08); color: var(--lcd-green); border-color: var(--border-lcd); }
         .main-content { flex: 1; padding: 30px 40px; overflow-y: auto; }
-        
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; flex-wrap: wrap; gap: 15px; }
-        .header h1 { font-family: var(--font-head); font-size: 23px; color: #fff; letter-spacing: 1px; }
+        .header h1 { font-family: var(--font-head); font-size: 23px; color: #fff; }
         .header p { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 13px; }
-        
         .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .clock-badge {
+        .clock-badge, .status-badge {
             padding: 8px 16px; border-radius: 30px; font-family: var(--font-lcd); font-size: 13px;
-            background: #08120b; border: 1px solid var(--border-yellow); color: var(--lcd-yellow);
+            background: #08120b; border: 1px solid var(--border-lcd);
             display: flex; align-items: center; gap: 8px;
         }
-        .status-badge {
-            padding: 8px 18px; border-radius: 30px; font-family: var(--font-lcd); font-size: 13px;
-            display: flex; align-items: center; gap: 10px; background: #08120b; border: 1px solid var(--border-lcd);
-        }
+        .clock-badge { border-color: var(--border-yellow); color: var(--lcd-yellow); }
         .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.online { background: var(--lcd-green); box-shadow: 0 0 12px var(--lcd-green); animation: pulseGreen 2s infinite; }
+        .dot.online { background: var(--lcd-green); box-shadow: 0 0 12px var(--lcd-green); }
         .dot.offline { background: var(--danger); box-shadow: 0 0 12px var(--danger); }
 
-        .view-section { display: none; animation: slideUp 0.4s ease; }
+        .view-section { display: none; }
         .view-section.active { display: block; }
-
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 25px; }
         .card-wide { grid-column: 1 / -1; }
-        
         .card {
-            background: var(--panel-bg); backdrop-filter: blur(15px);
-            border: 1px solid var(--border-lcd); border-radius: var(--radius);
+            background: var(--panel-bg); border: 1px solid var(--border-lcd); border-radius: var(--radius);
             padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;
-            transition: transform 0.3s, border-color 0.3s;
         }
-        .card:hover { transform: translateY(-4px); border-color: var(--lcd-green); }
         .card-title {
             font-family: var(--font-head); font-size: 13px; color: var(--lcd-yellow);
-            text-transform: uppercase; margin-bottom: 22px; letter-spacing: 1px;
+            text-transform: uppercase; margin-bottom: 18px; letter-spacing: 1px;
             display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
         }
         .card-title-left { display: flex; align-items: center; gap: 10px; }
 
-        .selfie-req-pill {
+        /* QUICK MODE SWITCHER DI DASHBOARD */
+        .quick-mode-switch {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            background: #030a06;
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border-lcd);
+            margin-bottom: 12px;
+        }
+        .qmode-btn {
+            padding: 8px 6px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: var(--text-muted);
             font-family: var(--font-lcd);
-            font-size: 10px;
-            padding: 3px 9px;
-            border-radius: 20px;
-            background: rgba(255, 204, 0, 0.12);
-            border: 1px solid var(--lcd-yellow);
-            color: var(--lcd-yellow);
-            display: none;
-            align-items: center;
-            gap: 5px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
         }
-
-        /* --- STYLING KATA PENGANTAR --- */
-        .foreword-hero {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-lcd);
-            flex-wrap: wrap;
-        }
-        .foreword-logo {
-            width: 78px;
-            height: 78px;
-            border-radius: 50%;
-            border: 2px solid var(--lcd-green);
-            box-shadow: 0 0 20px var(--lcd-green-glow);
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        .foreword-body p {
-            font-size: 14px;
-            line-height: 1.8;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        .foreword-highlight {
-            background: rgba(0, 255, 102, 0.06);
-            border-left: 3px solid var(--lcd-yellow);
-            padding: 14px 18px;
-            border-radius: 0 10px 10px 0;
-            font-family: var(--font-lcd);
-            font-size: 13px;
+        .qmode-btn.active {
+            background: rgba(0, 255, 102, 0.16);
             color: var(--lcd-green);
-            margin: 18px 0;
+            border: 1px solid var(--border-lcd);
+            font-weight: 700;
         }
-        .foreword-sign {
-            margin-top: 22px;
-            padding-top: 16px;
-            border-top: 1px dashed var(--border-lcd);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            font-family: var(--font-lcd);
-            font-size: 12px;
+        .qmode-btn.active-yellow {
+            background: rgba(255, 204, 0, 0.16);
             color: var(--lcd-yellow);
+            border: 1px solid var(--border-yellow);
+            font-weight: 700;
         }
 
-        .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 22px 0; }
+        .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 18px 0; }
         .main-btn {
             width: 150px; height: 150px; border-radius: 50%; border: none; cursor: pointer;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; outline: none;
+            transition: all 0.3s ease; outline: none;
         }
         .main-btn i { font-size: 38px; }
         .main-btn span { font-family: var(--font-head); font-size: 11px; margin-top: 8px; letter-spacing: 1px; }
-        
-        .btn-off {
-            background: #0c140e; color: var(--text-muted); border: 3px solid #1a2b1f;
-            box-shadow: inset 0 0 20px #000, 0 5px 15px rgba(0,0,0,0.6);
-        }
-        .btn-on {
-            background: var(--lcd-green); color: #021a0e; border: 3px solid var(--lcd-yellow);
-            box-shadow: 0 0 50px var(--lcd-green-glow), inset 0 0 20px rgba(255,255,255,0.6);
-            transform: scale(1.06);
-        }
+        .btn-off { background: #0c140e; color: var(--text-muted); border: 3px solid #1a2b1f; }
+        .btn-on { background: var(--lcd-green); color: #021a0e; border: 3px solid var(--lcd-yellow); box-shadow: 0 0 40px var(--lcd-green-glow); }
         .btn-locked { background: #0a0e0b; color: #334438; border: 3px dashed #1a2b1f; cursor: not-allowed; }
 
-        .info-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 13px; border-bottom: 1px solid rgba(0, 255, 102, 0.08); padding-bottom: 8px;}
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 13px; border-bottom: 1px solid rgba(0, 255, 102, 0.08); padding-bottom: 8px; }
         .info-label { color: var(--text-muted); font-family: var(--font-lcd); }
         .info-val { font-family: var(--font-lcd); font-weight: 700; color: var(--lcd-green); text-align: right; }
-        
+
         .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 8px; text-transform: uppercase; }
@@ -917,98 +551,58 @@
             width: 100%; padding: 12px; background: #040a06; color: var(--lcd-yellow);
             border: 1px solid var(--border-lcd); border-radius: 8px; font-family: var(--font-lcd); font-size: 15px; outline: none;
         }
-        input[type="time"]:focus, input[type="text"].cyber-input:focus, select.cyber-input:focus { border-color: var(--lcd-yellow); box-shadow: 0 0 10px var(--lcd-yellow-glow); }
-
         .days-selector { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-        .day-chip { cursor: pointer; user-select: none; }
         .day-chip input { display: none; }
         .day-chip span {
             display: inline-block; padding: 6px 12px; border-radius: 6px;
             font-family: var(--font-lcd); font-size: 12px;
-            background: #040a06; border: 1px solid var(--border-lcd); color: var(--text-muted);
-            transition: 0.2s;
+            background: #040a06; border: 1px solid var(--border-lcd); color: var(--text-muted); cursor: pointer;
         }
-        .day-chip input:checked + span {
-            background: rgba(0, 255, 102, 0.18); border-color: var(--lcd-green);
-            color: var(--lcd-green); box-shadow: 0 0 10px rgba(0, 255, 102, 0.25); font-weight: 700;
-        }
+        .day-chip input:checked + span { background: rgba(0, 255, 102, 0.18); border-color: var(--lcd-green); color: var(--lcd-green); font-weight: 700; }
 
         .btn-action {
             width: 100%; padding: 12px; border: none; border-radius: 8px; font-family: var(--font-head);
-            font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
+            font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
         }
-        .btn-save { background: var(--lcd-yellow); color: #050806; box-shadow: 0 0 15px var(--lcd-yellow-glow); }
-        .btn-save:hover { background: #ffe066; box-shadow: 0 0 25px var(--lcd-yellow); transform: translateY(-2px); }
-        .btn-green-solid { background: var(--lcd-green); color: #021a0e; box-shadow: 0 0 15px var(--lcd-green-glow); }
-        .btn-green-solid:hover { background: #33ff85; box-shadow: 0 0 25px var(--lcd-green); transform: translateY(-2px); }
+        .btn-save { background: var(--lcd-yellow); color: #050806; }
+        .btn-green-solid { background: var(--lcd-green); color: #021a0e; }
         .btn-del { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-        .btn-del:hover { background: var(--danger); color: #fff; box-shadow: 0 0 15px var(--danger-glow); }
 
         .stacked-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
         .sched-item {
             background: #040c07; border: 1px solid var(--border-lcd); border-radius: 10px;
-            padding: 12px 15px; display: flex; justify-content: space-between; align-items: center;
-            gap: 12px; flex-wrap: wrap; transition: 0.25s;
+            padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
         }
-        .sched-item.paused { opacity: 0.5; border-color: rgba(124, 168, 137, 0.2); }
+        .sched-item.paused { opacity: 0.5; }
         .sched-item-left { display: flex; align-items: center; gap: 14px; }
-        .sched-clock {
-            font-family: var(--font-lcd); font-size: 22px; font-weight: 700;
-            color: var(--lcd-yellow); text-shadow: 0 0 8px var(--lcd-yellow-glow);
-        }
-        .sched-details { font-family: var(--font-lcd); }
+        .sched-clock { font-family: var(--font-lcd); font-size: 22px; font-weight: 700; color: var(--lcd-yellow); }
         .sched-label-text { font-size: 13px; color: var(--text-main); font-weight: 600; }
         .sched-days-text { font-size: 11px; color: var(--lcd-green); margin-top: 2px; }
-        .sched-badge-done {
-            display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px;
-            background: rgba(0, 255, 102, 0.15); color: var(--lcd-green); border: 1px solid var(--border-lcd);
-            margin-left: 6px;
-        }
         .sched-controls { display: flex; align-items: center; gap: 8px; }
-        .btn-mini {
-            padding: 6px 10px; border-radius: 6px; font-family: var(--font-lcd); font-size: 11px;
-            cursor: pointer; border: 1px solid var(--border-lcd); background: transparent; color: var(--lcd-green);
-            transition: 0.2s;
-        }
-        .btn-mini:hover { background: rgba(0, 255, 102, 0.15); }
-        .btn-mini.off-mode { border-color: var(--lcd-yellow); color: var(--lcd-yellow); }
+        .btn-mini { padding: 6px 10px; border-radius: 6px; font-family: var(--font-lcd); font-size: 11px; cursor: pointer; border: 1px solid var(--border-lcd); background: transparent; color: var(--lcd-green); }
         .btn-mini.del-mode { border-color: var(--danger); color: var(--danger); }
-        .btn-mini.del-mode:hover { background: var(--danger); color: #fff; }
 
-        /* LOG TABLE */
         .table-responsive { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-family: var(--font-lcd); font-size: 13px; }
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(0, 255, 102, 0.08); }
-        th { color: var(--lcd-yellow); font-family: var(--font-head); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-        tr:hover { background: rgba(0, 255, 102, 0.03); }
+        th { color: var(--lcd-yellow); font-family: var(--font-head); font-size: 11px; text-transform: uppercase; }
         .log-nyala { color: var(--lcd-green); font-weight: 700; }
         .log-mati { color: var(--danger); font-weight: 700; }
 
         .lock-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 6, 0.85); backdrop-filter: blur(4px); border-radius: var(--radius);
+            background: rgba(5, 8, 6, 0.85); border-radius: var(--radius);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             color: var(--lcd-yellow); font-family: var(--font-lcd); z-index: 10; text-align: center; padding: 15px;
         }
 
-        /* ANIMATION KEYFRAMES */
-        @keyframes splashZoomIn {
-            0% { opacity: 0; transform: scale(0.75); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes scanSweep {
-            0% { top: -45%; }
-            100% { top: 115%; }
-        }
-        @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(0, 255, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); } }
-        @keyframes pulseRingYellow { 0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 204, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); } }
-        @keyframes pulseSoft { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes eqBounce { 0% { height: 4px; } 100% { height: 18px; } }
-        @keyframes pulseGreen { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .foreword-hero { display: flex; align-items: center; gap: 20px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border-lcd); flex-wrap: wrap; }
+        .foreword-logo { width: 78px; height: 78px; border-radius: 50%; border: 2px solid var(--lcd-green); object-fit: cover; }
+        .foreword-body p { font-size: 14px; line-height: 1.8; color: var(--text-main); margin-bottom: 15px; text-align: justify; }
+        .foreword-highlight { background: rgba(0, 255, 102, 0.06); border-left: 3px solid var(--lcd-yellow); padding: 14px 18px; font-family: var(--font-lcd); font-size: 13px; color: var(--lcd-green); margin: 18px 0; }
+        .foreword-sign { margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--border-lcd); display: flex; justify-content: space-between; font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-yellow); }
 
+        @keyframes splashZoomIn { 0% { opacity: 0; transform: scale(0.75); } 100% { opacity: 1; transform: scale(1); } }
         @media (max-width: 768px) {
             #app-container { flex-direction: column; }
             .sidebar { width: 100%; padding: 15px; border-right: none; border-bottom: 1px solid var(--border-lcd); }
@@ -1017,179 +611,117 @@
             .nav-item { margin-bottom: 0; flex: 1; justify-content: center; white-space: nowrap; padding: 10px; }
             .nav-item span { display: none; }
             .main-content { padding: 20px; }
-            .header { flex-direction: column; align-items: flex-start; gap: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 0A. NON-INTERACTIVE LOGO SPLASH SCENE -->
     <div id="splash-overlay">
         <div class="splash-cyber-frame">
-            <div class="splash-bracket tl"></div>
-            <div class="splash-bracket tr"></div>
-            <div class="splash-bracket bl"></div>
-            <div class="splash-bracket br"></div>
             <div class="splash-ring-outer">
-                <img
-                    src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
-                    alt="Logo Smart Feeder"
-                />
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" alt="Logo Smart Feeder" />
             </div>
         </div>
     </div>
 
-    <!-- TOMBOL KONTROL AUDIO GLOBAL -->
-    <button class="audio-float-btn" id="audioToggleBtn" onclick="CyberAudio.toggleMute()" title="Aktifkan / Matikan Suara">
+    <button class="audio-float-btn" id="audioToggleBtn" onclick="CyberAudio.toggleMute()">
         <i class="fa-solid fa-volume-high" id="audioToggleIcon"></i>
         <span id="audioToggleText">SFX &amp; MUSIC: ON</span>
     </button>
 
-    <!-- 0B. INTERACTIVE INTRO SCENE -->
     <div id="intro-overlay">
         <div class="intro-container">
-            <div class="intro-corner tl"></div>
-            <div class="intro-corner tr"></div>
-            <div class="intro-corner bl"></div>
-            <div class="intro-corner br"></div>
-
             <div class="project-logo-wrap">
-                <div class="project-logo-badge" id="introLogoBadge">
-                    <img
-                        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
-                        alt="Logo Smart Feeder Rekayasa XI-7"
-                        class="project-logo-img"
-                    />
+                <div class="project-logo-badge">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" alt="Logo" class="project-logo-img" />
                 </div>
                 <span class="logo-school-tag">SMAN 14 SURABAYA • KELOMPOK REKAYASA</span>
             </div>
 
             <div class="intro-title">SMART FEEDER IoT</div>
-            <div class="intro-subtitle">FULL WIRELESS &amp; 3-SEC PNEUMATIC SYSTEM</div>
-
-            <div class="music-visualizer" id="musicVisualizer">
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-            </div>
+            <div class="intro-subtitle">ONLINE CLOUD &amp; OFFLINE LOCAL WIRELESS</div>
 
             <div class="intro-trigger-zone" id="introTriggerZone" onclick="startBootSequence()">
                 <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-green); margin-bottom: 12px;">
-                    [ STATUS: STANDBY — MENUNGGU INISIALISASI OPERATOR ]
+                    [ STATUS: STANDBY — MODE DUAL WIRELESS ]
                 </p>
                 <div class="click-prompt-badge">
                     <i class="fa-solid fa-wifi"></i>
-                    <span>Klik untuk Aktifkan Kontrol Wireless</span>
+                    <span>Klik untuk Masuk Terminal</span>
                 </div>
             </div>
 
             <div class="boot-console" id="bootConsole">
-                <div class="boot-line" id="bootLine1">&gt; Inisialisasi Wi-Fi NodeMCU ESP8266... <span class="ok">[OK]</span></div>
-                <div class="boot-line" id="bootLine2">&gt; Kalibrasi Timer Lontar Pakan 3 Detik... <span class="ok">[OK]</span></div>
-                <div class="boot-line" id="bootLine3">&gt; Sinkronisasi Wireless Cloud &amp; Lokal... <span class="ok">[OK]</span></div>
-                <div class="boot-line" id="bootLine4">&gt; Sistem Wireless Siap! Masuk ke Terminal Login.</div>
-                <div class="boot-progress-wrap">
-                    <div class="boot-progress-bar" id="bootProgressBar"></div>
-                </div>
+                <div class="boot-line" id="bootLine1">&gt; Cek Jalur Wireless Online &amp; Lokal... <span class="ok">[OK]</span></div>
+                <div class="boot-line" id="bootLine2">&gt; Siapkan Timer Lontar Pakan 3 Detik... <span class="ok">[OK]</span></div>
+                <div class="boot-line" id="bootLine3">&gt; Muat Cache Terminal Offline-Safe... <span class="ok">[OK]</span></div>
+                <div class="boot-line" id="bootLine4">&gt; Sistem Siap!</div>
+                <div class="boot-progress-wrap"><div class="boot-progress-bar" id="bootProgressBar"></div></div>
             </div>
 
             <button class="btn-enter-login" id="btnEnterLogin" onclick="proceedToLogin()">
-                <i class="fa-solid fa-right-to-bracket"></i> Masuk ke Terminal Login &gt;&gt;
+                Masuk ke Terminal Login &gt;&gt;
             </button>
         </div>
     </div>
 
-    <!-- GOPAY STYLE ANIMATION POP-UP MODAL -->
     <div id="gopay-modal">
         <div class="gopay-box">
-            <div class="gopay-circle" id="gopayCircle">
-                <i class="fa-solid fa-check" id="gopayIcon"></i>
-            </div>
+            <div class="gopay-circle" id="gopayCircle"><i class="fa-solid fa-check" id="gopayIcon"></i></div>
             <div class="gopay-title" id="gopayTitle">BERHASIL!</div>
             <div class="gopay-desc" id="gopayDesc">Perintah Wireless Dikirim ke Alat</div>
         </div>
     </div>
 
-    <!-- MODAL VERIFIKASI KAMERA SELFIE -->
     <div id="selfie-modal">
         <div class="selfie-box">
-            <div class="selfie-header"><i class="fa-solid fa-camera-retro"></i> Verifikasi Selfie Operator</div>
-            <div class="selfie-sub" id="selfieOperatorTag">[ POSISIKAN WAJAH DI DALAM LINGKARAN ]</div>
-
+            <div class="selfie-header">Verifikasi Selfie Operator</div>
+            <div class="selfie-sub" id="selfieOperatorTag">[ POSISIKAN WAJAH DI KAMERA ]</div>
             <div class="camera-viewport">
                 <video id="selfieVideo" autoplay playsinline muted></video>
-                <div class="hud-reticle" id="hudReticle"></div>
-                <div class="hud-face-oval" id="hudFaceOval"></div>
-                <div class="hud-rec-tag" id="hudRecTag"><div class="hud-rec-dot"></div> LIVE CAM</div>
-                <div class="camera-error-box" id="cameraErrorBox">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 26px; margin-bottom: 8px; display: block;"></i>
-                    <span id="cameraErrorMsg">Kamera tidak dapat diakses. Izinkan akses kamera pada browser untuk menyalakan pompa pakan.</span>
-                </div>
+                <div class="camera-error-box" id="cameraErrorBox"><span id="cameraErrorMsg">Kamera tidak dapat diakses.</span></div>
             </div>
-
             <canvas id="selfieCanvas" width="320" height="240" style="display: none;"></canvas>
-
             <div class="selfie-actions">
-                <button class="btn-action btn-green-solid" id="btnCaptureSelfie" style="flex: 2; margin-bottom: 0;" onclick="captureSelfieAndFeed()">
-                    <i class="fa-solid fa-camera"></i> Jepret Selfie &amp; Lontar 3 Detik
-                </button>
-                <button class="btn-action btn-del" style="flex: 1; margin-bottom: 0;" onclick="closeSelfieModal()">
-                    <i class="fa-solid fa-xmark"></i> Batal
-                </button>
+                <button class="btn-action btn-green-solid" id="btnCaptureSelfie" style="flex: 2; margin-bottom: 0;" onclick="captureSelfieAndFeed()">Jepret Selfie &amp; Lontar 3 Detik</button>
+                <button class="btn-action btn-del" style="flex: 1; margin-bottom: 0;" onclick="closeSelfieModal()">Batal</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL LIHAT BUKTI SELFIE DI LOG -->
     <div id="proof-modal" onclick="if(event.target === this) closeProofModal()">
         <div class="selfie-box">
-            <div class="selfie-header"><i class="fa-solid fa-id-badge"></i> Bukti Selfie Operator</div>
+            <div class="selfie-header">Bukti Selfie Operator</div>
             <div class="selfie-sub" id="proofMetaText">-</div>
-            <div class="camera-viewport" style="margin-bottom: 14px;">
-                <img id="proofImageEl" src="" alt="Bukti Selfie Operator" />
-            </div>
-            <button class="btn-action btn-save" style="margin-bottom: 0;" onclick="closeProofModal()">
-                <i class="fa-solid fa-check"></i> Tutup Pratinjau
-            </button>
+            <div class="camera-viewport" style="margin-bottom: 14px;"><img id="proofImageEl" src="" alt="Bukti Selfie" /></div>
+            <button class="btn-action btn-save" style="margin-bottom: 0;" onclick="closeProofModal()">Tutup Pratinjau</button>
         </div>
     </div>
 
-    <!-- LAYAR LOGIN & PENDAFTARAN EMAIL -->
     <div id="auth-overlay">
         <div class="lcd-bezel-frame">
             <div class="lcd-screen">
                 <div class="project-logo-wrap" style="margin-bottom: 10px;">
                     <div class="project-logo-badge small">
-                        <img
-                            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
-                            alt="Logo Smart Feeder Rekayasa XI-7"
-                            class="project-logo-img"
-                        />
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" alt="Logo" class="project-logo-img" />
                     </div>
                 </div>
 
-                <div class="lcd-header"><i class="fa-solid fa-wifi"></i> SMART FEEDER WIRELESS</div>
-                <span class="lcd-sub">[ Proyek Rekayasa SMAN 14 • 3 Detik ]</span>
+                <div class="lcd-header">SMART FEEDER WIRELESS</div>
+                <span class="lcd-sub">[ Online &amp; Offline Lokal 3 Detik ]</span>
 
                 <div class="auth-tabs">
-                    <button type="button" class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">
-                        <i class="fa-solid fa-right-to-bracket"></i> Masuk
-                    </button>
-                    <button type="button" class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">
-                        <i class="fa-solid fa-user-plus"></i> Daftar Email
-                    </button>
+                    <button type="button" class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">Masuk</button>
+                    <button type="button" class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">Daftar Email</button>
                 </div>
 
-                <!-- FORM 1: LOGIN -->
                 <div id="formLoginBox">
                     <div class="input-group">
-                        <label>&gt; EMAIL / ID ADMIN_</label>
-                        <input type="text" id="username" placeholder="Email terdaftar atau ID Admin" autocomplete="off">
+                        <label>&gt; EMAIL / ID ADMIN (Offline: XI-7)_</label>
+                        <input type="text" id="username" placeholder="Ketik XI-7 (Offline) atau Email" autocomplete="off">
                     </div>
                     <div class="input-group" style="margin-bottom: 8px;">
-                        <label>&gt; PASSWORD_</label>
+                        <label>&gt; PASSWORD (Offline: REKAYASA)_</label>
                         <input type="password" id="password" placeholder="Kunci Sandi">
                     </div>
                     <div style="text-align: right;">
@@ -1198,7 +730,6 @@
                     <button class="btn-auth btn-login" id="btnLoginSubmit" onclick="doLogin()">Masuk Sistem</button>
                 </div>
 
-                <!-- FORM 2: PENDAFTARAN USER BARU LEWAT EMAIL -->
                 <div id="formRegisterBox" style="display: none;">
                     <div class="input-group">
                         <label>&gt; NAMA LENGKAP_</label>
@@ -1213,7 +744,7 @@
                         <input type="password" id="regPassword" placeholder="Minimal 6 karakter">
                     </div>
                     <div class="selfie-policy-note">
-                        <i class="fa-solid fa-camera"></i> Akun email dapat menyalakan pompa pakan (3 detik) dengan <strong>verifikasi selfie kamera</strong>.
+                        Pendaftaran email membutuhkan internet 1x. Setelah terdaftar, akun tersimpan di cache HP untuk mode offline.
                     </div>
                     <button class="btn-auth btn-login" id="btnRegisterSubmit" onclick="doRegister()">Daftar &amp; Masuk</button>
                 </div>
@@ -1223,54 +754,34 @@
         </div>
     </div>
 
-    <!-- DASHBOARD UTAMA -->
     <div id="app-container">
-        
         <aside class="sidebar">
             <div class="brand"><i class="fa-solid fa-wifi"></i> WIRELESS CORE</div>
             <div class="nav-container">
-                <div class="nav-item active" data-target="view-dashboard" title="Dashboard">
-                    <i class="fa-solid fa-gauge-high"></i> <span>Dashboard</span>
-                </div>
-                <div class="nav-item" data-target="view-foreword" title="Kata Pengantar">
-                    <i class="fa-solid fa-book-open"></i> <span>Kata Pengantar</span>
-                </div>
-                <div class="nav-item" data-target="view-log" title="Log Riwayat">
-                    <i class="fa-solid fa-list-check"></i> <span>Log Riwayat</span>
-                </div>
-                <div class="nav-item" data-target="view-settings" title="Sistem">
-                    <i class="fa-solid fa-sliders"></i> <span>Sistem &amp; Wireless</span>
-                </div>
-                <div class="nav-item" onclick="logout()" style="margin-top: auto; color: var(--danger);" title="Keluar">
-                    <i class="fa-solid fa-power-off"></i> <span>Keluar</span>
-                </div>
+                <div class="nav-item active" data-target="view-dashboard"><i class="fa-solid fa-gauge-high"></i> <span>Dashboard</span></div>
+                <div class="nav-item" data-target="view-foreword"><i class="fa-solid fa-book-open"></i> <span>Kata Pengantar</span></div>
+                <div class="nav-item" data-target="view-log"><i class="fa-solid fa-list-check"></i> <span>Log Riwayat</span></div>
+                <div class="nav-item" data-target="view-settings"><i class="fa-solid fa-sliders"></i> <span>Sistem &amp; IP Lokal</span></div>
+                <div class="nav-item" onclick="logout()" style="margin-top: auto; color: var(--danger);"><i class="fa-solid fa-power-off"></i> <span>Keluar</span></div>
             </div>
         </aside>
 
         <main class="main-content">
-            
             <header class="header">
                 <div>
                     <h1 id="greeting">SISTEM KONTROL WIRELESS</h1>
-                    <p id="subGreeting">Panel Otomatisasi Pakan Ikan IoT (3 Detik)</p>
+                    <p id="subGreeting">Panel Pakan Ikan IoT Online &amp; Offline Lokal (3 Detik)</p>
                 </div>
                 <div class="header-right">
-                    <div class="clock-badge">
-                        <i class="fa-regular fa-clock"></i>
-                        <span id="liveClockUI">00:00:00 WIB</span>
-                    </div>
-                    <div class="status-badge" id="connBadge">
-                        <div class="dot offline" id="connDot"></div>
-                        <span id="connText">Koneksi...</span>
-                    </div>
+                    <div class="clock-badge"><i class="fa-regular fa-clock"></i> <span id="liveClockUI">00:00:00 WIB</span></div>
+                    <div class="status-badge" id="connBadge"><div class="dot offline" id="connDot"></div> <span id="connText">Mengecek...</span></div>
                 </div>
             </header>
 
-            <!-- VIEW 1: DASHBOARD UTAMA -->
             <div id="view-dashboard" class="view-section active">
                 <div class="dashboard-grid">
                     
-                    <!-- KARTU 1: KONTROL PAKAN MANUAL (3 DETIK) -->
+                    <!-- KARTU 1: KONTROL PAKAN (ONLINE CLOUD & OFFLINE LOKAL) -->
                     <div class="card">
                         <div id="lock-control" class="lock-overlay" style="display: none;">
                             <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
@@ -1278,16 +789,26 @@
                         </div>
 
                         <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-bolt"></i> Lontar Pakan Wireless (3s)</div>
-                            <span class="selfie-req-pill" id="selfieReqBadge"><i class="fa-solid fa-camera"></i> WAJIB SELFIE</span>
+                            <div class="card-title-left"><i class="fa-solid fa-bolt"></i> Lontar Pakan 3 Detik</div>
                         </div>
+
+                        <!-- PILIHAN CEPAT ONLINE VS OFFLINE LOKAL -->
+                        <div class="quick-mode-switch">
+                            <button type="button" class="qmode-btn active" id="btnModeCloud" onclick="setWirelessMode('CLOUD')">
+                                <i class="fa-solid fa-cloud"></i> Online (Cloud)
+                            </button>
+                            <button type="button" class="qmode-btn" id="btnModeLocal" onclick="setWirelessMode('LOCAL')">
+                                <i class="fa-solid fa-wifi"></i> Offline Lokal
+                            </button>
+                        </div>
+
                         <div class="switch-wrapper">
                             <button id="toggleBtn" class="main-btn btn-locked" disabled>
                                 <i class="fa-solid fa-fish-fins"></i>
                                 <span id="btnLabel">OFFLINE</span>
                             </button>
                         </div>
-                        <p id="statusText" style="text-align: center; color: var(--text-muted); font-family: var(--font-lcd); font-size: 12px;">Menghubungkan ke NodeMCU Wireless...</p>
+                        <p id="statusText" style="text-align: center; color: var(--text-muted); font-family: var(--font-lcd); font-size: 12px;">Menyiapkan kontrol wireless...</p>
                     </div>
 
                     <!-- KARTU 2: KONTROL LAYAR LCD -->
@@ -1296,10 +817,7 @@
                             <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
                             <p style="font-size: 11px;">KHUSUS MASTER ADMIN</p>
                         </div>
-
-                        <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-display"></i> Lampu Layar LCD</div>
-                        </div>
+                        <div class="card-title"><div class="card-title-left"><i class="fa-solid fa-display"></i> Lampu Layar LCD</div></div>
                         <div class="info-row" style="margin-top: 10px;">
                             <span class="info-label">Status Backlight:</span>
                             <span class="info-val" id="lcdStatusUI">NYALA</span>
@@ -1308,17 +826,15 @@
                             Auto-sleep otomatis mati setelah 5 menit idle.
                         </p>
                         <button id="btnToggleLcd" class="btn-action btn-del" onclick="toggleLcdBacklight()">
-                            <i class="fa-solid fa-lightbulb"></i> <span id="btnLcdText">Matikan Layar LCD</span>
+                            <span id="btnLcdText">Matikan Layar LCD</span>
                         </button>
                     </div>
 
-                    <!-- KARTU 3: STATISTIK & MONITORING -->
+                    <!-- KARTU 3: MONITORING -->
                     <div class="card">
-                        <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-chart-line"></i> Monitoring Wireless</div>
-                        </div>
+                        <div class="card-title"><div class="card-title-left"><i class="fa-solid fa-chart-line"></i> Monitoring Wireless</div></div>
                         <div class="info-row">
-                            <span class="info-label">Jalur Wireless:</span>
+                            <span class="info-label">Jalur Aktif:</span>
                             <span class="info-val" id="wirelessModeBadge" style="color: var(--lcd-yellow);">Cloud Firebase</span>
                         </div>
                         <div class="info-row">
@@ -1327,7 +843,7 @@
                         </div>
                         <div class="info-row">
                             <span class="info-label">Durasi Lontar:</span>
-                            <span class="info-val" id="durationUI">-</span>
+                            <span class="info-val" id="durationUI">3 dtk</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Total Jadwal Aktif:</span>
@@ -1339,211 +855,120 @@
                         </div>
                     </div>
 
-                    <!-- KARTU 4: JADWAL PAKAN BERTUMPUK & BERULANG OTOMATIS -->
+                    <!-- KARTU 4: JADWAL BERTUMPUK -->
                     <div class="card card-wide">
                         <div id="lock-schedule" class="lock-overlay" style="display: none;">
                             <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
                             <p style="font-size: 11px;">KHUSUS MASTER ADMIN</p>
                         </div>
-
                         <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-layer-group"></i> Jadwal Pakan Bertumpuk (Berulang Otomatis)</div>
-                            <span style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-green);">AUTO-REPEAT (3 DETIK)</span>
+                            <div class="card-title-left"><i class="fa-solid fa-layer-group"></i> Jadwal Pakan Bertumpuk (3 Detik)</div>
                         </div>
-
                         <div class="form-row">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label>&gt; Jam Pakan (HH:MM)</label>
                                 <input type="time" id="schedTime">
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
-                                <label>&gt; Label Sesi (Opsional)</label>
+                                <label>&gt; Label Sesi</label>
                                 <input type="text" id="schedLabel" class="cyber-input" placeholder="Contoh: Pakan Pagi / Sore">
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label>&gt; Hari Pengulangan (Tetap aktif terus tanpa perlu buat ulang):</label>
+                            <label>&gt; Hari Pengulangan:</label>
                             <div class="days-selector" id="daysSelector">
-                                <label class="day-chip"><input type="checkbox" value="1" checked onchange="CyberAudio.play('ui_click')"><span>Sen</span></label>
-                                <label class="day-chip"><input type="checkbox" value="2" checked onchange="CyberAudio.play('ui_click')"><span>Sel</span></label>
-                                <label class="day-chip"><input type="checkbox" value="3" checked onchange="CyberAudio.play('ui_click')"><span>Rab</span></label>
-                                <label class="day-chip"><input type="checkbox" value="4" checked onchange="CyberAudio.play('ui_click')"><span>Kam</span></label>
-                                <label class="day-chip"><input type="checkbox" value="5" checked onchange="CyberAudio.play('ui_click')"><span>Jum</span></label>
-                                <label class="day-chip"><input type="checkbox" value="6" checked onchange="CyberAudio.play('ui_click')"><span>Sab</span></label>
-                                <label class="day-chip"><input type="checkbox" value="0" checked onchange="CyberAudio.play('ui_click')"><span>Min</span></label>
+                                <label class="day-chip"><input type="checkbox" value="1" checked><span>Sen</span></label>
+                                <label class="day-chip"><input type="checkbox" value="2" checked><span>Sel</span></label>
+                                <label class="day-chip"><input type="checkbox" value="3" checked><span>Rab</span></label>
+                                <label class="day-chip"><input type="checkbox" value="4" checked><span>Kam</span></label>
+                                <label class="day-chip"><input type="checkbox" value="5" checked><span>Jum</span></label>
+                                <label class="day-chip"><input type="checkbox" value="6" checked><span>Sab</span></label>
+                                <label class="day-chip"><input type="checkbox" value="0" checked><span>Min</span></label>
                             </div>
                         </div>
-
-                        <p style="font-size: 11px; color: var(--lcd-yellow); font-family: var(--font-lcd); margin-bottom: 14px;">
-                            *Setiap jadwal yang ditambahkan akan tersimpan bertumpuk di Firebase dan otomatis berulang setiap hari yang dipilih (durasi lontar 3 detik).
-                        </p>
-
                         <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
-                            <button class="btn-action btn-save" style="flex: 2; min-width: 200px; margin-bottom: 0;" onclick="tambahJadwalBertumpuk()">
-                                <i class="fa-solid fa-plus"></i> Tambah ke Daftar Jadwal
-                            </button>
-                            <button class="btn-action btn-del" style="flex: 1; min-width: 150px; margin-bottom: 0;" onclick="hapusSemuaJadwal()">
-                                <i class="fa-solid fa-trash"></i> Hapus Semua
-                            </button>
+                            <button class="btn-action btn-save" style="flex: 2; min-width: 200px; margin-bottom: 0;" onclick="tambahJadwalBertumpuk()">Tambah ke Daftar Jadwal</button>
+                            <button class="btn-action btn-del" style="flex: 1; min-width: 150px; margin-bottom: 0;" onclick="hapusSemuaJadwal()">Hapus Semua</button>
                         </div>
-
                         <div style="border-top: 1px solid var(--border-lcd); padding-top: 16px;">
-                            <label style="display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-yellow); margin-bottom: 10px; text-transform: uppercase;">
-                                &gt; Daftar Jadwal Aktif Tersimpan:
-                            </label>
                             <div id="stackedScheduleList" class="stacked-list">
-                                <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--text-muted);">Memuat daftar jadwal...</p>
+                                <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--text-muted);">Belum ada jadwal tersimpan.</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
-            <!-- VIEW 2: KATA PENGANTAR PROYEK -->
             <div id="view-foreword" class="view-section">
                 <div class="card">
-                    <div class="card-title">
-                        <div class="card-title-left"><i class="fa-solid fa-book-open"></i> Kata Pengantar Proyek</div>
-                        <span style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-green);">KELOMPOK REKAYASA • XI-7</span>
-                    </div>
-
+                    <div class="card-title"><div class="card-title-left">Kata Pengantar Proyek</div></div>
                     <div class="foreword-hero">
-                        <img
-                            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
-                            alt="Logo Kelompok Rekayasa"
-                            class="foreword-logo"
-                        />
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" alt="Logo" class="foreword-logo" />
                         <div>
-                            <h2 style="font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 4px;">
-                                SMART FEEDER IoT — FULL WIRELESS SYSTEM
-                            </h2>
-                            <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-yellow);">
-                                Proyek Rekayasa Teknologi • Kelas XI-7 • SMAN 14 Surabaya
-                            </p>
+                            <h2 style="font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 4px;">SMART FEEDER IoT — DUAL WIRELESS SYSTEM</h2>
+                            <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-yellow);">Proyek Rekayasa Teknologi • Kelas XI-7 • SMAN 14 Surabaya</p>
                         </div>
                     </div>
-
                     <div class="foreword-body">
-                        <p>
-                            Puji syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa karena atas rahmat dan karunia-Nya, perancangan serta pengembangan sistem <strong>Smart Feeder IoT Wireless</strong> ini dapat diselesaikan dengan baik oleh <strong>Kelompok Rekayasa (Kelas XI-7, SMAN 14 Surabaya)</strong>.
-                        </p>
-                        <p>
-                            Pemeliharaan ikan di lingkungan sekolah maupun budidaya skala kecil sering kali terkendala oleh ketidakteraturan jadwal pemberian pakan, takaran yang kurang konsisten, serta keterbatasan pemantauan secara langsung. Berangkat dari permasalahan tersebut, proyek ini menghadirkan solusi otomasi nirkabel yang memadukan mekanisme lontar pakan berbasis pneumatik dengan teknologi <em>Internet of Things</em> (IoT).
-                        </p>
-
-                        <div class="foreword-highlight">
-                            &gt; ARSITEKTUR WIRELESS: NodeMCU ESP8266 (Wi-Fi + AP Portal) + Relay 1-Channel (Auto-Off 3 Detik) + LCD Matrix 16x2 I2C + Firebase Cloud &amp; Local Wireless.
-                        </div>
-
-                        <p>
-                            Melalui antarmuka web <strong>Cyber LCD Panel</strong>, operator dapat melakukan pelontaran pakan wireless dengan durasi presisi 3 detik (dilengkapi verifikasi kamera selfie bagi akun terdaftar), menyusun jadwal bertumpuk (<em>multi-schedule</em>) yang berulang otomatis setiap hari maupun mingguan, mengontrol lampu latar layar LCD, serta memantau riwayat aktivitas perangkat secara <em>real-time</em>.
-                        </p>
+                        <p>Sistem <strong>Smart Feeder IoT Wireless</strong> dikembangkan oleh <strong>Kelompok Rekayasa (Kelas XI-7, SMAN 14 Surabaya)</strong> untuk mengotomatisasi pemberian pakan ikan dengan durasi presisi 3 detik, baik secara online melalui cloud maupun secara offline lokal langsung melalui Wi-Fi ESP8266.</p>
+                        <div class="foreword-highlight">&gt; ARSITEKTUR: NodeMCU ESP8266 (Wi-Fi + AP 192.168.4.1 + OTA) + Relay 1-Channel (3 Detik) + LCD 16x2 I2C.</div>
                     </div>
-
-                    <div class="foreword-sign">
-                        <span><i class="fa-solid fa-school"></i> SMAN 14 SURABAYA</span>
-                        <span>TIM PENYUSUN: KELOMPOK REKAYASA (XI-7)</span>
-                    </div>
+                    <div class="foreword-sign"><span>SMAN 14 SURABAYA</span><span>KELOMPOK REKAYASA (XI-7)</span></div>
                 </div>
             </div>
 
-            <!-- VIEW 3: LOG AKTIVITAS -->
             <div id="view-log" class="view-section">
                 <div class="card">
-                    <div class="card-title">
-                        <div class="card-title-left"><i class="fa-solid fa-database"></i> Database Log Aktivitas &amp; Bukti Selfie</div>
-                    </div>
-                    <p style="font-size: 12px; color: var(--text-muted); font-family: var(--font-lcd); margin-bottom: 15px;">Riwayat realtime serta rekaman foto verifikasi operator yang tersimpan di Firebase RTDB.</p>
-                    
+                    <div class="card-title"><div class="card-title-left">Database Log Aktivitas</div></div>
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Waktu &amp; Tanggal</th>
-                                    <th>Aksi Sistem</th>
-                                    <th>Operator</th>
-                                    <th>Bukti Foto</th>
-                                </tr>
-                            </thead>
-                            <tbody id="logTableBody">
-                                <tr><td colspan="4" style="text-align: center; color: #666;">Memuat log server...</td></tr>
-                            </tbody>
+                            <thead><tr><th>Waktu &amp; Tanggal</th><th>Aksi Sistem</th><th>Operator</th><th>Bukti Foto</th></tr></thead>
+                            <tbody id="logTableBody"><tr><td colspan="4" style="text-align: center; color: #666;">Menunggu koneksi log...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- VIEW 4: SETTINGS & WIRELESS CONFIG -->
             <div id="view-settings" class="view-section">
                 <div class="dashboard-grid">
                     <div class="card">
-                        <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-wifi"></i> Pengaturan Jalur Wireless</div>
-                        </div>
+                        <div class="card-title"><div class="card-title-left">Pengaturan IP Wireless Lokal (Tanpa Internet)</div></div>
                         <div class="form-group">
                             <label>&gt; Mode Komunikasi Nirkabel:</label>
-                            <select id="wirelessModeSelect" class="cyber-input" onchange="changeWirelessMode()">
-                                <option value="CLOUD">Wireless Cloud (Firebase Internet — Rekomendasi)</option>
-                                <option value="LOCAL">Wireless Lokal (Direct IP ESP8266 Tanpa Internet)</option>
+                            <select id="wirelessModeSelect" class="cyber-input" onchange="setWirelessMode(this.value)">
+                                <option value="CLOUD">Online Cloud (Firebase Internet)</option>
+                                <option value="LOCAL">Offline Lokal (Direct IP ESP8266 Tanpa Internet)</option>
                             </select>
                         </div>
-                        <div class="form-group" id="localIpBox" style="display: none;">
+                        <div class="form-group">
                             <label>&gt; Alamat IP Wireless ESP8266:</label>
-                            <input type="text" id="espLocalIpInput" class="cyber-input" value="192.168.4.1" placeholder="Contoh: 192.168.4.1 atau 192.168.1.105">
-                            <button class="btn-action btn-save" style="margin-top: 10px; margin-bottom: 0;" onclick="saveLocalIpConfig()">
-                                <i class="fa-solid fa-floppy-disk"></i> Simpan IP Wireless Lokal
-                            </button>
+                            <input type="text" id="espLocalIpInput" class="cyber-input" value="192.168.4.1" placeholder="Default AP: 192.168.4.1">
+                            <button class="btn-action btn-save" style="margin-top: 10px; margin-bottom: 0;" onclick="saveLocalIpConfig()">Simpan IP Wireless Lokal</button>
                         </div>
-                        <p style="font-size: 11px; color: var(--text-muted); font-family: var(--font-lcd); line-height: 1.5;">
-                            *Gunakan mode <strong>Cloud</strong> saat terhubung ke internet, atau pilih <strong>Lokal</strong> jika HP terhubung langsung ke hotspot <code>SmartFeeder_Wireless</code> (IP <code>192.168.4.1</code>).
+                        <p style="font-size: 11px; color: var(--lcd-yellow); font-family: var(--font-lcd); line-height: 1.5;">
+                            Default IP saat HP tersambung ke Wi-Fi <strong>SmartFeeder_Wireless</strong> adalah <strong>192.168.4.1</strong>.
                         </p>
                     </div>
-
                     <div class="card">
-                        <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-microchip"></i> Informasi Hardware &amp; Keamanan</div>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Perangkat IoT:</span>
-                            <span class="info-val">NodeMCU ESP8266 Wireless</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Jalur Komunikasi:</span>
-                            <span class="info-val">Wi-Fi Cloud &amp; Local AP</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Timer Auto-Off:</span>
-                            <span class="info-val" style="color: var(--lcd-yellow);">3 Detik</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Verifikasi Pompa (User Email):</span>
-                            <span class="info-val" style="color: var(--lcd-yellow);">Wajib Selfie Kamera</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Status Firebase:</span>
-                            <span class="info-val" id="dbStatusUI" style="color: var(--lcd-yellow);">Mengecek...</span>
-                        </div>
-                        <div class="info-row" style="border: none; margin-bottom: 0;">
-                            <span class="info-label">Role &amp; Akun Aktif:</span>
-                            <span class="info-val" id="roleUI">Tamu</span>
-                        </div>
+                        <div class="card-title"><div class="card-title-left">Informasi Sistem</div></div>
+                        <div class="info-row"><span class="info-label">Perangkat:</span><span class="info-val">NodeMCU ESP8266 OTA</span></div>
+                        <div class="info-row"><span class="info-label">Durasi Pompa:</span><span class="info-val" style="color: var(--lcd-yellow);">3 Detik</span></div>
+                        <div class="info-row"><span class="info-label">Status Internet/Cloud:</span><span class="info-val" id="dbStatusUI">Mengecek...</span></div>
+                        <div class="info-row" style="border: none; margin-bottom: 0;"><span class="info-label">Role Aktif:</span><span class="info-val" id="roleUI">Tamu</span></div>
                     </div>
                 </div>
             </div>
-
         </main>
     </div>
 
-    <!-- Firebase SDK 8.10.1 -->
+    <!-- Firebase SDK (Aman jika gagal dimuat saat offline) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
         /* =========================================================
-           TRANSISI OTOMATIS SPLASH LOGO NON-INTERAKTIF -> INTRO SCENE
+           SPLASH TRANSITION
         ========================================================= */
         window.addEventListener('DOMContentLoaded', () => {
             const splash = document.getElementById('splash-overlay');
@@ -1553,8 +978,8 @@
                     setTimeout(() => {
                         splash.style.visibility = 'hidden';
                         splash.style.display = 'none';
-                    }, 750);
-                }, 2600);
+                    }, 650);
+                }, 1800);
             }
         });
 
@@ -1564,225 +989,86 @@
         const CyberAudio = (() => {
             let ctx = null;
             let isMuted = false;
-            let introTimer = null;
-            let stepIdx = 0;
-
-            const introMelody = [
-                261.63, 329.63, 392.00, 493.88,
-                523.25, 493.88, 392.00, 329.63,
-                293.66, 349.23, 440.00, 523.25,
-                493.88, 392.00, 329.63, 293.66
-            ];
-            const introBass = [
-                130.81, 130.81, 130.81, 130.81,
-                98.00,  98.00,  98.00,  98.00,
-                110.00, 110.00, 110.00, 110.00,
-                98.00,  98.00,  98.00,  98.00
-            ];
-
             function ensureCtx() {
                 if (!ctx) {
                     const AudioCtx = window.AudioContext || window.webkitAudioContext;
                     if (AudioCtx) ctx = new AudioCtx();
                 }
-                if (ctx && ctx.state === 'suspended') {
-                    ctx.resume().catch(() => {});
-                }
+                if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
                 return ctx;
             }
-
-            function playTone(freq, type = 'sine', duration = 0.15, vol = 0.08, delay = 0, endFreq = null) {
+            function playTone(freq, type = 'sine', duration = 0.14, vol = 0.07, delay = 0, endFreq = null) {
                 if (isMuted) return;
                 const audio = ensureCtx();
                 if (!audio) return;
-
                 try {
                     const now = audio.currentTime + delay;
                     const osc = audio.createOscillator();
                     const gain = audio.createGain();
-
                     osc.type = type;
                     osc.frequency.setValueAtTime(freq, now);
-                    if (endFreq !== null) {
-                        osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), now + duration);
-                    }
-
+                    if (endFreq !== null) osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), now + duration);
                     gain.gain.setValueAtTime(0.0001, now);
                     gain.gain.linearRampToValueAtTime(vol, now + 0.015);
                     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
                     osc.connect(gain);
                     gain.connect(audio.destination);
-
                     osc.start(now);
                     osc.stop(now + duration + 0.02);
                 } catch (e) {}
             }
-
-            function startIntroMusic() {
-                if (introTimer) return;
-                ensureCtx();
-                stepIdx = 0;
-
-                const viz = document.getElementById('musicVisualizer');
-                if (viz && !isMuted) viz.classList.add('playing');
-
-                const tickMusic = () => {
-                    if (!isMuted) {
-                        const note = introMelody[stepIdx % introMelody.length];
-                        const bass = introBass[stepIdx % introBass.length];
-                        playTone(note, 'triangle', 0.24, 0.045, 0);
-                        if (stepIdx % 2 === 0) {
-                            playTone(bass, 'sine', 0.42, 0.055, 0);
-                        }
-                    }
-                    stepIdx++;
-                };
-
-                tickMusic();
-                introTimer = setInterval(tickMusic, 280);
-            }
-
-            function stopIntroMusic() {
-                if (introTimer) {
-                    clearInterval(introTimer);
-                    introTimer = null;
-                }
-                const viz = document.getElementById('musicVisualizer');
-                if (viz) viz.classList.remove('playing');
-            }
-
             function play(effect) {
                 if (isMuted) return;
                 ensureCtx();
-
-                switch (effect) {
-                    case 'ui_click':
-                        playTone(950, 'sine', 0.055, 0.06, 0, 1250);
-                        break;
-                    case 'boot_step':
-                        playTone(680, 'square', 0.06, 0.035, 0, 920);
-                        break;
-                    case 'boot_ready':
-                        playTone(523.25, 'triangle', 0.14, 0.08, 0);
-                        playTone(659.25, 'triangle', 0.14, 0.08, 0.09);
-                        playTone(783.99, 'triangle', 0.16, 0.08, 0.18);
-                        playTone(1046.50, 'sine', 0.28, 0.09, 0.27);
-                        break;
-                    case 'login_success':
-                        playTone(587.33, 'sine', 0.12, 0.09, 0);
-                        playTone(739.99, 'sine', 0.12, 0.09, 0.08);
-                        playTone(880.00, 'sine', 0.14, 0.09, 0.16);
-                        playTone(1174.66, 'triangle', 0.30, 0.10, 0.24);
-                        break;
-                    case 'login_guest':
-                        playTone(440, 'sine', 0.12, 0.07, 0);
-                        playTone(554.37, 'sine', 0.18, 0.07, 0.10);
-                        break;
-                    case 'camera_shutter':
-                        playTone(1400, 'square', 0.04, 0.09, 0, 600);
-                        playTone(1850, 'sine', 0.07, 0.09, 0.05, 1100);
-                        break;
-                    case 'error':
-                        playTone(190, 'sawtooth', 0.14, 0.08, 0, 150);
-                        playTone(165, 'sawtooth', 0.18, 0.08, 0.16, 120);
-                        break;
-                    case 'pump_on':
-                        playTone(140, 'sawtooth', 0.42, 0.075, 0, 560);
-                        playTone(280, 'triangle', 0.38, 0.06, 0.05, 740);
-                        playTone(880, 'sine', 0.14, 0.08, 0.36);
-                        playTone(1174.66, 'sine', 0.22, 0.09, 0.46);
-                        break;
-                    case 'pump_off':
-                        playTone(520, 'sawtooth', 0.35, 0.07, 0, 110);
-                        playTone(320, 'sine', 0.18, 0.06, 0.22, 180);
-                        break;
-                    case 'lcd_on':
-                        playTone(783.99, 'sine', 0.10, 0.07, 0);
-                        playTone(1318.51, 'sine', 0.22, 0.08, 0.08);
-                        break;
-                    case 'lcd_off':
-                        playTone(987.77, 'sine', 0.12, 0.07, 0, 520);
-                        playTone(440.00, 'triangle', 0.20, 0.06, 0.10, 240);
-                        break;
-                    case 'sched_add':
-                        playTone(659.25, 'triangle', 0.11, 0.08, 0);
-                        playTone(987.77, 'triangle', 0.20, 0.09, 0.09);
-                        break;
-                    case 'sched_toggle':
-                        playTone(720, 'sine', 0.08, 0.07, 0, 960);
-                        break;
-                    case 'sched_delete':
-                        playTone(540, 'triangle', 0.10, 0.07, 0, 320);
-                        playTone(300, 'sine', 0.14, 0.07, 0.09, 180);
-                        break;
+                if (effect === 'ui_click') playTone(950, 'sine', 0.055, 0.06, 0, 1250);
+                else if (effect === 'boot_step') playTone(680, 'square', 0.06, 0.035, 0, 920);
+                else if (effect === 'boot_ready' || effect === 'login_success') {
+                    playTone(587.33, 'sine', 0.12, 0.08, 0);
+                    playTone(880.00, 'sine', 0.18, 0.09, 0.10);
+                } else if (effect === 'pump_on') {
+                    playTone(180, 'sawtooth', 0.35, 0.07, 0, 620);
+                    playTone(980, 'sine', 0.20, 0.08, 0.28);
+                } else if (effect === 'pump_off' || effect === 'error') {
+                    playTone(220, 'sawtooth', 0.18, 0.07, 0, 130);
+                } else if (effect === 'sched_add') {
+                    playTone(740, 'triangle', 0.15, 0.08, 0, 1040);
                 }
             }
-
             function toggleMute() {
                 isMuted = !isMuted;
                 const btn = document.getElementById('audioToggleBtn');
-                const icon = document.getElementById('audioToggleIcon');
                 const text = document.getElementById('audioToggleText');
-                const viz = document.getElementById('musicVisualizer');
-
-                if (isMuted) {
-                    btn.classList.add('muted');
-                    icon.className = 'fa-solid fa-volume-xmark';
-                    text.innerText = 'SFX & MUSIC: OFF';
-                    if (viz) viz.classList.remove('playing');
-                } else {
-                    btn.classList.remove('muted');
-                    icon.className = 'fa-solid fa-volume-high';
-                    text.innerText = 'SFX & MUSIC: ON';
-                    ensureCtx();
-                    play('ui_click');
-                    if (introTimer && viz) viz.classList.add('playing');
-                }
+                btn.classList.toggle('muted', isMuted);
+                text.innerText = isMuted ? 'SFX & MUSIC: OFF' : 'SFX & MUSIC: ON';
             }
-
-            return { startIntroMusic, stopIntroMusic, play, toggleMute };
+            return { play, toggleMute };
         })();
 
-        /* =========================================
-           0B. INTERACTIVE INTRO SCENE & BOOT SEQUENCE
-        ========================================= */
         let isBootStarted = false;
-
         function startBootSequence() {
             if (isBootStarted) return;
             isBootStarted = true;
-
-            CyberAudio.startIntroMusic();
             CyberAudio.play('boot_step');
-
-            const triggerZone = document.getElementById('introTriggerZone');
-            const bootConsole = document.getElementById('bootConsole');
-            const progressBar = document.getElementById('bootProgressBar');
-            const btnEnter = document.getElementById('btnEnterLogin');
-
-            triggerZone.style.display = 'none';
-            bootConsole.style.display = 'block';
+            document.getElementById('introTriggerZone').style.display = 'none';
+            document.getElementById('bootConsole').style.display = 'block';
 
             const steps = [
-                { id: 'bootLine1', pct: 30, delay: 180, sfx: 'boot_step' },
-                { id: 'bootLine2', pct: 60, delay: 560, sfx: 'boot_step' },
-                { id: 'bootLine3', pct: 88, delay: 940, sfx: 'boot_step' },
-                { id: 'bootLine4', pct: 100, delay: 1320, sfx: 'boot_ready' }
+                { id: 'bootLine1', pct: 30, delay: 120 },
+                { id: 'bootLine2', pct: 60, delay: 360 },
+                { id: 'bootLine3', pct: 88, delay: 600 },
+                { id: 'bootLine4', pct: 100, delay: 840 }
             ];
-
-            steps.forEach(step => {
+            steps.forEach(s => {
                 setTimeout(() => {
-                    document.getElementById(step.id).classList.add('show');
-                    progressBar.style.width = step.pct + '%';
-                    CyberAudio.play(step.sfx);
-                }, step.delay);
+                    document.getElementById(s.id).classList.add('show');
+                    document.getElementById('bootProgressBar').style.width = s.pct + '%';
+                    CyberAudio.play('boot_step');
+                }, s.delay);
             });
-
             setTimeout(() => {
-                btnEnter.style.display = 'block';
-                btnEnter.style.animation = 'slideUp 0.35s ease';
-            }, 1600);
+                document.getElementById('btnEnterLogin').style.display = 'block';
+                CyberAudio.play('boot_ready');
+            }, 1050);
         }
 
         function proceedToLogin() {
@@ -1792,146 +1078,112 @@
             setTimeout(() => {
                 intro.style.visibility = 'hidden';
                 document.getElementById('username').focus();
-            }, 500);
+            }, 400);
         }
 
-        /* =========================================
-           1. FUNGSI GOPAY ANIMATION POP-UP
-        ========================================= */
         function triggerGoPayAnim(titleText, descText, isYellow = false) {
             const modal = document.getElementById('gopay-modal');
             const circle = document.getElementById('gopayCircle');
-            const icon = document.getElementById('gopayIcon');
             const title = document.getElementById('gopayTitle');
             const desc = document.getElementById('gopayDesc');
-
             title.innerText = titleText;
             desc.innerText = descText;
-
-            if (isYellow) {
-                circle.className = "gopay-circle yellow-mode";
-                title.style.color = "var(--lcd-yellow)";
-                icon.className = "fa-solid fa-clock";
-            } else {
-                circle.className = "gopay-circle";
-                title.style.color = "var(--lcd-green)";
-                icon.className = "fa-solid fa-check";
-            }
-
+            circle.className = isYellow ? "gopay-circle yellow-mode" : "gopay-circle";
+            title.style.color = isYellow ? "var(--lcd-yellow)" : "var(--lcd-green)";
             modal.classList.add('active');
-
-            setTimeout(() => {
-                modal.classList.remove('active');
-            }, 1900);
+            setTimeout(() => modal.classList.remove('active'), 1900);
         }
 
-        /* =========================================
-           2. FIREBASE CONFIG & WIRELESS MODE
-        ========================================= */
-        const firebaseConfig = {
-            apiKey: "AIzaSyB4eYa34ymjS8yaEC2kd9xzq6yJ-BauFPo",
-            authDomain: "p7-kaih-rekayasa.firebaseapp.com",
-            databaseURL: "https://p7-kaih-rekayasa-default-rtdb.asia-southeast1.firebasedatabase.app"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
-        
-        const dbRef = database.ref('perangkat/stopkontak');
-        const schedulesRef = database.ref('perangkat/stopkontak/schedules');
-        const lcdRef = database.ref('perangkat/lcd/backlight');
-        const logRef = database.ref('perangkat/logs');
-        const usersRef = database.ref('users');
-        const connectedRef = database.ref(".info/connected");
+        /* =========================================================
+           INISIALISASI FIREBASE AMAN OFFLINE (OFFLINE-SAFE GUARD)
+        ========================================================= */
+        const hasFirebase = (typeof firebase !== 'undefined');
+        let auth = null, database = null, dbRef = null, schedulesRef = null, lcdRef = null, logRef = null, usersRef = null, connectedRef = null;
 
-        let wirelessMode = localStorage.getItem('sf_wireless_mode') || 'CLOUD';
+        if (hasFirebase) {
+            try {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyB4eYa34ymjS8yaEC2kd9xzq6yJ-BauFPo",
+                    authDomain: "p7-kaih-rekayasa.firebaseapp.com",
+                    databaseURL: "https://p7-kaih-rekayasa-default-rtdb.asia-southeast1.firebasedatabase.app"
+                };
+                firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                database = firebase.database();
+                dbRef = database.ref('perangkat/stopkontak');
+                schedulesRef = database.ref('perangkat/stopkontak/schedules');
+                lcdRef = database.ref('perangkat/lcd/backlight');
+                logRef = database.ref('perangkat/logs');
+                usersRef = database.ref('users');
+                connectedRef = database.ref(".info/connected");
+            } catch (e) {}
+        }
+
+        /* =========================================================
+           MANAJEMEN MODE WIRELESS (CLOUD VS OFFLINE LOKAL)
+        ========================================================= */
+        let wirelessMode = localStorage.getItem('sf_wireless_mode') || (navigator.onLine ? 'CLOUD' : 'LOCAL');
         let espLocalIp = localStorage.getItem('sf_esp_local_ip') || '192.168.4.1';
 
-        function initWirelessSettingsUI() {
+        function setWirelessMode(mode) {
+            wirelessMode = mode;
+            localStorage.setItem('sf_wireless_mode', mode);
+            updateWirelessUI();
+            renderButtonState();
+            CyberAudio.play('ui_click');
+            triggerGoPayAnim(
+                mode === 'LOCAL' ? "MODE OFFLINE LOKAL" : "MODE ONLINE CLOUD",
+                mode === 'LOCAL' ? `Target langsung ke ESP8266 (${espLocalIp})` : "Menggunakan sinkronisasi Cloud Firebase",
+                mode === 'LOCAL'
+            );
+        }
+
+        function updateWirelessUI() {
+            const btnCloud = document.getElementById('btnModeCloud');
+            const btnLocal = document.getElementById('btnModeLocal');
             const sel = document.getElementById('wirelessModeSelect');
-            const ipBox = document.getElementById('localIpBox');
             const ipInput = document.getElementById('espLocalIpInput');
             const badge = document.getElementById('wirelessModeBadge');
 
+            if (btnCloud && btnLocal) {
+                btnCloud.className = wirelessMode === 'CLOUD' ? 'qmode-btn active' : 'qmode-btn';
+                btnLocal.className = wirelessMode === 'LOCAL' ? 'qmode-btn active-yellow' : 'qmode-btn';
+            }
             if (sel) sel.value = wirelessMode;
             if (ipInput) ipInput.value = espLocalIp;
-            if (ipBox) ipBox.style.display = wirelessMode === 'LOCAL' ? 'block' : 'none';
-            if (badge) badge.innerText = wirelessMode === 'LOCAL' ? `Lokal (${espLocalIp})` : 'Cloud Firebase';
-        }
+            if (badge) badge.innerText = wirelessMode === 'LOCAL' ? `Offline Lokal (${espLocalIp})` : 'Online Cloud';
 
-        function changeWirelessMode() {
-            CyberAudio.play('ui_click');
-            wirelessMode = document.getElementById('wirelessModeSelect').value;
-            localStorage.setItem('sf_wireless_mode', wirelessMode);
-            initWirelessSettingsUI();
-            renderButtonState();
-            triggerGoPayAnim("MODE WIRELESS", wirelessMode === 'LOCAL' ? `Jalur Lokal IP ${espLocalIp} aktif.` : "Jalur Cloud Firebase aktif.", true);
+            if (wirelessMode === 'LOCAL' && !isServerConnected) {
+                connDot.className = 'dot online';
+                connText.innerText = "SIAP LOKAL";
+                dbStatusUI.innerText = "Offline (Mode Lokal Aktif)";
+                dbStatusUI.style.color = "var(--lcd-yellow)";
+            }
         }
 
         function saveLocalIpConfig() {
             const val = document.getElementById('espLocalIpInput').value.trim();
-            if (!val) {
-                CyberAudio.play('error');
-                return alert("Masukkan alamat IP ESP8266 terlebih dahulu!");
-            }
+            if (!val) return alert("Masukkan alamat IP ESP8266 (contoh: 192.168.4.1)");
             espLocalIp = val;
             localStorage.setItem('sf_esp_local_ip', espLocalIp);
-            initWirelessSettingsUI();
+            updateWirelessUI();
             CyberAudio.play('sched_add');
-            triggerGoPayAnim("IP TERSIMPAN", `Target Wireless Lokal: http://${espLocalIp}`);
+            triggerGoPayAnim("IP TERSIMPAN", `Target Offline Lokal: http://${espLocalIp}`);
         }
 
-        /* =========================================
-           3. OTENTIKASI: ADMIN XI-7, USER EMAIL, & TAMU
-        ========================================= */
+        /* =========================================================
+           OTENTIKASI (MENDUKUNG LOGIN OFFLINE & CACHE AKUN)
+        ========================================================= */
         let userRole = 'GUEST';
         let currentUserProfile = { name: 'Tamu', email: '' };
         let cachedLogsList = [];
 
         function switchAuthTab(tabName) {
             CyberAudio.play('ui_click');
-            const loginBox = document.getElementById('formLoginBox');
-            const regBox = document.getElementById('formRegisterBox');
-            const tabLogin = document.getElementById('tabLoginBtn');
-            const tabReg = document.getElementById('tabRegisterBtn');
-
-            if (tabName === 'login') {
-                loginBox.style.display = 'block';
-                regBox.style.display = 'none';
-                tabLogin.classList.add('active');
-                tabReg.classList.remove('active');
-            } else {
-                loginBox.style.display = 'none';
-                regBox.style.display = 'block';
-                tabLogin.classList.remove('active');
-                tabReg.classList.add('active');
-            }
-        }
-
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') doLogin();
-        });
-        document.getElementById('regPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') doRegister();
-        });
-
-        function mapAuthError(code, fallbackMsg) {
-            switch (code) {
-                case 'auth/email-already-in-use':
-                    return "Email ini sudah terdaftar! Silakan masuk lewat tab Masuk.";
-                case 'auth/invalid-email':
-                    return "Format alamat email tidak valid.";
-                case 'auth/weak-password':
-                    return "Password terlalu lemah (minimal 6 karakter).";
-                case 'auth/user-not-found':
-                case 'auth/wrong-password':
-                case 'auth/invalid-credential':
-                    return "Email atau Password salah!";
-                case 'auth/operation-not-allowed':
-                    return "Login Email/Password belum diaktifkan di Firebase Console.";
-                default:
-                    return fallbackMsg || "Terjadi kesalahan autentikasi.";
-            }
+            document.getElementById('formLoginBox').style.display = tabName === 'login' ? 'block' : 'none';
+            document.getElementById('formRegisterBox').style.display = tabName === 'register' ? 'block' : 'none';
+            document.getElementById('tabLoginBtn').classList.toggle('active', tabName === 'login');
+            document.getElementById('tabRegisterBtn').classList.toggle('active', tabName === 'register');
         }
 
         function doLogin() {
@@ -1943,14 +1195,33 @@
                 return alert("Isi Email / ID Admin dan Password terlebih dahulu!");
             }
 
-            if (identifier === 'XI-7' && p === 'REKAYASA') {
+            // 1. LOGIN MASTER ADMIN (BISA ONLINE MAUPUN OFFLINE 100%)
+            if (identifier.toUpperCase() === 'XI-7' && p === 'REKAYASA') {
                 userRole = 'ADMIN';
                 currentUserProfile = { name: 'Admin XI-7', email: 'master@sman14sby.sch.id' };
-                CyberAudio.stopIntroMusic();
+                if (!navigator.onLine || !isServerConnected) wirelessMode = 'LOCAL';
                 CyberAudio.play('login_success');
                 masukAplikasi("HALO, ADMIN XI-7", 'ADMIN');
-                triggerGoPayAnim("LOGIN ADMIN", "Akses Penuh Master Admin XI-7 Aktif!");
+                triggerGoPayAnim("LOGIN ADMIN", wirelessMode === 'LOCAL' ? "Mode Offline Lokal Siap!" : "Akses Master Admin Aktif!");
                 return;
+            }
+
+            // 2. CEK CACHE AKUN EMAIL JIKA SEDANG OFFLINE
+            const cachedAccounts = JSON.parse(localStorage.getItem('sf_cached_users') || '{}');
+            const lowerId = identifier.toLowerCase();
+            if ((!navigator.onLine || !auth) && cachedAccounts[lowerId] && cachedAccounts[lowerId].pass === p) {
+                userRole = 'USER_EMAIL';
+                currentUserProfile = { name: cachedAccounts[lowerId].name, email: lowerId };
+                wirelessMode = 'LOCAL';
+                CyberAudio.play('login_success');
+                masukAplikasi(`HALO, ${currentUserProfile.name.toUpperCase()}`, 'USER_EMAIL');
+                triggerGoPayAnim("LOGIN OFFLINE OK", "Masuk dengan akun tersimpan (Mode Lokal).");
+                return;
+            }
+
+            if (!auth || !navigator.onLine) {
+                CyberAudio.play('error');
+                return alert("Sedang tanpa internet! Gunakan ID Admin: XI-7 dan Password: REKAYASA untuk masuk secara offline.");
             }
 
             const btnSubmit = document.getElementById('btnLoginSubmit');
@@ -1961,29 +1232,23 @@
                 .then(async (cred) => {
                     const user = cred.user;
                     let displayName = user.displayName || identifier.split('@')[0];
-
                     try {
                         const snap = await usersRef.child(user.uid).once('value');
-                        if (snap.exists() && snap.val().name) {
-                            displayName = snap.val().name;
-                        }
+                        if (snap.exists() && snap.val().name) displayName = snap.val().name;
                     } catch (e) {}
 
-                    userRole = 'USER_EMAIL';
-                    currentUserProfile = {
-                        uid: user.uid,
-                        name: displayName,
-                        email: user.email
-                    };
+                    // Simpan ke cache lokal agar lain kali bisa login tanpa internet
+                    cachedAccounts[lowerId] = { name: displayName, pass: p };
+                    localStorage.setItem('sf_cached_users', JSON.stringify(cachedAccounts));
 
-                    CyberAudio.stopIntroMusic();
+                    userRole = 'USER_EMAIL';
+                    currentUserProfile = { uid: user.uid, name: displayName, email: user.email };
                     CyberAudio.play('login_success');
                     masukAplikasi(`HALO, ${displayName.toUpperCase()}`, 'USER_EMAIL');
-                    triggerGoPayAnim("LOGIN BERHASIL", `Selamat datang, ${displayName}! Siap verifikasi selfie.`);
                 })
                 .catch((err) => {
                     CyberAudio.play('error');
-                    alert(mapAuthError(err.code, err.message));
+                    alert("Gagal login: " + err.message);
                 })
                 .finally(() => {
                     btnSubmit.disabled = false;
@@ -1992,334 +1257,246 @@
         }
 
         function doRegister() {
+            if (!auth || !navigator.onLine) {
+                return alert("Pendaftaran email baru membutuhkan koneksi internet. Untuk langsung pakai tanpa internet, login memakai ID: XI-7 dan Sandi: REKAYASA.");
+            }
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const pass = document.getElementById('regPassword').value;
-
-            if (!name) {
-                CyberAudio.play('error');
-                return alert("Masukkan Nama Lengkap Anda!");
-            }
-            if (!email || !email.includes('@')) {
-                CyberAudio.play('error');
-                return alert("Masukkan alamat email yang valid!");
-            }
-            if (pass.length < 6) {
-                CyberAudio.play('error');
-                return alert("Password minimal 6 karakter!");
-            }
+            if (!name || !email.includes('@') || pass.length < 6) return alert("Lengkapi nama, email valid, dan password minimal 6 karakter.");
 
             const btnReg = document.getElementById('btnRegisterSubmit');
             btnReg.disabled = true;
-            btnReg.innerText = "MENDAFTARKAN...";
-
             auth.createUserWithEmailAndPassword(email, pass)
                 .then(async (cred) => {
-                    const user = cred.user;
-                    await user.updateProfile({ displayName: name });
-                    await usersRef.child(user.uid).set({
-                        name: name,
-                        email: email,
-                        role: 'OPERATOR_SELFIE',
-                        createdAt: firebase.database.ServerValue.TIMESTAMP
-                    });
+                    await cred.user.updateProfile({ displayName: name });
+                    await usersRef.child(cred.user.uid).set({ name, email, role: 'OPERATOR_SELFIE' });
+                    const cachedAccounts = JSON.parse(localStorage.getItem('sf_cached_users') || '{}');
+                    cachedAccounts[email.toLowerCase()] = { name, pass };
+                    localStorage.setItem('sf_cached_users', JSON.stringify(cachedAccounts));
 
                     userRole = 'USER_EMAIL';
-                    currentUserProfile = {
-                        uid: user.uid,
-                        name: name,
-                        email: email
-                    };
-
-                    CyberAudio.stopIntroMusic();
+                    currentUserProfile = { uid: cred.user.uid, name, email };
                     CyberAudio.play('login_success');
                     masukAplikasi(`HALO, ${name.toUpperCase()}`, 'USER_EMAIL');
-                    triggerGoPayAnim("PENDAFTARAN SUKSES", `Akun ${name} aktif! Wajib selfie saat lontar 3 detik.`);
                 })
-                .catch((err) => {
-                    CyberAudio.play('error');
-                    alert(mapAuthError(err.code, err.message));
-                })
-                .finally(() => {
-                    btnReg.disabled = false;
-                    btnReg.innerText = "Daftar & Masuk";
-                });
+                .catch(err => alert("Gagal daftar: " + err.message))
+                .finally(() => { btnReg.disabled = false; });
         }
 
         function resetPasswordEmail() {
+            if (!auth || !navigator.onLine) return alert("Reset password membutuhkan koneksi internet.");
             const email = document.getElementById('username').value.trim();
-            if (!email || !email.includes('@')) {
-                CyberAudio.play('error');
-                return alert("Ketikkan alamat email akun Anda di kolom EMAIL / ID ADMIN terlebih dahulu, lalu klik Lupa Password.");
-            }
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    CyberAudio.play('sched_add');
-                    triggerGoPayAnim("EMAIL TERKIRIM", `Link reset password dikirim ke ${email}`, true);
-                })
-                .catch((err) => {
-                    CyberAudio.play('error');
-                    alert(mapAuthError(err.code, err.message));
-                });
+            if (!email.includes('@')) return alert("Ketikkan email Anda di kolom pertama lalu klik Lupa Password.");
+            auth.sendPasswordResetEmail(email).then(() => alert("Link reset dikirim ke " + email));
         }
 
         function doGuest() {
             userRole = 'GUEST';
             currentUserProfile = { name: 'Tamu', email: '' };
-            CyberAudio.stopIntroMusic();
-            CyberAudio.play('login_guest');
             masukAplikasi("HALO, TAMU", 'GUEST');
         }
 
         function masukAplikasi(greetText, roleType) {
-            initWirelessSettingsUI();
             document.getElementById('auth-overlay').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('auth-overlay').style.visibility = 'hidden';
                 document.getElementById('app-container').style.display = 'flex';
-                
                 document.getElementById('greeting').innerText = greetText;
-                const selfieBadge = document.getElementById('selfieReqBadge');
 
                 if (roleType === 'GUEST') {
                     document.getElementById('roleUI').innerText = "Tamu (Hanya Lihat)";
-                    document.getElementById('subGreeting').innerText = "Mode Pemantauan Publik Smart Feeder Wireless";
                     document.getElementById('lock-control').style.display = 'flex';
                     document.getElementById('lock-lcd').style.display = 'flex';
                     document.getElementById('lock-schedule').style.display = 'flex';
-                    selfieBadge.style.display = 'none';
                 } else if (roleType === 'USER_EMAIL') {
-                    document.getElementById('roleUI').innerText = `Operator Email (${currentUserProfile.email})`;
-                    document.getElementById('subGreeting').innerText = "Kontrol Pakan Wireless 3 Detik (Verifikasi Selfie)";
+                    document.getElementById('roleUI').innerText = `Operator (${currentUserProfile.email})`;
                     document.getElementById('lock-control').style.display = 'none';
                     document.getElementById('lock-lcd').style.display = 'flex';
                     document.getElementById('lock-schedule').style.display = 'flex';
-                    selfieBadge.style.display = 'inline-flex';
                 } else {
-                    document.getElementById('roleUI').innerText = "Master Administrator (XI-7)";
-                    document.getElementById('subGreeting').innerText = "Panel Otomatisasi Pakan Ikan Wireless (3 Detik)";
+                    document.getElementById('roleUI').innerText = "Master Admin (XI-7)";
                     document.getElementById('lock-control').style.display = 'none';
                     document.getElementById('lock-lcd').style.display = 'none';
                     document.getElementById('lock-schedule').style.display = 'none';
-                    selfieBadge.style.display = 'none';
                 }
 
-                if (roleType === 'ADMIN' || roleType === 'USER_EMAIL') {
-                    dbRef.once('value').then((snap) => {
-                        if (!snap.exists()) {
-                            dbRef.set({ status: 0, lastActive: 0, lastDuration: "-" });
-                        }
-                    });
-
-                    btn.disabled = false;
-                    if (!isDataLoaded) {
-                        btn.className = "main-btn btn-off";
-                        btnLabel.innerText = "OFF / STANDBY";
-                        statusText.innerText = "Sistem wireless bersiaga (3 detik).";
-                        statusText.style.color = "var(--text-muted)";
-                    }
-                }
-
+                updateWirelessUI();
                 renderButtonState();
-                renderStackedSchedules();
-                renderLogTable();
-            }, 400);
+            }, 350);
         }
 
         function logout() {
-            CyberAudio.play('lcd_off');
             stopCameraStream();
-            auth.signOut().catch(() => {}).finally(() => {
-                setTimeout(() => location.reload(), 250);
-            });
+            if (auth) auth.signOut().catch(() => {});
+            location.reload();
         }
 
-        const navItems = document.querySelectorAll('.nav-item');
-        const viewSections = document.querySelectorAll('.view-section');
-        navItems.forEach(item => {
+        document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
-                if(item.getAttribute('data-target')){
+                const target = item.getAttribute('data-target');
+                if (target) {
                     CyberAudio.play('ui_click');
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    viewSections.forEach(sec => sec.classList.remove('active'));
+                    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                    document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
                     item.classList.add('active');
-                    document.getElementById(item.getAttribute('data-target')).classList.add('active');
+                    document.getElementById(target).classList.add('active');
                 }
             });
         });
 
-        /* =========================================
-           4. REALTIME DATABASE LISTENERS
-        ========================================= */
+        /* =========================================================
+           FIREBASE LISTENERS (AMAN SAAT OFFLINE)
+        ========================================================= */
         const btn = document.getElementById('toggleBtn');
         const btnLabel = document.getElementById('btnLabel');
         const statusText = document.getElementById('statusText');
         const connDot = document.getElementById('connDot');
         const connText = document.getElementById('connText');
         const dbStatusUI = document.getElementById('dbStatusUI');
-        
+
         let currentState = 0;
         let currentLcdState = 1;
         let lastActiveTs = 0;
         let isServerConnected = false;
-        let isDataLoaded = false;
         let stackedSchedules = [];
 
-        connectedRef.on("value", (snap) => {
-            if (snap.val() === true) {
-                isServerConnected = true;
-                connDot.className = 'dot online';
-                connText.innerText = "WIRELESS OK";
-                dbStatusUI.innerText = "Terhubung OK";
-                dbStatusUI.style.color = "var(--lcd-green)";
-                renderButtonState();
-            } else {
-                isServerConnected = false;
-                if (wirelessMode === 'LOCAL') {
+        if (connectedRef) {
+            connectedRef.on("value", (snap) => {
+                if (snap.val() === true) {
+                    isServerConnected = true;
                     connDot.className = 'dot online';
-                    connText.innerText = "LOKAL AP";
-                    dbStatusUI.innerText = "Offline (Mode Lokal)";
-                    renderButtonState();
+                    connText.innerText = "CLOUD ONLINE";
+                    dbStatusUI.innerText = "Terhubung OK";
+                    dbStatusUI.style.color = "var(--lcd-green)";
                 } else {
-                    connDot.className = 'dot offline';
-                    connText.innerText = "OFFLINE";
-                    dbStatusUI.innerText = "Terputus";
-                    dbStatusUI.style.color = "var(--danger)";
-                    
-                    btn.disabled = true;
-                    btn.className = "main-btn btn-locked";
-                    btnLabel.innerText = "TERPUTUS";
-                    statusText.innerText = "Koneksi wireless ke server terputus!";
+                    isServerConnected = false;
+                    if (wirelessMode === 'LOCAL') {
+                        connDot.className = 'dot online';
+                        connText.innerText = "SIAP LOKAL";
+                        dbStatusUI.innerText = "Offline (Mode Lokal)";
+                        dbStatusUI.style.color = "var(--lcd-yellow)";
+                    } else {
+                        connDot.className = 'dot offline';
+                        connText.innerText = "OFFLINE";
+                        dbStatusUI.innerText = "Terputus (Ganti ke Offline Lokal)";
+                        dbStatusUI.style.color = "var(--danger)";
+                    }
                 }
-            }
-        });
+                renderButtonState();
+            });
 
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val() || {};
-            currentState = data.status || 0;
-            lastActiveTs = data.lastActive || 0;
-            isDataLoaded = true; 
-            
-            const opt = { day:'2-digit', month:'short', hour: '2-digit', minute:'2-digit', second:'2-digit' };
-            document.getElementById('lastActiveUI').innerText = lastActiveTs > 0 ? new Date(lastActiveTs).toLocaleString('id-ID', opt) : '-';
-            
-            renderButtonState();
+            dbRef.on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                currentState = data.status || 0;
+                lastActiveTs = data.lastActive || 0;
+                const opt = { day:'2-digit', month:'short', hour: '2-digit', minute:'2-digit', second:'2-digit' };
+                document.getElementById('lastActiveUI').innerText = lastActiveTs > 0 ? new Date(lastActiveTs).toLocaleString('id-ID', opt) : '-';
+                document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir (3 Dtk)" : (data.lastDuration || '3 dtk');
+                renderButtonState();
+            });
 
-            document.getElementById('durationUI').innerText = (currentState === 1) ? "Sedang Mengalir (3 Dtk)" : (data.lastDuration || '-');
-        });
+            schedulesRef.on('value', (snapshot) => {
+                const val = snapshot.val() || {};
+                stackedSchedules = Object.keys(val).map(key => ({
+                    id: key,
+                    time: val[key].time || "00:00",
+                    label: val[key].label || "Jadwal Pakan",
+                    days: Array.isArray(val[key].days) ? val[key].days : [0,1,2,3,4,5,6],
+                    active: val[key].active !== false,
+                    lastTriggeredDate: val[key].lastTriggeredDate || ""
+                })).sort((a, b) => a.time.localeCompare(b.time));
+                renderStackedSchedules();
+                updateNextScheduleInfo();
+            });
 
-        schedulesRef.on('value', (snapshot) => {
-            const val = snapshot.val() || {};
-            stackedSchedules = Object.keys(val).map(key => ({
-                id: key,
-                time: val[key].time || "00:00",
-                label: val[key].label || "Jadwal Pakan",
-                days: Array.isArray(val[key].days) ? val[key].days : [0,1,2,3,4,5,6],
-                active: val[key].active !== false,
-                lastTriggeredDate: val[key].lastTriggeredDate || ""
-            }));
+            lcdRef.on('value', (snapshot) => {
+                currentLcdState = snapshot.val() !== null ? snapshot.val() : 1;
+                document.getElementById('lcdStatusUI').innerText = currentLcdState === 1 ? "NYALA" : "MATI (SLEEP)";
+                document.getElementById('btnLcdText').innerText = currentLcdState === 1 ? "Matikan Layar LCD" : "Nyalakan Layar LCD";
+            });
 
-            stackedSchedules.sort((a, b) => a.time.localeCompare(b.time));
-            renderStackedSchedules();
-            updateNextScheduleInfo();
-        });
-
-        lcdRef.on('value', (snapshot) => {
-            currentLcdState = snapshot.val() !== null ? snapshot.val() : 1;
-            const lcdStatusUI = document.getElementById('lcdStatusUI');
-            const btnToggleLcd = document.getElementById('btnToggleLcd');
-            const btnLcdText = document.getElementById('btnLcdText');
-
-            if (currentLcdState === 1) {
-                lcdStatusUI.innerText = "NYALA";
-                lcdStatusUI.style.color = "var(--lcd-green)";
-                btnLcdText.innerText = "Matikan Layar LCD";
-                btnToggleLcd.className = "btn-action btn-del";
-            } else {
-                lcdStatusUI.innerText = "MATI (SLEEP)";
-                lcdStatusUI.style.color = "var(--danger)";
-                btnLcdText.innerText = "Nyalakan Layar LCD";
-                btnToggleLcd.className = "btn-action btn-save";
-            }
-        });
+            logRef.orderByChild('waktu').limitToLast(15).on('value', snap => {
+                cachedLogsList = [];
+                if (snap.exists()) snap.forEach(c => cachedLogsList.push(c.val()));
+                cachedLogsList.reverse();
+                renderLogTable();
+            });
+        } else {
+            // Jika script Firebase tidak termuat sama sekali karena offline total
+            wirelessMode = 'LOCAL';
+            connDot.className = 'dot online';
+            connText.innerText = "OFFLINE LOKAL";
+            dbStatusUI.innerText = "Offline Total (Mode Lokal)";
+        }
 
         function renderButtonState() {
             const canOperate = (userRole === 'ADMIN' || userRole === 'USER_EMAIL');
-            if (canOperate && (isServerConnected || isDataLoaded || wirelessMode === 'LOCAL')) {
+            if (!canOperate) {
+                btn.disabled = true;
+                btn.className = "main-btn btn-locked";
+                return;
+            }
+
+            // Pada mode OFFLINE LOKAL, tombol selalu aktif meski tanpa internet!
+            if (wirelessMode === 'LOCAL' || isServerConnected) {
                 btn.disabled = false;
-                
-                if(currentState === 1) {
+                if (currentState === 1) {
                     btn.className = "main-btn btn-on";
                     btnLabel.innerText = "LONTAR 3 DETIK";
-                    statusText.innerText = "Mesin Blower Aktif (Timer 3 Detik berjalan)";
+                    statusText.innerText = "Pompa menyala 3 detik...";
                     statusText.style.color = "var(--lcd-green)";
                 } else {
                     btn.className = "main-btn btn-off";
-                    btnLabel.innerText = userRole === 'USER_EMAIL' ? "SELFIE & LONTAR" : "OFF / STANDBY";
-                    statusText.innerText = userRole === 'USER_EMAIL'
-                        ? "Klik tombol untuk verifikasi selfie & nyalakan pompa 3 detik."
-                        : "Sistem wireless bersiaga (durasi 3 detik).";
+                    btnLabel.innerText = wirelessMode === 'LOCAL' ? "LONTAR LOKAL 3s" : "LONTAR CLOUD 3s";
+                    statusText.innerText = wirelessMode === 'LOCAL'
+                        ? `Siap kirim perintah lokal ke http://${espLocalIp} (tanpa internet).`
+                        : "Siap kirim perintah via Cloud Firebase (3 detik).";
                     statusText.style.color = "var(--text-muted)";
                 }
-            } else if (userRole === 'GUEST') {
+            } else {
                 btn.disabled = true;
+                btn.className = "main-btn btn-locked";
+                btnLabel.innerText = "NO INTERNET";
+                statusText.innerText = "Internet terputus! Klik tombol 'Offline Lokal' di atas untuk memberi pakan tanpa internet.";
+                statusText.style.color = "var(--lcd-yellow)";
             }
         }
 
-        /* =========================================
-           5. VERIFIKASI KAMERA SELFIE & EKSEKUSI POMPA (3 DETIK)
-        ========================================= */
+        /* =========================================================
+           EKSEKUSI POMPA 3 DETIK (ONLINE & OFFLINE BRIDGE)
+        ========================================================= */
         let activeCameraStream = null;
-
         function stopCameraStream() {
             if (activeCameraStream) {
-                activeCameraStream.getTracks().forEach(track => track.stop());
+                activeCameraStream.getTracks().forEach(t => t.stop());
                 activeCameraStream = null;
             }
-            const video = document.getElementById('selfieVideo');
-            if (video) video.srcObject = null;
         }
 
         async function openSelfieVerificationModal() {
-            CyberAudio.play('ui_click');
             const modal = document.getElementById('selfie-modal');
             const video = document.getElementById('selfieVideo');
             const errBox = document.getElementById('cameraErrorBox');
             const btnCapture = document.getElementById('btnCaptureSelfie');
-            const opTag = document.getElementById('selfieOperatorTag');
-
-            opTag.innerText = `[ OPERATOR: ${currentUserProfile.name.toUpperCase()} ]`;
             errBox.style.display = 'none';
             video.style.display = 'block';
             btnCapture.disabled = true;
-            btnCapture.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Membuka Kamera...';
             modal.classList.add('active');
 
             try {
-                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    throw new Error("Browser ini tidak mendukung akses kamera.");
-                }
-                activeCameraStream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
-                    audio: false
-                });
+                activeCameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
                 video.srcObject = activeCameraStream;
                 await video.play();
                 btnCapture.disabled = false;
-                btnCapture.innerHTML = '<i class="fa-solid fa-camera"></i> Jepret Selfie &amp; Lontar 3 Detik';
             } catch (err) {
-                CyberAudio.play('error');
                 video.style.display = 'none';
                 errBox.style.display = 'block';
-                document.getElementById('cameraErrorMsg').innerText =
-                    "Kamera tidak dapat diakses (" + err.message + "). Pastikan izin kamera aktif & gunakan HTTPS / localhost.";
-                btnCapture.disabled = true;
-                btnCapture.innerHTML = '<i class="fa-solid fa-ban"></i> Kamera Terkunci';
+                document.getElementById('cameraErrorMsg').innerText = "Kamera gagal diakses: " + err.message;
             }
         }
 
         function closeSelfieModal() {
-            CyberAudio.play('ui_click');
             stopCameraStream();
             document.getElementById('selfie-modal').classList.remove('active');
         }
@@ -2327,413 +1504,193 @@
         function captureSelfieAndFeed() {
             const video = document.getElementById('selfieVideo');
             const canvas = document.getElementById('selfieCanvas');
-            if (!activeCameraStream || video.readyState < 2) {
-                CyberAudio.play('error');
-                return alert("Kamera belum siap, tunggu sebentar.");
-            }
-
             const ctx = canvas.getContext('2d');
-            canvas.width = 320;
-            canvas.height = 240;
-
             ctx.save();
             ctx.translate(canvas.width, 0);
             ctx.scale(-1, 1);
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             ctx.restore();
-
-            ctx.fillStyle = "rgba(2, 18, 9, 0.78)";
-            ctx.fillRect(0, canvas.height - 24, canvas.width, 24);
-            ctx.fillStyle = "#00ff66";
-            ctx.font = "11px monospace";
-            const stamp = new Date().toLocaleString('id-ID', { day:'2-digit', month:'2-digit', year:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' });
-            ctx.fillText(`VERIFIED: ${currentUserProfile.name} | ${stamp}`, 8, canvas.height - 8);
-
             const selfieBase64 = canvas.toDataURL('image/jpeg', 0.65);
-
-            CyberAudio.play('camera_shutter');
             stopCameraStream();
             document.getElementById('selfie-modal').classList.remove('active');
-
             eksekusiPerintahPompa(1, selfieBase64);
         }
 
         function eksekusiPerintahPompa(newState, selfieData = null) {
-            const now = Date.now();
             const operatorLabel = userRole === 'USER_EMAIL'
                 ? `${currentUserProfile.name} (${currentUserProfile.email})`
-                : 'Manual Wireless (Admin XI-7)';
+                : 'Admin XI-7';
 
-            // JALUR 1: WIRELESS LOKAL DIRECT HTTP KE ESP8266
-            if (wirelessMode === 'LOCAL' && newState === 1) {
-                btnLabel.innerText = "KIRIM LOKAL...";
-                fetch(`http://${espLocalIp}/feed`)
+            // 1. JALUR OFFLINE LOKAL (TANPA INTERNET DARI WEB PUBLISH)
+            if (wirelessMode === 'LOCAL') {
+                currentState = 1;
+                renderButtonState();
+                CyberAudio.play('pump_on');
+
+                // Coba kirim langsung di latar belakang (berhasil jika Chrome mengizinkan Insecure Content / HTTP)
+                fetch(`http://${espLocalIp}/feed`, { mode: 'cors' })
                     .then(res => {
-                        if (!res.ok) throw new Error("ESP8266 Lokal tidak merespons");
-                        currentState = 1;
-                        renderButtonState();
-                        CyberAudio.play('pump_on');
-                        triggerGoPayAnim("WIRELESS LOKAL OK!", `Pompa menyala 3 detik di ${espLocalIp}!`);
-                        if (isServerConnected) {
-                            catatKeLog('LONTAR PAKAN LOKAL (3 DTK)', operatorLabel, selfieData);
-                        }
-                        setTimeout(() => {
-                            currentState = 0;
-                            document.getElementById('durationUI').innerText = "3 dtk";
-                            renderButtonState();
-                        }, 3100);
+                        if (!res.ok) throw new Error("HTTP error");
+                        triggerGoPayAnim("PAKAN LOKAL 3 DETIK!", `Perintah terkirim langsung ke ${espLocalIp}`);
                     })
-                    .catch(err => {
-                        CyberAudio.play('error');
-                        renderButtonState();
-                        alert("Gagal terhubung ke IP ESP8266 (" + espLocalIp + "). Pastikan HP terhubung ke Wi-Fi SmartFeeder_Wireless.");
+                    .catch(() => {
+                        // Jika diblokir browser karena website publish memakai HTTPS, buka jembatan tab auto-close
+                        window.open(`http://${espLocalIp}/feed?autoclose=1`, '_blank', 'width=360,height=280');
+                        triggerGoPayAnim("MENGIRIM LOKAL...", `Membuka jembatan lokal ${espLocalIp} (3 detik)`);
                     });
+
+                const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                document.getElementById('lastActiveUI').innerText = nowStr + " (Lokal)";
+
+                setTimeout(() => {
+                    currentState = 0;
+                    renderButtonState();
+                }, 3100);
                 return;
             }
 
-            // JALUR 2: WIRELESS CLOUD FIREBASE RTDB
-            let updates = { status: newState };
-            if (newState === 1) {
-                updates.lastActive = now;
-            } else if (lastActiveTs > 0) {
-                const diff = now - lastActiveTs;
-                const s = Math.max(1, Math.round(diff / 1000));
-                updates.lastDuration = `${s} dtk`;
+            // 2. JALUR ONLINE CLOUD FIREBASE
+            if (!dbRef || !isServerConnected) {
+                return alert("Tidak ada koneksi internet. Pindahkan sakelar di atas ke 'Offline Lokal'.");
             }
-            
-            btnLabel.innerText = "PROSES...";
-            
+
+            let updates = { status: newState };
+            if (newState === 1) updates.lastActive = Date.now();
+
             dbRef.update(updates).then(() => {
                 if (newState === 1) {
                     CyberAudio.play('pump_on');
-                    if (selfieData) {
-                        triggerGoPayAnim("SELFIE TERVERIFIKASI!", "Bukti terekam & pompa menyala 3 detik!");
-                        catatKeLog('LONTAR PAKAN (3 DTK) [SELFIE OK]', operatorLabel, selfieData);
-                    } else {
-                        triggerGoPayAnim("PAKAN DILONTARKAN", "Pompa wireless menyala selama 3 detik otomatis!");
-                        catatKeLog('LONTAR PAKAN (3 DTK)', operatorLabel, null);
+                    triggerGoPayAnim("PAKAN DILONTARKAN", "Pompa menyala 3 detik otomatis!");
+                    if (logRef) {
+                        const payload = { aksi: 'LONTAR PAKAN (3 DTK)', oleh: operatorLabel, waktu: firebase.database.ServerValue.TIMESTAMP };
+                        if (selfieData) payload.selfieData = selfieData;
+                        logRef.push(payload);
                     }
                 } else {
                     CyberAudio.play('pump_off');
-                    triggerGoPayAnim("MESIN DIMATIKAN", "Pompa dihentikan secara manual.", true);
-                    catatKeLog('MESIN DIMATIKAN', operatorLabel, null);
+                    triggerGoPayAnim("MESIN DIMATIKAN", "Pompa dihentikan.", true);
                 }
-            }).catch(e => {
-                CyberAudio.play('error');
-                alert("Error Database: " + e.message);
             });
         }
 
         btn.onclick = () => {
             if (btn.disabled) return;
-            if (userRole !== 'ADMIN' && userRole !== 'USER_EMAIL') return;
-
             const newState = currentState === 1 ? 0 : 1;
-
-            if (userRole === 'USER_EMAIL' && newState === 1) {
+            if (userRole === 'USER_EMAIL' && newState === 1 && wirelessMode === 'CLOUD') {
                 openSelfieVerificationModal();
                 return;
             }
-
             CyberAudio.play('ui_click');
             eksekusiPerintahPompa(newState, null);
         };
 
         function toggleLcdBacklight() {
-            if (userRole !== 'ADMIN') {
-                CyberAudio.play('error');
-                return alert("Akses Ditolak: Hanya Master Admin XI-7 yang dapat mengontrol layar LCD.");
-            }
-            const newLcdState = currentLcdState === 1 ? 0 : 1;
-            lcdRef.set(newLcdState).then(() => {
-                CyberAudio.play(newLcdState === 1 ? 'lcd_on' : 'lcd_off');
-                triggerGoPayAnim(newLcdState === 1 ? "LCD NYALA" : "LCD SLEEP", "Status backlight LCD diperbarui.", newLcdState === 0);
-                catatKeLog(newLcdState === 1 ? 'LCD DINYALAKAN' : 'LCD DIMATIKAN', 'Admin (XI-7)');
-            });
+            if (userRole !== 'ADMIN' || !lcdRef || !isServerConnected) return alert("Kontrol LCD membutuhkan koneksi Online Cloud.");
+            const next = currentLcdState === 1 ? 0 : 1;
+            lcdRef.set(next).then(() => triggerGoPayAnim(next === 1 ? "LCD NYALA" : "LCD SLEEP", "Backlight diperbarui.", next === 0));
         }
 
-        function catatKeLog(aksi, oleh, selfieData = null) {
-            const payload = {
-                aksi: aksi,
-                oleh: oleh,
-                waktu: firebase.database.ServerValue.TIMESTAMP
-            };
-            if (selfieData) {
-                payload.selfieData = selfieData;
-            }
-            logRef.push(payload);
-        }
-
-        function openProofModal(index) {
-            const item = cachedLogsList[index];
+        function openProofModal(idx) {
+            const item = cachedLogsList[idx];
             if (!item || !item.selfieData) return;
-            CyberAudio.play('ui_click');
-            const t = new Date(item.waktu).toLocaleString('id-ID', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'});
-            document.getElementById('proofMetaText').innerText = `${item.oleh} • ${t}`;
+            document.getElementById('proofMetaText').innerText = item.oleh;
             document.getElementById('proofImageEl').src = item.selfieData;
             document.getElementById('proof-modal').classList.add('active');
         }
-
-        function closeProofModal() {
-            CyberAudio.play('ui_click');
-            document.getElementById('proof-modal').classList.remove('active');
-        }
+        function closeProofModal() { document.getElementById('proof-modal').classList.remove('active'); }
 
         function renderLogTable() {
             const tbody = document.getElementById('logTableBody');
-            if (!cachedLogsList || cachedLogsList.length === 0) {
+            if (!cachedLogsList.length) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">Belum ada log terekam.</td></tr>';
                 return;
             }
-
-            let html = '';
-            cachedLogsList.forEach((item, idx) => {
+            tbody.innerHTML = cachedLogsList.map((item, idx) => {
                 const t = new Date(item.waktu).toLocaleString('id-ID', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', second:'2-digit'});
-                const actionClass = item.aksi.includes('LONTAR') || item.aksi.includes('NYALA') ? 'log-nyala' : 'log-mati';
-                const safeOleh = String(item.oleh || '-').replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-                let proofCell = '<span style="color: #556b5d; font-size: 11px;">-</span>';
-                if (item.selfieData) {
-                    if (userRole === 'ADMIN' || userRole === 'USER_EMAIL') {
-                        proofCell = `<button class="btn-mini" onclick="openProofModal(${idx})"><i class="fa-solid fa-camera"></i> Lihat Selfie</button>`;
-                    } else {
-                        proofCell = `<span style="color: var(--text-muted); font-size: 11px;"><i class="fa-solid fa-lock"></i> Terkunci</span>`;
-                    }
-                }
-
-                html += `<tr>
-                            <td>${t}</td>
-                            <td class="${actionClass}">${item.aksi}</td>
-                            <td><i class="fa-solid fa-user-gear" style="font-size:10px; margin-right:5px; color:var(--lcd-yellow);"></i> ${safeOleh}</td>
-                            <td>${proofCell}</td>
-                         </tr>`;
-            });
-            tbody.innerHTML = html;
+                const proof = item.selfieData ? `<button class="btn-mini" onclick="openProofModal(${idx})">Lihat Selfie</button>` : '-';
+                return `<tr><td>${t}</td><td class="log-nyala">${item.aksi}</td><td>${item.oleh}</td><td>${proof}</td></tr>`;
+            }).join('');
         }
 
-        logRef.orderByChild('waktu').limitToLast(15).on('value', snap => {
-            if(!snap.exists()) {
-                cachedLogsList = [];
-                renderLogTable();
-                return;
-            }
-
-            let logsArray = [];
-            snap.forEach(child => { logsArray.push(child.val()); });
-            logsArray.reverse();
-            cachedLogsList = logsArray;
-            renderLogTable();
-        });
-
-        /* =========================================
-           6. SISTEM PENJADWALAN BERTUMPUK & BERULANG
-        ========================================= */
+        /* =========================================================
+           PENJADWALAN
+        ========================================================= */
         const DAY_NAMES = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-
-        function getTodayDateString(dateObj = new Date()) {
-            const y = dateObj.getFullYear();
-            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const d = String(dateObj.getDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
-        }
-
-        function formatDaysText(days) {
-            if (!days || days.length === 7) return "Setiap Hari (Berulang Otomatis)";
-            const order = [1, 2, 3, 4, 5, 6, 0];
-            const sorted = order.filter(d => days.includes(d));
-            return "Setiap: " + sorted.map(d => DAY_NAMES[d]).join(", ");
+        function getTodayDateString(d = new Date()) {
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
 
         function tambahJadwalBertumpuk() {
-            if(userRole !== 'ADMIN') {
-                CyberAudio.play('error');
-                return alert("Hanya Master Admin XI-7 yang dapat menambah jadwal.");
-            }
+            if (userRole !== 'ADMIN' || !schedulesRef || !isServerConnected) return alert("Penambahan jadwal cloud membutuhkan koneksi internet.");
             const timeVal = document.getElementById('schedTime').value;
-            const labelVal = document.getElementById('schedLabel').value.trim();
-            const selectedDays = Array.from(document.querySelectorAll('#daysSelector input:checked'))
-                .map(cb => parseInt(cb.value, 10));
+            const labelVal = document.getElementById('schedLabel').value.trim() || `Jadwal ${timeVal} WIB`;
+            const selectedDays = Array.from(document.querySelectorAll('#daysSelector input:checked')).map(cb => parseInt(cb.value, 10));
+            if (!timeVal || !selectedDays.length) return alert("Pilih jam dan minimal 1 hari!");
 
-            if(!timeVal) {
-                CyberAudio.play('error');
-                return alert("Pilih jam pakan terlebih dahulu!");
-            }
-            if(selectedDays.length === 0) {
-                CyberAudio.play('error');
-                return alert("Pilih minimal 1 hari pengulangan!");
-            }
-
-            const finalLabel = labelVal || `Jadwal ${timeVal} WIB`;
-
-            schedulesRef.push({
-                time: timeVal,
-                label: finalLabel,
-                days: selectedDays,
-                active: true,
-                lastTriggeredDate: ""
-            }).then(() => {
-                document.getElementById('schedLabel').value = "";
-                CyberAudio.play('sched_add');
-                triggerGoPayAnim("JADWAL DITAMBAH", `${finalLabel} (${timeVal} WIB) - Durasi 3 detik!`, true);
-                catatKeLog(`JADWAL DITAMBAH (${timeVal} - ${finalLabel})`, 'Admin (XI-7)');
-            }).catch(e => {
-                CyberAudio.play('error');
-                alert("Gagal menyimpan jadwal: " + e.message);
-            });
+            schedulesRef.push({ time: timeVal, label: labelVal, days: selectedDays, active: true, lastTriggeredDate: "" })
+                .then(() => {
+                    document.getElementById('schedLabel').value = "";
+                    triggerGoPayAnim("JADWAL DITAMBAH", `${labelVal} (${timeVal} WIB)`, true);
+                });
         }
 
-        function toggleStatusJadwal(id, currentStatus) {
-            if(userRole !== 'ADMIN') return;
-            schedulesRef.child(id).update({ active: !currentStatus }).then(() => {
-                CyberAudio.play('sched_toggle');
-                triggerGoPayAnim(!currentStatus ? "JADWAL AKTIF" : "JADWAL DIJEDA", "Status jadwal berhasil diubah.", true);
-            });
+        function toggleStatusJadwal(id, cur) {
+            if (schedulesRef) schedulesRef.child(id).update({ active: !cur });
         }
-
-        function hapusSatuJadwal(id, timeText) {
-            if(userRole !== 'ADMIN') return;
-            schedulesRef.child(id).remove().then(() => {
-                CyberAudio.play('sched_delete');
-                triggerGoPayAnim("JADWAL DIHAPUS", `Jadwal jam ${timeText} WIB dihapus.`, true);
-                catatKeLog(`JADWAL DIHAPUS (${timeText} WIB)`, 'Admin (XI-7)');
-            });
+        function hapusSatuJadwal(id) {
+            if (schedulesRef) schedulesRef.child(id).remove();
         }
-
         function hapusSemuaJadwal() {
-            if(userRole !== 'ADMIN') return;
-            if(stackedSchedules.length === 0) {
-                CyberAudio.play('error');
-                return alert("Daftar jadwal sudah kosong.");
-            }
-            if(!confirm("Hapus semua jadwal bertumpuk yang tersimpan?")) return;
-
-            schedulesRef.remove().then(() => {
-                CyberAudio.play('sched_delete');
-                triggerGoPayAnim("SEMUA DIHAPUS", "Seluruh jadwal otomatis telah dikosongkan.", true);
-                catatKeLog('SEMUA JADWAL DIHAPUS', 'Admin (XI-7)');
-            });
+            if (schedulesRef && confirm("Hapus semua jadwal?")) schedulesRef.remove();
         }
 
         function renderStackedSchedules() {
             const container = document.getElementById('stackedScheduleList');
             const activeList = stackedSchedules.filter(s => s.active);
             document.getElementById('totalSchedUI').innerText = `${activeList.length} Aktif / ${stackedSchedules.length} Total`;
-
-            if (stackedSchedules.length === 0) {
-                container.innerHTML = `<p style="font-family: var(--font-lcd); font-size: 12px; color: var(--text-muted);">Belum ada jadwal tersimpan. Tambahkan jam pakan di atas.</p>`;
+            if (!stackedSchedules.length) {
+                container.innerHTML = `<p style="font-family: var(--font-lcd); font-size: 12px; color: var(--text-muted);">Belum ada jadwal tersimpan.</p>`;
                 return;
             }
-
-            const todayStr = getTodayDateString();
-            let html = '';
-
-            stackedSchedules.forEach(item => {
-                const isDoneToday = item.lastTriggeredDate === todayStr;
-                const doneBadge = isDoneToday ? `<span class="sched-badge-done">SUDAH JALAN HARI INI (BESOK ULANG)</span>` : '';
-                const safeLabel = item.label.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-                const adminControls = userRole === 'ADMIN' ? `
-                    <div class="sched-controls">
-                        <button class="btn-mini ${item.active ? '' : 'off-mode'}" onclick="toggleStatusJadwal('${item.id}', ${item.active})">
-                            <i class="fa-solid ${item.active ? 'fa-toggle-on' : 'fa-toggle-off'}"></i> ${item.active ? 'AKTIF' : 'NONAKTIF'}
-                        </button>
-                        <button class="btn-mini del-mode" onclick="hapusSatuJadwal('${item.id}', '${item.time}')">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                ` : '';
-
-                html += `
-                    <div class="sched-item ${item.active ? '' : 'paused'}">
-                        <div class="sched-item-left">
-                            <div class="sched-clock">${item.time}</div>
-                            <div class="sched-details">
-                                <div class="sched-label-text">${safeLabel} ${doneBadge}</div>
-                                <div class="sched-days-text">${formatDaysText(item.days)}</div>
-                            </div>
+            container.innerHTML = stackedSchedules.map(item => `
+                <div class="sched-item ${item.active ? '' : 'paused'}">
+                    <div class="sched-item-left">
+                        <div class="sched-clock">${item.time}</div>
+                        <div>
+                            <div class="sched-label-text">${item.label}</div>
+                            <div class="sched-days-text">Setiap: ${item.days.map(d => DAY_NAMES[d]).join(', ')}</div>
                         </div>
-                        ${adminControls}
                     </div>
-                `;
-            });
-
-            container.innerHTML = html;
+                    ${userRole === 'ADMIN' ? `<div class="sched-controls">
+                        <button class="btn-mini" onclick="toggleStatusJadwal('${item.id}', ${item.active})">${item.active ? 'AKTIF' : 'NONAKTIF'}</button>
+                        <button class="btn-mini del-mode" onclick="hapusSatuJadwal('${item.id}')">Hapus</button>
+                    </div>` : ''}
+                </div>
+            `).join('');
         }
 
         function updateNextScheduleInfo() {
-            const activeScheds = stackedSchedules.filter(s => s.active && s.days && s.days.length > 0);
-            const uiEl = document.getElementById('scheduleStatusUI');
-
-            if (activeScheds.length === 0) {
-                uiEl.innerText = "Tidak Ada";
-                return;
-            }
-
-            const now = new Date();
-            let nearestDate = null;
-            let nearestItem = null;
-
-            for (let offset = 0; offset <= 7; offset++) {
-                const checkDate = new Date(now);
-                checkDate.setDate(now.getDate() + offset);
-                const dayIdx = checkDate.getDay();
-
-                activeScheds.forEach(s => {
-                    if (!s.days.includes(dayIdx)) return;
-                    const [hh, mm] = s.time.split(':').map(Number);
-                    const target = new Date(checkDate);
-                    target.setHours(hh, mm, 0, 0);
-
-                    if (target > now && (!nearestDate || target < nearestDate)) {
-                        nearestDate = target;
-                        nearestItem = s;
-                    }
-                });
-
-                if (nearestDate) break;
-            }
-
-            if (nearestDate && nearestItem) {
-                const isToday = nearestDate.getDate() === now.getDate() && nearestDate.getMonth() === now.getMonth();
-                const dayNote = isToday ? "Hari Ini" : DAY_NAMES[nearestDate.getDay()];
-                uiEl.innerText = `${nearestItem.time} WIB (${dayNote})`;
-            } else {
-                uiEl.innerText = "Tidak Ada";
-            }
+            const activeScheds = stackedSchedules.filter(s => s.active);
+            document.getElementById('scheduleStatusUI').innerText = activeScheds.length ? `${activeScheds[0].time} WIB` : "Tidak Ada";
         }
 
-        // Jam Live & Pengecekan Jadwal Bertumpuk Berulang (Setiap 1 Detik)
         setInterval(() => {
             const now = new Date();
-            const hh = now.getHours().toString().padStart(2, '0');
-            const mm = now.getMinutes().toString().padStart(2, '0');
-            const ss = now.getSeconds().toString().padStart(2, '0');
-            const curTime = `${hh}:${mm}`;
-            const todayStr = getTodayDateString(now);
-            const todayDay = now.getDay();
-
+            const hh = String(now.getHours()).padStart(2, '0');
+            const mm = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
             document.getElementById('liveClockUI').innerText = `${hh}:${mm}:${ss} WIB`;
 
-            stackedSchedules.forEach(sched => {
-                if (!sched.active) return;
-                if (!sched.days.includes(todayDay)) return;
-
-                if (sched.time === curTime && sched.lastTriggeredDate !== todayStr) {
-                    sched.lastTriggeredDate = todayStr;
-                    schedulesRef.child(sched.id).update({ lastTriggeredDate: todayStr });
-
-                    if (currentState !== 1 && isServerConnected) {
-                        dbRef.update({ status: 1, lastActive: Date.now() }).then(() => {
-                            CyberAudio.play('pump_on');
-                            triggerGoPayAnim("JADWAL TERPICU!", `${sched.label} (${sched.time} WIB) - Lontar 3 detik!`);
-                            catatKeLog(`JADWAL TERPICU (${sched.time} - ${sched.label})`, 'Sistem Auto-Repeat');
-                        });
+            if (schedulesRef && isServerConnected) {
+                const curTime = `${hh}:${mm}`;
+                const todayStr = getTodayDateString(now);
+                stackedSchedules.forEach(sched => {
+                    if (sched.active && sched.days.includes(now.getDay()) && sched.time === curTime && sched.lastTriggeredDate !== todayStr) {
+                        sched.lastTriggeredDate = todayStr;
+                        schedulesRef.child(sched.id).update({ lastTriggeredDate: todayStr });
+                        if (currentState !== 1) dbRef.update({ status: 1, lastActive: Date.now() });
                     }
-                }
-            });
-
-            if (ss === "00") {
-                updateNextScheduleInfo();
+                });
             }
         }, 1000);
     </script>
