@@ -2,943 +2,429 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smart Feeder IoT | Cyber LCD Panel - SMAN 14 Surabaya</title>
 
-    <!-- SEO META TAGS UNTUK PENCARIAN GOOGLE -->
-    <meta name="description" content="Smart Feeder IoT adalah sistem pemberi pakan ikan otomatis berbasis pneumatik, NodeMCU ESP8266 Wireless, dan Firebase Cloud karya Kelompok Rekayasa Kelas XI-7 SMAN 14 Surabaya.">
-    <meta name="keywords" content="Smart Feeder IoT, Smart Feeder SMAN 14 Surabaya, P7 KAIH Rekayasa XI-7, Pakan Ikan Otomatis ESP8266, Cyber LCD Panel, Kelompok Rekayasa SMAN 14">
-    <meta name="author" content="Kelompok Rekayasa XI-7 SMAN 14 Surabaya">
-    <meta name="robots" content="index, follow">
-
-    <!-- OPEN GRAPH & PREVIEW SOSIAL MEDIA -->
+    <!-- SEO & OPEN GRAPH -->
+    <meta name="description" content="Smart Feeder IoT adalah sistem pemberi pakan ikan otomatis berbasis NodeMCU ESP8266 dan Firebase Cloud karya Kelompok Rekayasa Kelas XI-7 SMAN 14 Surabaya.">
+    <meta name="theme-color" content="#050806">
     <meta property="og:title" content="Smart Feeder IoT | Cyber LCD Panel - SMAN 14 Surabaya">
-    <meta property="og:description" content="Panel kontrol wireless dan monitoring sistem pakan ikan otomatis berbasis IoT karya Kelompok Rekayasa XI-7 SMAN 14 Surabaya.">
+    <meta property="og:description" content="Panel kontrol wireless sistem pakan ikan otomatis berbasis IoT karya Kelompok Rekayasa XI-7 SMAN 14 Surabaya.">
     <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="id_ID">
-    <meta name="twitter:card" content="summary_large_image">
-    
-    <!-- Google Fonts & FontAwesome (Dimuat non-blocking agar tidak macet saat offline) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    
+
     <!-- FAVICON MELINGKAR -->
-    <link id="dynamicFavicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23021209' stroke='%2300ff66' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23ffcc00' stroke-width='2' stroke-dasharray='6 3'/%3E%3Cpath d='M18 33c5-7 14-7 20-1l7-5v11l-7-5c-6 6-15 6-20 0z' fill='%2300ff66'/%3E%3C/svg%3E">
-    <link id="dynamicAppleIcon" rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg">
-
-    <script>
-        (function createCircularFavicon() {
-            if (!navigator.onLine) return;
-            const logoUrl = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg";
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.onload = function () {
-                try {
-                    const size = 128;
-                    const canvas = document.createElement("canvas");
-                    canvas.width = size;
-                    canvas.height = size;
-                    const ctx = canvas.getContext("2d");
-
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.arc(size / 2, size / 2, size / 2 - 4, 0, Math.PI * 2);
-                    ctx.closePath();
-                    ctx.clip();
-
-                    const minSide = Math.min(img.width, img.height);
-                    const sx = (img.width - minSide) / 2;
-                    const sy = (img.height - minSide) / 2;
-                    ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
-                    ctx.restore();
-
-                    ctx.beginPath();
-                    ctx.arc(size / 2, size / 2, size / 2 - 3, 0, Math.PI * 2);
-                    ctx.lineWidth = 5;
-                    ctx.strokeStyle = "#00ff66";
-                    ctx.stroke();
-
-                    const pngDataUrl = canvas.toDataURL("image/png");
-                    const link = document.getElementById("dynamicFavicon");
-                    const appleLink = document.getElementById("dynamicAppleIcon");
-                    if (link) { link.type = "image/png"; link.href = pngDataUrl; }
-                    if (appleLink) { appleLink.href = pngDataUrl; }
-                } catch (e) {}
-            };
-            img.src = logoUrl;
-        })();
-    </script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23021209' stroke='%2300ff66' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23ffcc00' stroke-width='2' stroke-dasharray='6 3'/%3E%3Cpath d='M18 33c5-7 14-7 20-1l7-5v11l-7-5c-6 6-15 6-20 0z' fill='%2300ff66'/%3E%3C/svg%3E">
 
     <style>
         :root {
             --bg-dark: #050806;
-            --panel-bg: rgba(12, 22, 16, 0.85);
+            --panel-bg: #0b150f;
             --lcd-green: #00ff66;
-            --lcd-green-glow: rgba(0, 255, 102, 0.5);
+            --lcd-green-glow: rgba(0, 255, 102, 0.35);
             --lcd-yellow: #ffcc00;
-            --lcd-yellow-glow: rgba(255, 204, 0, 0.5);
+            --lcd-yellow-glow: rgba(255, 204, 0, 0.35);
             --danger: #ff2a5f;
-            --danger-glow: rgba(255, 42, 95, 0.5);
             --text-main: #e0ffe9;
             --text-muted: #7ca889;
-            --border-lcd: rgba(0, 255, 102, 0.25);
-            --border-yellow: rgba(255, 204, 0, 0.3);
-            --radius: 18px;
-            --font-lcd: 'Share Tech Mono', 'Courier New', monospace;
-            --font-head: 'Orbitron', 'Segoe UI', sans-serif;
+            --border-lcd: rgba(0, 255, 102, 0.28);
+            --border-yellow: rgba(255, 204, 0, 0.35);
+            --radius: 16px;
+            --font-lcd: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, 'Courier New', monospace;
+            --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', sans-serif; }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }
+
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(0, 255, 102, 0.06), transparent 35%),
-                radial-gradient(circle at 80% 80%, rgba(255, 204, 0, 0.05), transparent 35%),
-                linear-gradient(rgba(0, 255, 102, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+            background-image:
+                linear-gradient(rgba(0, 255, 102, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 102, 0.025) 1px, transparent 1px);
+            background-size: 28px 28px;
         }
 
-        /* --- 0A. NON-INTERACTIVE LOGO SPLASH SCENE (ANIMASI ASLI) --- */
+        /* --- 0A. SPLASH LOGO RINGAN --- */
         #splash-overlay {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at center, #081c10 0%, #020403 80%);
-            z-index: 10003;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: all;
-            transition: opacity 0.75s ease, visibility 0.75s ease;
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, #081c10 0%, #020403 85%);
+            z-index: 10003; display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+            animation: splashAutoDismiss 0.55s ease 1.7s forwards;
         }
-        #splash-overlay::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
-            background-size: 32px 32px;
-        }
-        .splash-cyber-frame {
-            position: relative;
-            width: 240px;
-            height: 240px;
-            border-radius: 28px;
-            background: linear-gradient(145deg, rgba(10, 26, 17, 0.9), rgba(3, 10, 6, 0.96));
-            border: 2px solid var(--border-lcd);
-            box-shadow:
-                0 0 65px rgba(0, 255, 102, 0.22),
-                inset 0 0 30px rgba(0, 255, 102, 0.12);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            animation: splashZoomIn 0.85s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .splash-cyber-frame::before {
-            content: "";
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 45%;
-            background: linear-gradient(to bottom, transparent, rgba(0, 255, 102, 0.22), transparent);
-            animation: scanSweep 2.4s ease-in-out infinite;
-            z-index: 3;
-            pointer-events: none;
-        }
-        .splash-bracket {
-            position: absolute;
-            width: 22px;
-            height: 22px;
-            border-color: var(--lcd-yellow);
-            border-style: solid;
-            z-index: 4;
-        }
-        .splash-bracket.tl { top: 14px; left: 14px; border-width: 2.5px 0 0 2.5px; border-top-left-radius: 6px; }
-        .splash-bracket.tr { top: 14px; right: 14px; border-width: 2.5px 2.5px 0 0; border-top-right-radius: 6px; }
-        .splash-bracket.bl { bottom: 14px; left: 14px; border-width: 0 0 2.5px 2.5px; border-bottom-left-radius: 6px; }
-        .splash-bracket.br { bottom: 14px; right: 14px; border-width: 0 2.5px 2.5px 0; border-bottom-right-radius: 6px; }
-
         .splash-ring-outer {
-            position: relative;
-            width: 158px;
-            height: 158px;
-            border-radius: 50%;
-            padding: 5px;
-            background: #021209;
-            border: 2.5px solid var(--lcd-green);
-            box-shadow: 0 0 35px var(--lcd-green-glow), inset 0 0 18px rgba(0, 255, 102, 0.35);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative; width: 146px; height: 146px; border-radius: 50%; padding: 5px;
+            background: #021209; border: 2.5px solid var(--lcd-green);
+            box-shadow: 0 0 28px var(--lcd-green-glow);
+            display: flex; justify-content: center; align-items: center;
+            animation: zoomIn 0.6s ease;
         }
         .splash-ring-outer::after {
-            content: "";
-            position: absolute;
-            inset: -11px;
-            border-radius: 50%;
+            content: ""; position: absolute; inset: -10px; border-radius: 50%;
             border: 2px dashed var(--lcd-yellow);
-            opacity: 0.85;
             animation: spinSlow 10s linear infinite;
+            will-change: transform;
         }
-        .splash-ring-outer img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            display: block;
-        }
+        .splash-ring-outer img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
 
-        /* --- TOMBOL MUTE / UNMUTE AUDIO GLOBAL --- */
+        /* --- TOMBOL AUDIO GLOBAL --- */
         .audio-float-btn {
-            position: fixed;
-            bottom: 18px;
-            right: 18px;
-            z-index: 10005;
-            background: rgba(8, 18, 11, 0.92);
-            border: 1px solid var(--lcd-green);
-            color: var(--lcd-green);
-            box-shadow: 0 0 18px rgba(0, 255, 102, 0.25);
-            padding: 9px 14px;
-            border-radius: 30px;
-            font-family: var(--font-lcd);
-            font-size: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.25s;
+            position: fixed; bottom: 14px; right: 14px; z-index: 10005;
+            background: #08140d; border: 1px solid var(--lcd-green); color: var(--lcd-green);
+            padding: 8px 13px; border-radius: 30px; font-family: var(--font-lcd); font-size: 11px;
+            cursor: pointer; display: flex; align-items: center; gap: 6px; touch-action: manipulation;
         }
-        .audio-float-btn:hover {
-            background: rgba(0, 255, 102, 0.15);
-            transform: translateY(-2px);
-        }
-        .audio-float-btn.muted {
-            border-color: var(--danger);
-            color: var(--danger);
-            box-shadow: 0 0 15px rgba(255, 42, 95, 0.2);
-        }
+        .audio-float-btn.muted { border-color: var(--danger); color: var(--danger); }
 
-        /* --- LOGO EMBLEM STYLING --- */
-        .project-logo-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 2;
-        }
+        /* --- LOGO BADGE --- */
+        .project-logo-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 12px; }
         .project-logo-badge {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            background: #021209;
-            border: 2px solid var(--lcd-green);
-            box-shadow: 0 0 25px var(--lcd-green-glow), inset 0 0 15px rgba(0, 255, 102, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 3px;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            width: 88px; height: 88px; border-radius: 50%; background: #021209;
+            border: 2px solid var(--lcd-green); box-shadow: 0 0 20px var(--lcd-green-glow);
+            padding: 3px; position: relative;
         }
         .project-logo-badge::after {
-            content: "";
-            position: absolute;
-            inset: -6px;
-            border-radius: 50%;
-            border: 1.5px dashed var(--lcd-yellow);
-            opacity: 0.8;
-            animation: spinSlow 14s linear infinite;
-            pointer-events: none;
+            content: ""; position: absolute; inset: -6px; border-radius: 50%;
+            border: 1.5px dashed var(--lcd-yellow); animation: spinSlow 14s linear infinite; pointer-events: none;
         }
-        .project-logo-badge.small {
-            width: 68px;
-            height: 68px;
-        }
-        .project-logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            display: block;
-        }
+        .project-logo-badge.small { width: 62px; height: 62px; }
+        .project-logo-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
         .logo-school-tag {
-            margin-top: 12px;
-            font-family: var(--font-lcd);
-            font-size: 10px;
-            letter-spacing: 2px;
-            color: var(--lcd-yellow);
-            background: rgba(255, 204, 0, 0.08);
-            border: 1px solid var(--border-yellow);
-            padding: 3px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
+            margin-top: 10px; font-family: var(--font-lcd); font-size: 10px; letter-spacing: 1.5px;
+            color: var(--lcd-yellow); background: rgba(255, 204, 0, 0.08);
+            border: 1px solid var(--border-yellow); padding: 3px 10px; border-radius: 20px;
         }
 
-        /* --- INTERACTIVE INTRO SCENE OVERLAY (ANIMASI ASLI) --- */
+        /* --- 0B. INTRO SCENE --- */
         #intro-overlay {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at center, #08180e 0%, #020503 100%);
-            z-index: 10001;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-        #intro-overlay::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
-            background-size: 26px 26px;
-            pointer-events: none;
+            position: fixed; inset: 0; background: radial-gradient(circle at center, #08180e 0%, #020503 100%);
+            z-index: 10001; display: flex; justify-content: center; align-items: center; padding: 18px;
+            transition: opacity 0.35s ease;
         }
         .intro-container {
-            width: 100%;
-            max-width: 480px;
-            background: rgba(7, 17, 11, 0.92);
-            border: 2px solid var(--border-lcd);
-            box-shadow: 0 0 60px rgba(0, 255, 102, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.8);
-            border-radius: 22px;
-            padding: 34px 26px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            animation: slideUp 0.6s ease;
+            width: 100%; max-width: 440px; background: #07120c;
+            border: 2px solid var(--border-lcd); border-radius: 20px; padding: 28px 22px;
+            text-align: center; position: relative; box-shadow: 0 12px 40px rgba(0,0,0,0.8);
         }
-        .intro-corner {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-color: var(--lcd-yellow);
-            border-style: solid;
-        }
-        .intro-corner.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
-        .intro-corner.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
-        .intro-corner.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
-        .intro-corner.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
-
-        .intro-title {
-            font-family: var(--font-head);
-            font-size: 22px;
-            font-weight: 900;
-            color: var(--lcd-green);
-            text-shadow: 0 0 14px var(--lcd-green-glow);
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
-        }
-        .intro-subtitle {
-            font-family: var(--font-lcd);
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            letter-spacing: 1px;
-        }
+        .intro-title { font-size: 22px; font-weight: 900; color: var(--lcd-green); letter-spacing: 1.5px; margin-bottom: 4px; }
+        .intro-subtitle { font-family: var(--font-lcd); font-size: 11px; color: var(--text-muted); margin-bottom: 20px; letter-spacing: 1px; }
 
         .intro-trigger-zone {
-            cursor: pointer;
-            padding: 18px;
-            border-radius: 14px;
-            border: 1px dashed var(--border-yellow);
-            background: rgba(255, 204, 0, 0.04);
-            transition: 0.3s;
-            margin-bottom: 14px;
+            display: block; width: 100%; cursor: pointer; padding: 18px 14px; border-radius: 14px;
+            border: 1.5px dashed var(--border-yellow); background: rgba(255, 204, 0, 0.06);
+            margin-bottom: 12px; touch-action: manipulation; transition: transform 0.15s ease;
         }
-        .intro-trigger-zone:hover {
-            border-color: var(--lcd-green);
-            background: rgba(0, 255, 102, 0.08);
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
-        }
+        .intro-trigger-zone:active { transform: scale(0.98); border-color: var(--lcd-green); background: rgba(0, 255, 102, 0.12); }
         .click-prompt-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-head);
-            font-size: 11px;
-            font-weight: 700;
-            color: #041209;
-            background: var(--lcd-yellow);
-            padding: 10px 18px;
-            border-radius: 30px;
-            box-shadow: 0 0 20px var(--lcd-yellow-glow);
-            animation: pulseSoft 1.8s infinite;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800;
+            color: #041209; background: var(--lcd-yellow); padding: 11px 20px; border-radius: 30px;
+            box-shadow: 0 0 16px var(--lcd-yellow-glow); text-transform: uppercase; letter-spacing: 0.8px;
         }
 
-        .music-visualizer {
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 4px;
-            height: 18px;
-            margin-bottom: 12px;
-        }
-        .music-visualizer.playing {
-            display: flex;
-        }
-        .eq-bar {
-            width: 4px;
-            height: 6px;
-            background: var(--lcd-green);
-            border-radius: 2px;
-            box-shadow: 0 0 6px var(--lcd-green);
-            animation: eqBounce 0.6s ease-in-out infinite alternate;
-        }
-        .eq-bar:nth-child(2) { animation-delay: 0.15s; background: var(--lcd-yellow); }
-        .eq-bar:nth-child(3) { animation-delay: 0.3s; }
-        .eq-bar:nth-child(4) { animation-delay: 0.1s; background: var(--lcd-yellow); }
-        .eq-bar:nth-child(5) { animation-delay: 0.25s; }
+        .music-visualizer { display: none; align-items: flex-end; justify-content: center; gap: 4px; height: 16px; margin-bottom: 10px; }
+        .music-visualizer.playing { display: flex; }
+        .eq-bar { width: 4px; height: 5px; background: var(--lcd-green); border-radius: 2px; animation: eqBounce 0.55s ease-in-out infinite alternate; }
+        .eq-bar:nth-child(2), .eq-bar:nth-child(4) { animation-delay: 0.15s; background: var(--lcd-yellow); }
 
         .boot-console {
-            display: none;
-            text-align: left;
-            background: #020a05;
-            border: 1px solid var(--border-lcd);
-            border-radius: 10px;
-            padding: 14px;
-            font-family: var(--font-lcd);
-            font-size: 12px;
-            color: var(--lcd-green);
-            margin-bottom: 18px;
+            display: none; text-align: left; background: #020a05; border: 1px solid var(--border-lcd);
+            border-radius: 10px; padding: 12px; font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-green); margin-bottom: 14px;
         }
-        .boot-line {
-            margin-bottom: 6px;
-            opacity: 0;
-            transform: translateX(-6px);
-            transition: 0.25s ease;
-        }
-        .boot-line.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .boot-line span.ok {
-            color: var(--lcd-yellow);
-            font-weight: 700;
-        }
-        .boot-progress-wrap {
-            width: 100%;
-            height: 6px;
-            background: #091c11;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-top: 10px;
-            border: 1px solid rgba(0, 255, 102, 0.2);
-        }
-        .boot-progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--lcd-green), var(--lcd-yellow));
-            box-shadow: 0 0 12px var(--lcd-green);
-            transition: width 0.35s ease;
-        }
+        .boot-line { margin-bottom: 5px; opacity: 0; transition: opacity 0.2s ease; }
+        .boot-line.show { opacity: 1; }
+        .boot-line span.ok { color: var(--lcd-yellow); font-weight: 700; }
+        .boot-progress-wrap { width: 100%; height: 6px; background: #091c11; border-radius: 6px; overflow: hidden; margin-top: 8px; }
+        .boot-progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--lcd-green), var(--lcd-yellow)); transition: width 0.3s ease; }
         .btn-enter-login {
-            display: none;
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 8px;
-            background: var(--lcd-green);
-            color: #021a0e;
-            font-family: var(--font-head);
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 0 25px var(--lcd-green-glow);
-            transition: 0.3s;
-        }
-        .btn-enter-login:hover {
-            background: #4dff94;
-            transform: translateY(-2px);
-            box-shadow: 0 0 35px var(--lcd-green);
+            display: none; width: 100%; padding: 13px; border: none; border-radius: 8px;
+            background: var(--lcd-green); color: #021a0e; font-size: 12px; font-weight: 900;
+            letter-spacing: 1px; text-transform: uppercase; cursor: pointer; touch-action: manipulation;
         }
 
-        /* --- ANIMASI GOPAY OVERLAY (POP-UP SUCCESS ASLI) --- */
-        #gopay-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 6, 0.85);
-            backdrop-filter: blur(12px);
+        /* --- POP-UP UMUM (GOPAY & INFO OFFLINE) --- */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(3, 6, 4, 0.88);
             display: flex; justify-content: center; align-items: center;
-            z-index: 10006; opacity: 0; visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10006; padding: 16px; opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity 0.25s ease;
         }
-        #gopay-modal.active { opacity: 1; visibility: visible; }
-        
+        .modal-backdrop.active { opacity: 1; visibility: visible; pointer-events: auto; }
+        #gopay-modal { pointer-events: none; z-index: 10008; }
+
         .gopay-box {
-            background: linear-gradient(145deg, #0d1a12, #07100b);
-            border: 2px solid var(--lcd-green);
-            box-shadow: 0 0 50px var(--lcd-green-glow);
-            border-radius: 24px; padding: 40px 30px; text-align: center;
-            width: 85%; max-width: 360px;
-            transform: scale(0.7); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: #0b1810; border: 2px solid var(--lcd-green);
+            box-shadow: 0 0 35px var(--lcd-green-glow); border-radius: 20px; padding: 30px 24px;
+            text-align: center; width: 86%; max-width: 340px;
+            transform: scale(0.9); transition: transform 0.25s ease;
         }
-        #gopay-modal.active .gopay-box { transform: scale(1); }
-        
+        .modal-backdrop.active .gopay-box { transform: scale(1); }
         .gopay-circle {
-            width: 90px; height: 90px; margin: 0 auto 20px;
-            border-radius: 50%; background: var(--lcd-green);
+            width: 74px; height: 74px; margin: 0 auto 16px; border-radius: 50%;
+            background: var(--lcd-green); color: #041209; font-size: 34px; font-weight: 900;
             display: flex; justify-content: center; align-items: center;
-            position: relative; box-shadow: 0 0 30px var(--lcd-green);
-            animation: pulseRing 1.5s infinite;
         }
-        .gopay-circle.yellow-mode {
-            background: var(--lcd-yellow);
-            box-shadow: 0 0 30px var(--lcd-yellow);
-            animation: pulseRingYellow 1.5s infinite;
-        }
-        .gopay-circle i { font-size: 45px; color: #050806; }
+        .gopay-circle.yellow-mode { background: var(--lcd-yellow); }
+        .gopay-title { font-size: 16px; font-weight: 800; color: var(--lcd-green); margin-bottom: 6px; text-transform: uppercase; }
+        .gopay-desc { font-size: 12px; color: var(--text-muted); font-family: var(--font-lcd); line-height: 1.5; }
 
-        .gopay-title { font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
-        .gopay-desc { font-size: 13px; color: var(--text-muted); font-family: var(--font-lcd); }
-
-        /* --- MODAL VERIFIKASI SELFIE KAMERA --- */
-        #selfie-modal, #proof-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(3, 6, 4, 0.9);
-            backdrop-filter: blur(12px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10004;
-            padding: 16px;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s ease;
+        /* --- POP-UP INFORMASI MODE OFFLINE (CAPTIVE PORTAL) --- */
+        .info-offline-box {
+            background: #08140d; border: 2px solid var(--lcd-yellow);
+            box-shadow: 0 12px 45px rgba(0, 0, 0, 0.9);
+            border-radius: 20px; padding: 24px 20px; width: 100%; max-width: 410px; text-align: left;
         }
-        #selfie-modal.active, #proof-modal.active { opacity: 1; visibility: visible; }
+        .info-offline-head {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 15px; font-weight: 800; color: var(--lcd-yellow);
+            margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .info-offline-badge {
+            width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+            background: rgba(255, 204, 0, 0.15); border: 1px solid var(--lcd-yellow);
+            color: var(--lcd-yellow); display: flex; justify-content: center; align-items: center;
+            font-family: var(--font-lcd); font-weight: 900; font-size: 16px;
+        }
+        .info-offline-body {
+            font-size: 13px; line-height: 1.65; color: var(--text-main); margin-bottom: 14px;
+        }
+        .info-offline-steps {
+            background: #030b06; border: 1px dashed var(--border-lcd); border-radius: 12px;
+            padding: 12px 14px; font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-green);
+            margin-bottom: 16px; line-height: 1.6;
+        }
+        .info-offline-steps strong { color: var(--lcd-yellow); }
+
+        /* --- MODAL SELFIE & PROOF --- */
         .selfie-box {
-            width: 100%;
-            max-width: 440px;
-            background: linear-gradient(155deg, #0b1810, #050c08);
-            border: 2px solid var(--lcd-green);
-            box-shadow: 0 0 45px rgba(0, 255, 102, 0.25);
-            border-radius: 20px;
-            padding: 22px;
-            text-align: center;
-            position: relative;
+            width: 100%; max-width: 410px; background: #09150e;
+            border: 2px solid var(--lcd-green); border-radius: 18px; padding: 18px; text-align: center;
         }
-        .selfie-header { font-family: var(--font-head); font-size: 15px; color: var(--lcd-green); letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
-        .selfie-sub { font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); margin-bottom: 14px; }
         .camera-viewport {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 4 / 3;
-            background: #010804;
-            border: 2px solid var(--border-lcd);
-            border-radius: 14px;
-            overflow: hidden;
-            margin-bottom: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative; width: 100%; aspect-ratio: 4 / 3; background: #010804;
+            border: 2px solid var(--border-lcd); border-radius: 12px; overflow: hidden; margin: 12px 0;
+            display: flex; justify-content: center; align-items: center;
         }
         .camera-viewport video, .camera-viewport img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .camera-viewport video { transform: scaleX(-1); }
-        .hud-reticle { position: absolute; inset: 14px; border: 1px dashed rgba(0, 255, 102, 0.45); border-radius: 12px; pointer-events: none; }
         .hud-face-oval {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -52%);
-            width: 46%; height: 68%; border: 2px solid var(--lcd-yellow); border-radius: 50%;
-            box-shadow: 0 0 18px rgba(255, 204, 0, 0.35); pointer-events: none;
+            width: 46%; height: 68%; border: 2px solid var(--lcd-yellow); border-radius: 50%; pointer-events: none;
         }
-        .hud-rec-tag {
-            position: absolute; top: 10px; left: 12px; background: rgba(2, 12, 6, 0.8);
-            border: 1px solid var(--danger); color: var(--danger); font-family: var(--font-lcd);
-            font-size: 10px; padding: 2px 8px; border-radius: 20px; display: flex; align-items: center; gap: 5px; pointer-events: none;
-        }
-        .hud-rec-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--danger); animation: pulseGreen 1s infinite; }
-        .camera-error-box { display: none; padding: 16px; font-family: var(--font-lcd); font-size: 12px; color: var(--danger); line-height: 1.5; }
-        .selfie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
         /* --- LOGIN OVERLAY --- */
         #auth-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 5, 4, 0.96); backdrop-filter: blur(20px);
-            display: flex; justify-content: center; align-items: center; z-index: 9999;
-            transition: 0.5s ease;
-            padding: 14px;
+            position: fixed; inset: 0; background: #030504;
+            display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 14px;
+            transition: opacity 0.3s ease;
         }
         .lcd-bezel-frame {
-            background: #121814;
-            border: 4px solid #2a382e;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.8);
-            border-radius: 20px; padding: 20px; width: 96%; max-width: 430px;
-            position: relative;
-        }
-        .lcd-bezel-frame::before {
-            content: "WIRELESS IOT MATRIX Module 16x2";
-            position: absolute; top: -14px; left: 25px; background: #121814;
-            padding: 0 10px; color: var(--lcd-yellow); font-family: var(--font-lcd);
-            font-size: 11px; border: 1px solid #2a382e; border-radius: 4px;
+            background: #121814; border: 3px solid #2a382e; border-radius: 18px;
+            padding: 14px; width: 100%; max-width: 410px;
         }
         .lcd-screen {
-            background: #021a0e;
-            border: 3px solid var(--lcd-green);
-            box-shadow: inset 0 0 25px rgba(0, 255, 102, 0.25), 0 0 15px var(--lcd-green-glow);
-            border-radius: 10px; padding: 18px; text-align: center;
-            position: relative; overflow-y: auto; max-height: 90vh;
+            background: #021a0e; border: 2.5px solid var(--lcd-green);
+            border-radius: 10px; padding: 18px 16px; text-align: center; max-height: 92vh; overflow-y: auto;
         }
-        .lcd-screen::after {
-            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px; pointer-events: none; opacity: 0.55;
-        }
-
-        .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 19px; font-weight: 700; text-shadow: 0 0 10px var(--lcd-green); margin-bottom: 2px; }
-        .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; display: block; }
+        .lcd-header { font-family: var(--font-lcd); color: var(--lcd-green); font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+        .lcd-sub { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 11px; letter-spacing: 1px; margin-bottom: 14px; display: block; }
 
         .auth-tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            background: #010c06;
-            padding: 4px;
-            border-radius: 8px;
-            border: 1px solid var(--border-lcd);
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 2;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+            background: #010c06; padding: 4px; border-radius: 8px; border: 1px solid var(--border-lcd); margin-bottom: 14px;
         }
         .auth-tab-btn {
-            padding: 8px 6px;
-            border: none;
-            border-radius: 6px;
-            background: transparent;
-            color: var(--text-muted);
-            font-family: var(--font-head);
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.25s;
-            text-transform: uppercase;
+            padding: 8px; border: none; border-radius: 6px; background: transparent;
+            color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase;
         }
-        .auth-tab-btn.active {
-            background: rgba(0, 255, 102, 0.18);
-            color: var(--lcd-green);
-            box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.25);
-        }
+        .auth-tab-btn.active { background: rgba(0, 255, 102, 0.18); color: var(--lcd-green); }
 
-        .input-group { margin-bottom: 12px; text-align: left; position: relative; z-index: 2; }
-        .input-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 4px; text-transform: uppercase; }
+        .input-group { margin-bottom: 12px; text-align: left; }
+        .input-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 4px; }
         .input-group input {
-            width: 100%; padding: 10px 12px; border-radius: 6px;
-            background: #010d07; border: 1px solid var(--lcd-green);
-            color: var(--lcd-yellow); font-family: var(--font-lcd); font-size: 14px; outline: none;
-            box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.2); transition: 0.3s;
+            width: 100%; padding: 10px 12px; border-radius: 6px; background: #010d07;
+            border: 1px solid var(--lcd-green); color: var(--lcd-yellow); font-family: var(--font-lcd); font-size: 14px; outline: none;
         }
-        .input-group input:focus { box-shadow: 0 0 12px var(--lcd-green-glow), inset 0 0 10px rgba(0, 255, 102, 0.4); }
-
-        .forgot-link {
-            display: inline-block; font-family: var(--font-lcd); font-size: 11px;
-            color: var(--lcd-yellow); text-decoration: underline; cursor: pointer;
-            margin-bottom: 8px; position: relative; z-index: 2;
-        }
+        .forgot-link { display: inline-block; font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); text-decoration: underline; cursor: pointer; margin-bottom: 8px; }
         .selfie-policy-note {
             font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow);
             background: rgba(255, 204, 0, 0.08); border: 1px dashed var(--border-yellow);
             border-radius: 6px; padding: 7px 9px; margin-bottom: 10px; text-align: left;
-            position: relative; z-index: 2;
         }
 
         .btn-auth {
-            width: 100%; padding: 11px; margin-top: 4px; border: none;
-            border-radius: 6px; font-family: var(--font-head); font-size: 11px; font-weight: 700;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-            position: relative; z-index: 2;
+            width: 100%; padding: 12px; margin-top: 6px; border: none; border-radius: 6px;
+            font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 0.8px; touch-action: manipulation;
         }
-        .btn-login { background: var(--lcd-green); color: #021a0e; box-shadow: 0 0 15px var(--lcd-green-glow); }
-        .btn-login:hover { background: #33ff85; box-shadow: 0 0 25px var(--lcd-green); transform: translateY(-2px); }
-        .btn-offline-direct { background: var(--lcd-yellow); color: #050806; box-shadow: 0 0 15px var(--lcd-yellow-glow); margin-top: 8px; }
-        .btn-offline-direct:hover { background: #ffe066; box-shadow: 0 0 25px var(--lcd-yellow); transform: translateY(-2px); }
-        .btn-guest { background: transparent; color: var(--lcd-yellow); border: 1px solid var(--lcd-yellow); margin-top: 8px; }
-        .btn-guest:hover { background: rgba(255, 204, 0, 0.15); box-shadow: 0 0 15px var(--lcd-yellow-glow); }
+        .btn-login { background: var(--lcd-green); color: #021a0e; }
+        .btn-guest { background: transparent; color: var(--lcd-yellow); border: 1px solid var(--lcd-yellow); }
+        .btn-info-login { background: rgba(255, 204, 0, 0.1); color: var(--lcd-yellow); border: 1px dashed var(--border-yellow); }
 
         /* --- LAYOUT UTAMA DASHBOARD --- */
-        #app-container { display: none; width: 100%; height: 100vh; animation: fadeIn 0.8s ease; }
-        
+        #app-container { display: none; width: 100%; min-height: 100vh; }
         .sidebar {
-            width: 270px; background: var(--panel-bg); border-right: 1px solid var(--border-lcd);
-            padding: 30px 20px; display: flex; flex-direction: column; flex-shrink: 0;
-            backdrop-filter: blur(10px);
+            width: 250px; background: var(--panel-bg); border-right: 1px solid var(--border-lcd);
+            padding: 24px 16px; display: flex; flex-direction: column; flex-shrink: 0;
         }
-        .brand { 
-            font-family: var(--font-head); font-size: 18px; font-weight: 900; 
-            color: var(--lcd-green); text-align: center; margin-bottom: 35px; 
-            text-shadow: 0 0 10px var(--lcd-green-glow); letter-spacing: 1px;
-        }
-        .brand i { color: var(--lcd-yellow); margin-right: 8px; }
-        
+        .brand { font-size: 16px; font-weight: 900; color: var(--lcd-green); text-align: center; margin-bottom: 28px; letter-spacing: 1px; }
         .nav-container { display: flex; flex-direction: column; flex: 1; }
         .nav-item {
-            padding: 14px 18px; margin-bottom: 12px; border-radius: 10px;
-            color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; gap: 12px; border: 1px solid transparent;
+            padding: 12px 14px; margin-bottom: 10px; border-radius: 10px;
+            color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; gap: 10px; border: 1px solid transparent; touch-action: manipulation;
         }
-        .nav-item i { width: 20px; text-align: center; font-size: 16px; }
-        .nav-item.active, .nav-item:hover {
-            background: rgba(0, 255, 102, 0.08); color: var(--lcd-green);
-            border-color: var(--border-lcd); box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
-        }
-        .nav-item.active i { color: var(--lcd-yellow); }
+        .nav-item.active { background: rgba(0, 255, 102, 0.1); color: var(--lcd-green); border-color: var(--border-lcd); }
 
-        .main-content { flex: 1; padding: 30px 40px; overflow-y: auto; }
-        
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; flex-wrap: wrap; gap: 15px; }
-        .header h1 { font-family: var(--font-head); font-size: 23px; color: #fff; letter-spacing: 1px; }
-        .header p { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 13px; }
-        
-        .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .clock-badge {
-            padding: 8px 16px; border-radius: 30px; font-family: var(--font-lcd); font-size: 13px;
-            background: #08120b; border: 1px solid var(--border-yellow); color: var(--lcd-yellow);
-            display: flex; align-items: center; gap: 8px;
-        }
-        .status-badge {
-            padding: 8px 18px; border-radius: 30px; font-family: var(--font-lcd); font-size: 13px;
-            display: flex; align-items: center; gap: 10px; background: #08120b; border: 1px solid var(--border-lcd);
-        }
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.online { background: var(--lcd-green); box-shadow: 0 0 12px var(--lcd-green); animation: pulseGreen 2s infinite; }
-        .dot.offline { background: var(--danger); box-shadow: 0 0 12px var(--danger); }
+        .main-content { flex: 1; padding: 22px 26px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+        .header h1 { font-size: 20px; font-weight: 800; color: #fff; }
+        .header p { font-family: var(--font-lcd); color: var(--lcd-yellow); font-size: 12px; }
+        .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-        .view-section { display: none; animation: slideUp 0.4s ease; }
-        .view-section.active { display: block; }
+        .clock-badge, .status-badge, .info-pill-btn {
+            padding: 7px 12px; border-radius: 24px; font-family: var(--font-lcd); font-size: 12px;
+            background: #08120b; border: 1px solid var(--border-lcd); display: inline-flex; align-items: center; gap: 6px;
+        }
+        .clock-badge { border-color: var(--border-yellow); color: var(--lcd-yellow); }
+        .info-pill-btn {
+            border-color: var(--lcd-yellow); color: #041209; background: var(--lcd-yellow);
+            font-weight: 700; cursor: pointer; touch-action: manipulation;
+        }
+        .dot { width: 9px; height: 9px; border-radius: 50%; }
+        .dot.online { background: var(--lcd-green); box-shadow: 0 0 8px var(--lcd-green); }
+        .dot.offline { background: var(--danger); }
 
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 25px; }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.25s ease; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; }
         .card-wide { grid-column: 1 / -1; }
-        
         .card {
-            background: var(--panel-bg); backdrop-filter: blur(15px);
-            border: 1px solid var(--border-lcd); border-radius: var(--radius);
-            padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;
-            transition: transform 0.3s, border-color 0.3s;
+            background: var(--panel-bg); border: 1px solid var(--border-lcd); border-radius: var(--radius);
+            padding: 20px; position: relative;
         }
-        .card:hover { transform: translateY(-4px); border-color: var(--lcd-green); }
         .card-title {
-            font-family: var(--font-head); font-size: 13px; color: var(--lcd-yellow);
-            text-transform: uppercase; margin-bottom: 18px; letter-spacing: 1px;
-            display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
-        }
-        .card-title-left { display: flex; align-items: center; gap: 10px; }
-
-        .quick-mode-switch {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            background: #030a06;
-            padding: 4px;
-            border-radius: 10px;
-            border: 1px solid var(--border-lcd);
-            margin-bottom: 12px;
-        }
-        .qmode-btn {
-            padding: 8px 6px;
-            border: none;
-            border-radius: 7px;
-            background: transparent;
-            color: var(--text-muted);
-            font-family: var(--font-lcd);
-            font-size: 11px;
-            cursor: pointer;
-            transition: 0.2s;
-            text-align: center;
-        }
-        .qmode-btn.active {
-            background: rgba(0, 255, 102, 0.16);
-            color: var(--lcd-green);
-            border: 1px solid var(--border-lcd);
-            font-weight: 700;
-        }
-        .qmode-btn.active-yellow {
-            background: rgba(255, 204, 0, 0.16);
-            color: var(--lcd-yellow);
-            border: 1px solid var(--border-yellow);
-            font-weight: 700;
+            font-size: 12px; font-weight: 800; color: var(--lcd-yellow);
+            text-transform: uppercase; margin-bottom: 14px; letter-spacing: 0.8px;
+            display: flex; align-items: center; justify-content: space-between;
         }
 
-        .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 18px 0; }
+        .switch-wrapper { display: flex; justify-content: center; align-items: center; margin: 16px 0; }
         .main-btn {
             width: 150px; height: 150px; border-radius: 50%; border: none; cursor: pointer;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; outline: none;
+            transition: transform 0.2s ease, background-color 0.2s ease; outline: none; touch-action: manipulation;
         }
-        .main-btn i { font-size: 38px; }
-        .main-btn span { font-family: var(--font-head); font-size: 11px; margin-top: 8px; letter-spacing: 1px; }
-        
-        .btn-off {
-            background: #0c140e; color: var(--text-muted); border: 3px solid #1a2b1f;
-            box-shadow: inset 0 0 20px #000, 0 5px 15px rgba(0,0,0,0.6);
-        }
-        .btn-on {
-            background: var(--lcd-green); color: #021a0e; border: 3px solid var(--lcd-yellow);
-            box-shadow: 0 0 50px var(--lcd-green-glow), inset 0 0 20px rgba(255,255,255,0.6);
-            transform: scale(1.06);
-        }
-        .btn-locked { background: #0a0e0b; color: #334438; border: 3px dashed #1a2b1f; cursor: not-allowed; }
+        .main-btn span { font-size: 11px; font-weight: 800; margin-top: 8px; letter-spacing: 0.8px; }
+        .btn-off { background: #0c140e; color: var(--text-muted); border: 3px solid #1d3324; }
+        .btn-on { background: var(--lcd-green); color: #021a0e; border: 3px solid var(--lcd-yellow); box-shadow: 0 0 32px var(--lcd-green-glow); transform: scale(1.04); }
+        .btn-locked { background: #0a0e0b; color: #3a4d3f; border: 3px dashed #1d3324; cursor: not-allowed; }
 
-        .info-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 13px; border-bottom: 1px solid rgba(0, 255, 102, 0.08); padding-bottom: 8px; }
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; border-bottom: 1px solid rgba(0, 255, 102, 0.08); padding-bottom: 7px; }
         .info-label { color: var(--text-muted); font-family: var(--font-lcd); }
         .info-val { font-family: var(--font-lcd); font-weight: 700; color: var(--lcd-green); text-align: right; }
 
-        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .form-group { margin-bottom: 14px; }
-        .form-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 8px; text-transform: uppercase; }
-        input[type="time"], input[type="text"].cyber-input, select.cyber-input {
-            width: 100%; padding: 12px; background: #040a06; color: var(--lcd-yellow);
-            border: 1px solid var(--border-lcd); border-radius: 8px; font-family: var(--font-lcd); font-size: 15px; outline: none;
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 6px; }
+        input[type="time"], input[type="text"].cyber-input {
+            width: 100%; padding: 10px 12px; background: #040a06; color: var(--lcd-yellow);
+            border: 1px solid var(--border-lcd); border-radius: 8px; font-family: var(--font-lcd); font-size: 14px; outline: none;
         }
-        input[type="time"]:focus, input[type="text"].cyber-input:focus, select.cyber-input:focus { border-color: var(--lcd-yellow); box-shadow: 0 0 10px var(--lcd-yellow-glow); }
-
-        .days-selector { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-        .day-chip { cursor: pointer; user-select: none; }
+        .days-selector { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
         .day-chip input { display: none; }
         .day-chip span {
-            display: inline-block; padding: 6px 12px; border-radius: 6px;
-            font-family: var(--font-lcd); font-size: 12px;
-            background: #040a06; border: 1px solid var(--border-lcd); color: var(--text-muted);
-            transition: 0.2s;
+            display: inline-block; padding: 6px 11px; border-radius: 6px;
+            font-family: var(--font-lcd); font-size: 11px; background: #040a06; border: 1px solid var(--border-lcd); color: var(--text-muted); cursor: pointer;
         }
-        .day-chip input:checked + span {
-            background: rgba(0, 255, 102, 0.18); border-color: var(--lcd-green);
-            color: var(--lcd-green); box-shadow: 0 0 10px rgba(0, 255, 102, 0.25); font-weight: 700;
-        }
+        .day-chip input:checked + span { background: rgba(0, 255, 102, 0.18); border-color: var(--lcd-green); color: var(--lcd-green); font-weight: 700; }
 
         .btn-action {
-            width: 100%; padding: 12px; border: none; border-radius: 8px; font-family: var(--font-head);
-            font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
+            width: 100%; padding: 11px; border: none; border-radius: 8px;
+            font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 0.8px; touch-action: manipulation;
         }
-        .btn-save { background: var(--lcd-yellow); color: #050806; box-shadow: 0 0 15px var(--lcd-yellow-glow); }
-        .btn-save:hover { background: #ffe066; box-shadow: 0 0 25px var(--lcd-yellow); transform: translateY(-2px); }
-        .btn-green-solid { background: var(--lcd-green); color: #021a0e; box-shadow: 0 0 15px var(--lcd-green-glow); }
-        .btn-green-solid:hover { background: #33ff85; box-shadow: 0 0 25px var(--lcd-green); transform: translateY(-2px); }
+        .btn-save { background: var(--lcd-yellow); color: #050806; }
+        .btn-green-solid { background: var(--lcd-green); color: #021a0e; }
         .btn-del { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-        .btn-del:hover { background: var(--danger); color: #fff; box-shadow: 0 0 15px var(--danger-glow); }
 
-        .stacked-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .stacked-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .sched-item {
             background: #040c07; border: 1px solid var(--border-lcd); border-radius: 10px;
-            padding: 12px 15px; display: flex; justify-content: space-between; align-items: center;
-            gap: 12px; flex-wrap: wrap; transition: 0.25s;
+            padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
         }
-        .sched-item.paused { opacity: 0.5; border-color: rgba(124, 168, 137, 0.2); }
-        .sched-item-left { display: flex; align-items: center; gap: 14px; }
-        .sched-clock { font-family: var(--font-lcd); font-size: 22px; font-weight: 700; color: var(--lcd-yellow); text-shadow: 0 0 8px var(--lcd-yellow-glow); }
-        .sched-details { font-family: var(--font-lcd); }
-        .sched-label-text { font-size: 13px; color: var(--text-main); font-weight: 600; }
-        .sched-days-text { font-size: 11px; color: var(--lcd-green); margin-top: 2px; }
-        .sched-controls { display: flex; align-items: center; gap: 8px; }
-        .btn-mini {
-            padding: 6px 10px; border-radius: 6px; font-family: var(--font-lcd); font-size: 11px;
-            cursor: pointer; border: 1px solid var(--border-lcd); background: transparent; color: var(--lcd-green);
-            transition: 0.2s;
-        }
-        .btn-mini:hover { background: rgba(0, 255, 102, 0.15); }
-        .btn-mini.off-mode { border-color: var(--lcd-yellow); color: var(--lcd-yellow); }
+        .sched-item.paused { opacity: 0.5; }
+        .sched-clock { font-family: var(--font-lcd); font-size: 20px; font-weight: 700; color: var(--lcd-yellow); }
+        .sched-days-text { font-size: 11px; color: var(--lcd-green); }
+        .btn-mini { padding: 5px 9px; border-radius: 6px; font-family: var(--font-lcd); font-size: 11px; cursor: pointer; border: 1px solid var(--border-lcd); background: transparent; color: var(--lcd-green); }
         .btn-mini.del-mode { border-color: var(--danger); color: var(--danger); }
-        .btn-mini.del-mode:hover { background: var(--danger); color: #fff; }
 
         .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-family: var(--font-lcd); font-size: 13px; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(0, 255, 102, 0.08); }
-        th { color: var(--lcd-yellow); font-family: var(--font-head); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-        tr:hover { background: rgba(0, 255, 102, 0.03); }
+        table { width: 100%; border-collapse: collapse; font-family: var(--font-lcd); font-size: 12px; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(0, 255, 102, 0.08); }
+        th { color: var(--lcd-yellow); font-size: 11px; text-transform: uppercase; }
         .log-nyala { color: var(--lcd-green); font-weight: 700; }
-        .log-mati { color: var(--danger); font-weight: 700; }
 
         .lock-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 6, 0.85); backdrop-filter: blur(4px); border-radius: var(--radius);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: var(--lcd-yellow); font-family: var(--font-lcd); z-index: 10; text-align: center; padding: 15px;
+            position: absolute; inset: 0; background: rgba(5, 8, 6, 0.88); border-radius: var(--radius);
+            display: flex; justify-content: center; align-items: center;
+            color: var(--lcd-yellow); font-family: var(--font-lcd); font-size: 11px; z-index: 10; text-align: center; padding: 14px;
         }
 
-        .foreword-hero { display: flex; align-items: center; gap: 20px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border-lcd); flex-wrap: wrap; }
-        .foreword-logo { width: 78px; height: 78px; border-radius: 50%; border: 2px solid var(--lcd-green); box-shadow: 0 0 20px var(--lcd-green-glow); object-fit: cover; flex-shrink: 0; }
-        .foreword-body p { font-size: 14px; line-height: 1.8; color: var(--text-main); margin-bottom: 15px; text-align: justify; }
-        .foreword-highlight { background: rgba(0, 255, 102, 0.06); border-left: 3px solid var(--lcd-yellow); padding: 14px 18px; border-radius: 0 10px 10px 0; font-family: var(--font-lcd); font-size: 13px; color: var(--lcd-green); margin: 18px 0; }
-        .foreword-sign { margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--border-lcd); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-yellow); }
+        .foreword-hero { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border-lcd); flex-wrap: wrap; }
+        .foreword-logo { width: 68px; height: 68px; border-radius: 50%; border: 2px solid var(--lcd-green); object-fit: cover; }
+        .foreword-body p { font-size: 13px; line-height: 1.75; color: var(--text-main); margin-bottom: 12px; text-align: justify; }
+        .foreword-highlight { background: rgba(0, 255, 102, 0.06); border-left: 3px solid var(--lcd-yellow); padding: 12px 14px; font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-green); margin: 14px 0; }
+        .foreword-sign { margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--border-lcd); display: flex; justify-content: space-between; font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); }
 
-        /* SEMUA KEYFRAMES ANIMASI ASLI */
-        @keyframes splashZoomIn { 0% { opacity: 0; transform: scale(0.75); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes scanSweep { 0% { top: -45%; } 100% { top: 115%; } }
-        @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(0, 255, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); } }
-        @keyframes pulseRingYellow { 0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 204, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); } }
-        @keyframes pulseSoft { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+        @keyframes splashAutoDismiss {
+            0% { opacity: 1; visibility: visible; pointer-events: auto; }
+            99% { opacity: 0; visibility: hidden; pointer-events: none; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; display: none; }
+        }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes eqBounce { 0% { height: 4px; } 100% { height: 18px; } }
-        @keyframes pulseGreen { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        @keyframes eqBounce { 0% { height: 4px; } 100% { height: 15px; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 768px) {
             #app-container { flex-direction: column; }
-            .sidebar { width: 100%; padding: 15px; border-right: none; border-bottom: 1px solid var(--border-lcd); }
-            .brand { margin-bottom: 15px; }
-            .nav-container { flex-direction: row; gap: 8px; overflow-x: auto; }
-            .nav-item { margin-bottom: 0; flex: 1; justify-content: center; white-space: nowrap; padding: 10px; }
-            .nav-item span { display: none; }
-            .main-content { padding: 20px; }
-            .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .sidebar { width: 100%; padding: 12px 14px; border-right: none; border-bottom: 1px solid var(--border-lcd); }
+            .brand { margin-bottom: 10px; font-size: 14px; }
+            .nav-container { flex-direction: row; gap: 6px; overflow-x: auto; }
+            .nav-item { margin-bottom: 0; flex: 1; justify-content: center; white-space: nowrap; padding: 9px 8px; font-size: 12px; }
+            .main-content { padding: 16px; }
+            .header h1 { font-size: 17px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 0A. NON-INTERACTIVE LOGO SPLASH SCENE -->
-    <div id="splash-overlay">
-        <div class="splash-cyber-frame">
-            <div class="splash-bracket tl"></div>
-            <div class="splash-bracket tr"></div>
-            <div class="splash-bracket bl"></div>
-            <div class="splash-bracket br"></div>
-            <div class="splash-ring-outer">
-                <img
-                    src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
-                    onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 120 120%27%3E%3Ccircle cx=%2760%27 cy=%2760%27 r=%2758%27 fill=%27%23021209%27/%3E%3Cpath d=%27M32 62c10-14 28-14 40-2l14-10v22l-14-10c-12 12-30 12-40 0z%27 fill=%27%2300ff66%27/%3E%3C/svg%3E';"
-                    alt="Logo Smart Feeder"
-                />
-            </div>
+    <!-- 0A. SPLASH LOGO SCENE -->
+    <div id="splash-overlay" onclick="dismissSplashNow()">
+        <div class="splash-ring-outer">
+            <img
+                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
+                onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 120 120%27%3E%3Ccircle cx=%2760%27 cy=%2760%27 r=%2758%27 fill=%27%23021209%27/%3E%3Cpath d=%27M32 62c10-14 28-14 40-2l14-10v22l-14-10c-12 12-30 12-40 0z%27 fill=%27%2300ff66%27/%3E%3C/svg%3E';"
+                alt="Logo Smart Feeder"
+            />
         </div>
     </div>
 
-    <!-- TOMBOL KONTROL AUDIO GLOBAL -->
-    <button class="audio-float-btn" id="audioToggleBtn" onclick="CyberAudio.toggleMute()" title="Aktifkan / Matikan Suara">
-        <i class="fa-solid fa-volume-high" id="audioToggleIcon"></i>
-        <span id="audioToggleText">SFX &amp; MUSIC: ON</span>
+    <!-- TOMBOL AUDIO GLOBAL -->
+    <button type="button" class="audio-float-btn" id="audioToggleBtn" onclick="CyberAudio.toggleMute()">
+        <span id="audioToggleText">SFX: ON</span>
     </button>
 
-    <!-- 0B. INTERACTIVE INTRO SCENE -->
+    <!-- 0B. INTRO SCENE -->
     <div id="intro-overlay">
         <div class="intro-container">
-            <div class="intro-corner tl"></div>
-            <div class="intro-corner tr"></div>
-            <div class="intro-corner bl"></div>
-            <div class="intro-corner br"></div>
-
             <div class="project-logo-wrap">
-                <div class="project-logo-badge" id="introLogoBadge">
+                <div class="project-logo-badge">
                     <img
                         src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
                         onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 120 120%27%3E%3Ccircle cx=%2760%27 cy=%2760%27 r=%2758%27 fill=%27%23021209%27/%3E%3Cpath d=%27M32 62c10-14 28-14 40-2l14-10v22l-14-10c-12 12-30 12-40 0z%27 fill=%27%2300ff66%27/%3E%3C/svg%3E';"
-                        alt="Logo Smart Feeder Rekayasa XI-7"
+                        alt="Logo Smart Feeder"
                         class="project-logo-img"
                     />
                 </div>
@@ -946,107 +432,103 @@
             </div>
 
             <div class="intro-title">SMART FEEDER IoT</div>
-            <div class="intro-subtitle">ONLINE CLOUD &amp; OFFLINE LOCAL WIRELESS</div>
+            <div class="intro-subtitle">CLOUD WIRELESS CONTROL PANEL</div>
 
             <div class="music-visualizer" id="musicVisualizer">
                 <div class="eq-bar"></div>
                 <div class="eq-bar"></div>
                 <div class="eq-bar"></div>
                 <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
             </div>
 
-            <div class="intro-trigger-zone" id="introTriggerZone" onclick="startBootSequence()">
-                <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-green); margin-bottom: 12px;">
-                    [ STATUS: STANDBY — MENUNGGU INISIALISASI OPERATOR ]
-                </p>
-                <div class="click-prompt-badge">
-                    <i class="fa-solid fa-power-off"></i>
-                    <span>Klik untuk Menghidupkan Sistem</span>
-                </div>
-            </div>
+            <button type="button" class="intro-trigger-zone" id="introTriggerZone" onclick="startBootSequence()">
+                <span style="display: block; font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-green); margin-bottom: 10px;">
+                    [ STATUS: STANDBY — SENTUH UNTUK MASUK ]
+                </span>
+                <span class="click-prompt-badge">&#9889; Klik untuk Menghidupkan Sistem</span>
+            </button>
 
             <div class="boot-console" id="bootConsole">
                 <div class="boot-line" id="bootLine1">&gt; Memuat Modul Kontroler IoT... <span class="ok">[OK]</span></div>
                 <div class="boot-line" id="bootLine2">&gt; Kalibrasi Timer Lontar Pakan 3 Detik... <span class="ok">[OK]</span></div>
-                <div class="boot-line" id="bootLine3">&gt; Sinkronisasi Mode Cloud &amp; Offline Lokal... <span class="ok">[OK]</span></div>
-                <div class="boot-line" id="bootLine4">&gt; Sistem Siap! Silakan Masuk ke Terminal Login.</div>
-                <div class="boot-progress-wrap">
-                    <div class="boot-progress-bar" id="bootProgressBar"></div>
-                </div>
+                <div class="boot-line" id="bootLine3">&gt; Menghubungkan ke Firebase Cloud... <span class="ok">[OK]</span></div>
+                <div class="boot-progress-wrap"><div class="boot-progress-bar" id="bootProgressBar"></div></div>
             </div>
 
-            <button class="btn-enter-login" id="btnEnterLogin" onclick="proceedToLogin()">
-                <i class="fa-solid fa-right-to-bracket"></i> Masuk ke Terminal Login &gt;&gt;
+            <button type="button" class="btn-enter-login" id="btnEnterLogin" onclick="proceedToLogin()">
+                Masuk ke Terminal Login &gt;&gt;
             </button>
         </div>
     </div>
 
-    <!-- GOPAY STYLE ANIMATION POP-UP MODAL -->
-    <div id="gopay-modal">
+    <!-- GOPAY STYLE POP-UP MODAL -->
+    <div id="gopay-modal" class="modal-backdrop">
         <div class="gopay-box">
-            <div class="gopay-circle" id="gopayCircle">
-                <i class="fa-solid fa-check" id="gopayIcon">&#10004;</i>
-            </div>
+            <div class="gopay-circle" id="gopayCircle">&#10004;</div>
             <div class="gopay-title" id="gopayTitle">BERHASIL!</div>
             <div class="gopay-desc" id="gopayDesc">Perintah Dikirim ke Alat</div>
         </div>
     </div>
 
-    <!-- MODAL VERIFIKASI KAMERA SELFIE -->
-    <div id="selfie-modal">
-        <div class="selfie-box">
-            <div class="selfie-header"><i class="fa-solid fa-camera-retro"></i> Verifikasi Selfie Operator</div>
-            <div class="selfie-sub" id="selfieOperatorTag">[ POSISIKAN WAJAH DI DALAM LINGKARAN ]</div>
+    <!-- POP-UP INFORMASI MODE OFFLINE (CAPTIVE PORTAL) -->
+    <div id="offline-info-modal" class="modal-backdrop" onclick="if(event.target === this) closeOfflineInfo()">
+        <div class="info-offline-box">
+            <div class="info-offline-head">
+                <div class="info-offline-badge">i</div>
+                <div>Informasi Kontrol Offline</div>
+            </div>
+            <div class="info-offline-body">
+                Website ini berjalan pada <strong>Mode Online Cloud</strong>. Jika Anda ingin menyalakan pakan ikan secara <strong>offline (tanpa internet)</strong>, Anda bisa langsung menyambungkan Wi-Fi ke perangkat Smart Feeder dan melakukan aktivitas tersebut di <strong>Captive Portal</strong>.
+            </div>
+            <div class="info-offline-steps">
+                1. Matikan data seluler / internet HP.<br>
+                2. Sambungkan Wi-Fi HP ke <strong>SmartFeeder_Wireless</strong>.<br>
+                3. Ketuk notifikasi <strong>Captive Portal</strong> yang muncul otomatis (atau buka <strong>192.168.4.1</strong> di browser) untuk mengontrol pakan secara offline.
+            </div>
+            <button type="button" class="btn-action btn-save" onclick="closeOfflineInfo()">Saya Mengerti</button>
+        </div>
+    </div>
 
+    <!-- MODAL VERIFIKASI KAMERA SELFIE -->
+    <div id="selfie-modal" class="modal-backdrop">
+        <div class="selfie-box">
+            <div style="font-size: 14px; font-weight: 800; color: var(--lcd-green); text-transform: uppercase;">Verifikasi Selfie Operator</div>
+            <div style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); margin-top: 2px;">[ POSISIKAN WAJAH DI DALAM LINGKARAN ]</div>
             <div class="camera-viewport">
                 <video id="selfieVideo" autoplay playsinline muted></video>
-                <div class="hud-reticle" id="hudReticle"></div>
-                <div class="hud-face-oval" id="hudFaceOval"></div>
-                <div class="hud-rec-tag" id="hudRecTag"><div class="hud-rec-dot"></div> LIVE CAM</div>
-                <div class="camera-error-box" id="cameraErrorBox">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 26px; margin-bottom: 8px; display: block;"></i>
+                <div class="hud-face-oval"></div>
+                <div id="cameraErrorBox" style="display: none; padding: 14px; font-family: var(--font-lcd); font-size: 12px; color: var(--danger);">
                     <span id="cameraErrorMsg">Kamera tidak dapat diakses.</span>
                 </div>
             </div>
-
             <canvas id="selfieCanvas" width="320" height="240" style="display: none;"></canvas>
-
-            <div class="selfie-actions">
-                <button class="btn-action btn-green-solid" id="btnCaptureSelfie" style="flex: 2; margin-bottom: 0;" onclick="captureSelfieAndFeed()">
-                    Jepret Selfie &amp; Lontar 3 Detik
-                </button>
-                <button class="btn-action btn-del" style="flex: 1; margin-bottom: 0;" onclick="closeSelfieModal()">
-                    Batal
-                </button>
+            <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-action btn-green-solid" id="btnCaptureSelfie" style="flex: 2;" onclick="captureSelfieAndFeed()">Jepret &amp; Lontar 3 Detik</button>
+                <button type="button" class="btn-action btn-del" style="flex: 1;" onclick="closeSelfieModal()">Batal</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL LIHAT BUKTI SELFIE DI LOG -->
-    <div id="proof-modal" onclick="if(event.target === this) closeProofModal()">
+    <!-- MODAL LIHAT BUKTI SELFIE -->
+    <div id="proof-modal" class="modal-backdrop" onclick="if(event.target === this) closeProofModal()">
         <div class="selfie-box">
-            <div class="selfie-header">Bukti Selfie Operator</div>
-            <div class="selfie-sub" id="proofMetaText">-</div>
-            <div class="camera-viewport" style="margin-bottom: 14px;">
-                <img id="proofImageEl" src="" alt="Bukti Selfie Operator" />
-            </div>
-            <button class="btn-action btn-save" style="margin-bottom: 0;" onclick="closeProofModal()">
-                Tutup Pratinjau
-            </button>
+            <div style="font-size: 14px; font-weight: 800; color: var(--lcd-green); text-transform: uppercase;">Bukti Selfie Operator</div>
+            <div style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); margin-top: 2px;" id="proofMetaText">-</div>
+            <div class="camera-viewport"><img id="proofImageEl" src="" alt="Bukti Selfie" /></div>
+            <button type="button" class="btn-action btn-save" onclick="closeProofModal()">Tutup Pratinjau</button>
         </div>
     </div>
 
-    <!-- LAYAR LOGIN & PENDAFTARAN EMAIL -->
+    <!-- LAYAR LOGIN -->
     <div id="auth-overlay">
         <div class="lcd-bezel-frame">
             <div class="lcd-screen">
-                <div class="project-logo-wrap" style="margin-bottom: 10px;">
+                <div class="project-logo-wrap" style="margin-bottom: 8px;">
                     <div class="project-logo-badge small">
                         <img
                             src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
                             onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 120 120%27%3E%3Ccircle cx=%2760%27 cy=%2760%27 r=%2758%27 fill=%27%23021209%27/%3E%3Cpath d=%27M32 62c10-14 28-14 40-2l14-10v22l-14-10c-12 12-30 12-40 0z%27 fill=%27%2300ff66%27/%3E%3C/svg%3E';"
-                            alt="Logo Smart Feeder Rekayasa XI-7"
+                            alt="Logo Smart Feeder"
                             class="project-logo-img"
                         />
                     </div>
@@ -1056,31 +538,25 @@
                 <span class="lcd-sub">[ Proyek Rekayasa SMAN 14 • 3 Detik ]</span>
 
                 <div class="auth-tabs">
-                    <button type="button" class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">
-                        Masuk
-                    </button>
-                    <button type="button" class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">
-                        Daftar Email
-                    </button>
+                    <button type="button" class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">Masuk</button>
+                    <button type="button" class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">Daftar Email</button>
                 </div>
 
-                <!-- FORM 1: LOGIN -->
                 <div id="formLoginBox">
                     <div class="input-group">
                         <label>&gt; EMAIL / ID ADMIN_</label>
                         <input type="text" id="username" placeholder="Ketik XI-7 atau Email terdaftar" autocomplete="off">
                     </div>
-                    <div class="input-group" style="margin-bottom: 8px;">
+                    <div class="input-group" style="margin-bottom: 6px;">
                         <label>&gt; PASSWORD_</label>
                         <input type="password" id="password" placeholder="Ketik REKAYASA atau Sandi">
                     </div>
                     <div style="text-align: right;">
                         <span class="forgot-link" onclick="resetPasswordEmail()">Lupa Password Email?</span>
                     </div>
-                    <button class="btn-auth btn-login" id="btnLoginSubmit" onclick="doLogin()">Masuk Sistem</button>
+                    <button type="button" class="btn-auth btn-login" id="btnLoginSubmit" onclick="doLogin()">Masuk Sistem</button>
                 </div>
 
-                <!-- FORM 2: PENDAFTARAN USER BARU LEWAT EMAIL -->
                 <div id="formRegisterBox" style="display: none;">
                     <div class="input-group">
                         <label>&gt; NAMA LENGKAP_</label>
@@ -1097,124 +573,84 @@
                     <div class="selfie-policy-note">
                         Akun email dapat menyalakan pompa pakan dengan <strong>verifikasi selfie kamera</strong>.
                     </div>
-                    <button class="btn-auth btn-login" id="btnRegisterSubmit" onclick="doRegister()">Daftar &amp; Masuk</button>
+                    <button type="button" class="btn-auth btn-login" id="btnRegisterSubmit" onclick="doRegister()">Daftar &amp; Masuk</button>
                 </div>
 
-                <!-- TOMBOL MASUK CEPAT MODE OFFLINE LOKAL (TANPA INTERNET) -->
-                <button class="btn-auth btn-offline-direct" onclick="doOfflineDirect()">
-                    Masuk Mode Offline Lokal (192.168.4.1)
-                </button>
-                <button class="btn-auth btn-guest" onclick="doGuest()">Akses Tamu (Hanya Pantau)</button>
+                <button type="button" class="btn-auth btn-guest" onclick="doGuest()">Akses Tamu (Hanya Pantau)</button>
+                <button type="button" class="btn-auth btn-info-login" onclick="openOfflineInfo()">Info Kontrol Offline (Captive Portal)</button>
             </div>
         </div>
     </div>
 
-    <!-- DASHBOARD UTAMA -->
+    <!-- DASHBOARD UTAMA (1 MODE: ONLINE CLOUD) -->
     <div id="app-container">
-        
         <aside class="sidebar">
-            <div class="brand"><i class="fa-solid fa-microchip"></i> WIRELESS CORE</div>
+            <div class="brand">&#9881; WIRELESS CORE</div>
             <div class="nav-container">
-                <div class="nav-item active" data-target="view-dashboard" title="Dashboard">
-                    <i class="fa-solid fa-gauge-high"></i> <span>Dashboard</span>
-                </div>
-                <div class="nav-item" data-target="view-foreword" title="Kata Pengantar">
-                    <i class="fa-solid fa-book-open"></i> <span>Kata Pengantar</span>
-                </div>
-                <div class="nav-item" data-target="view-log" title="Log Riwayat">
-                    <i class="fa-solid fa-list-check"></i> <span>Log Riwayat</span>
-                </div>
-                <div class="nav-item" data-target="view-settings" title="Sistem">
-                    <i class="fa-solid fa-sliders"></i> <span>Sistem &amp; IP Lokal</span>
-                </div>
-                <div class="nav-item" onclick="logout()" style="margin-top: auto; color: var(--danger);" title="Keluar">
-                    <i class="fa-solid fa-power-off"></i> <span>Keluar</span>
-                </div>
+                <div class="nav-item active" data-target="view-dashboard">&#9889; Dashboard</div>
+                <div class="nav-item" data-target="view-foreword">&#128214; Kata Pengantar</div>
+                <div class="nav-item" data-target="view-log">&#128203; Log Riwayat</div>
+                <div class="nav-item" onclick="logout()" style="margin-top: auto; color: var(--danger);">&#10006; Keluar</div>
             </div>
         </aside>
 
         <main class="main-content">
-            
             <header class="header">
                 <div>
                     <h1 id="greeting">SISTEM KONTROL WIRELESS</h1>
-                    <p id="subGreeting">Panel Otomatisasi Pakan Ikan IoT (3 Detik)</p>
+                    <p>Panel Otomatisasi Pakan Ikan IoT (3 Detik)</p>
                 </div>
                 <div class="header-right">
-                    <div class="clock-badge">
-                        <i class="fa-regular fa-clock"></i>
-                        <span id="liveClockUI">00:00:00 WIB</span>
-                    </div>
-                    <div class="status-badge" id="connBadge">
-                        <div class="dot offline" id="connDot"></div>
-                        <span id="connText">Koneksi...</span>
-                    </div>
+                    <button type="button" class="info-pill-btn" onclick="openOfflineInfo()">&#9432; Info Offline</button>
+                    <div class="clock-badge"><span id="liveClockUI">00:00:00 WIB</span></div>
+                    <div class="status-badge"><div class="dot offline" id="connDot"></div> <span id="connText">Menghubungkan...</span></div>
                 </div>
             </header>
 
-            <!-- VIEW 1: DASHBOARD UTAMA -->
             <div id="view-dashboard" class="view-section active">
                 <div class="dashboard-grid">
                     
-                    <!-- KARTU 1: KONTROL PAKAN MANUAL (3 DETIK AUTO-OFF) -->
+                    <!-- KARTU 1: KONTROL PAKAN 3 DETIK -->
                     <div class="card">
                         <div id="lock-control" class="lock-overlay" style="display: none;">
-                            <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
-                            <p style="font-size: 11px;">HANYA UNTUK ADMIN / AKUN TERDAFTAR</p>
+                            <p>HANYA UNTUK ADMIN / AKUN TERDAFTAR</p>
                         </div>
 
-                        <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-bolt"></i> Lontar Pakan 3 Detik</div>
-                        </div>
-
-                        <div class="quick-mode-switch">
-                            <button type="button" class="qmode-btn active" id="btnModeCloud" onclick="setWirelessMode('CLOUD')">
-                                Online (Cloud)
-                            </button>
-                            <button type="button" class="qmode-btn" id="btnModeLocal" onclick="setWirelessMode('LOCAL')">
-                                Offline Lokal
-                            </button>
-                        </div>
+                        <div class="card-title">Lontar Pakan 3 Detik</div>
 
                         <div class="switch-wrapper">
-                            <button id="toggleBtn" class="main-btn btn-locked" disabled>
-                                <i class="fa-solid fa-fish-fins">&#9889;</i>
+                            <button type="button" id="toggleBtn" class="main-btn btn-locked" disabled>
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7v8l10-12h-7z"/></svg>
                                 <span id="btnLabel">OFFLINE</span>
                             </button>
                         </div>
-                        <p id="statusText" style="text-align: center; color: var(--text-muted); font-family: var(--font-lcd); font-size: 12px;">Menyiapkan kontrol wireless...</p>
+                        <p id="statusText" style="text-align: center; color: var(--text-muted); font-family: var(--font-lcd); font-size: 12px;">Menunggu koneksi cloud...</p>
                     </div>
 
                     <!-- KARTU 2: KONTROL LAYAR LCD -->
                     <div class="card">
                         <div id="lock-lcd" class="lock-overlay" style="display: none;">
-                            <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
-                            <p style="font-size: 11px;">KHUSUS MASTER ADMIN</p>
+                            <p>KHUSUS MASTER ADMIN</p>
                         </div>
-
-                        <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-display"></i> Lampu Layar LCD</div>
-                        </div>
-                        <div class="info-row" style="margin-top: 10px;">
+                        <div class="card-title">Lampu Layar LCD</div>
+                        <div class="info-row" style="margin-top: 8px;">
                             <span class="info-label">Status Backlight:</span>
                             <span class="info-val" id="lcdStatusUI">NYALA</span>
                         </div>
-                        <p style="font-size: 12px; color: var(--text-muted); font-family: var(--font-lcd); margin-bottom: 20px;">
+                        <p style="font-size: 12px; color: var(--text-muted); font-family: var(--font-lcd); margin-bottom: 18px;">
                             Auto-sleep otomatis mati setelah 5 menit idle.
                         </p>
-                        <button id="btnToggleLcd" class="btn-action btn-del" onclick="toggleLcdBacklight()">
+                        <button type="button" id="btnToggleLcd" class="btn-action btn-del" onclick="toggleLcdBacklight()">
                             <span id="btnLcdText">Matikan Layar LCD</span>
                         </button>
                     </div>
 
-                    <!-- KARTU 3: STATISTIK & MONITORING -->
+                    <!-- KARTU 3: MONITORING SISTEM -->
                     <div class="card">
-                        <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-chart-line"></i> Monitoring Wireless</div>
-                        </div>
+                        <div class="card-title">Monitoring Sistem</div>
                         <div class="info-row">
-                            <span class="info-label">Jalur Aktif:</span>
-                            <span class="info-val" id="wirelessModeBadge" style="color: var(--lcd-yellow);">Cloud Firebase</span>
+                            <span class="info-label">Role Aktif:</span>
+                            <span class="info-val" id="roleUI" style="color: var(--lcd-yellow);">Tamu</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Pakan Terakhir:</span>
@@ -1234,246 +670,137 @@
                         </div>
                     </div>
 
-                    <!-- KARTU 4: JADWAL PAKAN BERTUMPUK & BERULANG OTOMATIS -->
+                    <!-- KARTU 4: JADWAL BERTUMPUK -->
                     <div class="card card-wide">
                         <div id="lock-schedule" class="lock-overlay" style="display: none;">
-                            <i class="fa-solid fa-lock" style="font-size: 28px; margin-bottom: 8px;"></i>
-                            <p style="font-size: 11px;">KHUSUS MASTER ADMIN</p>
+                            <p>KHUSUS MASTER ADMIN</p>
                         </div>
-
                         <div class="card-title">
-                            <div class="card-title-left"><i class="fa-solid fa-layer-group"></i> Jadwal Pakan Bertumpuk (3 Detik)</div>
+                            <span>Jadwal Pakan Bertumpuk (3 Detik)</span>
                             <span style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-green);">AUTO-REPEAT</span>
                         </div>
-
                         <div class="form-row">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label>&gt; Jam Pakan (HH:MM)</label>
                                 <input type="time" id="schedTime">
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
-                                <label>&gt; Label Sesi (Opsional)</label>
+                                <label>&gt; Label Sesi</label>
                                 <input type="text" id="schedLabel" class="cyber-input" placeholder="Contoh: Pakan Pagi / Sore">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label>&gt; Hari Pengulangan:</label>
                             <div class="days-selector" id="daysSelector">
-                                <label class="day-chip"><input type="checkbox" value="1" checked onchange="CyberAudio.play('ui_click')"><span>Sen</span></label>
-                                <label class="day-chip"><input type="checkbox" value="2" checked onchange="CyberAudio.play('ui_click')"><span>Sel</span></label>
-                                <label class="day-chip"><input type="checkbox" value="3" checked onchange="CyberAudio.play('ui_click')"><span>Rab</span></label>
-                                <label class="day-chip"><input type="checkbox" value="4" checked onchange="CyberAudio.play('ui_click')"><span>Kam</span></label>
-                                <label class="day-chip"><input type="checkbox" value="5" checked onchange="CyberAudio.play('ui_click')"><span>Jum</span></label>
-                                <label class="day-chip"><input type="checkbox" value="6" checked onchange="CyberAudio.play('ui_click')"><span>Sab</span></label>
-                                <label class="day-chip"><input type="checkbox" value="0" checked onchange="CyberAudio.play('ui_click')"><span>Min</span></label>
+                                <label class="day-chip"><input type="checkbox" value="1" checked><span>Sen</span></label>
+                                <label class="day-chip"><input type="checkbox" value="2" checked><span>Sel</span></label>
+                                <label class="day-chip"><input type="checkbox" value="3" checked><span>Rab</span></label>
+                                <label class="day-chip"><input type="checkbox" value="4" checked><span>Kam</span></label>
+                                <label class="day-chip"><input type="checkbox" value="5" checked><span>Jum</span></label>
+                                <label class="day-chip"><input type="checkbox" value="6" checked><span>Sab</span></label>
+                                <label class="day-chip"><input type="checkbox" value="0" checked><span>Min</span></label>
                             </div>
                         </div>
-
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
-                            <button class="btn-action btn-save" style="flex: 2; min-width: 200px; margin-bottom: 0;" onclick="tambahJadwalBertumpuk()">
-                                Tambah ke Daftar Jadwal
-                            </button>
-                            <button class="btn-action btn-del" style="flex: 1; min-width: 150px; margin-bottom: 0;" onclick="hapusSemuaJadwal()">
-                                Hapus Semua
-                            </button>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+                            <button type="button" class="btn-action btn-save" style="flex: 2; min-width: 190px;" onclick="tambahJadwalBertumpuk()">Tambah ke Daftar Jadwal</button>
+                            <button type="button" class="btn-action btn-del" style="flex: 1; min-width: 140px;" onclick="hapusSemuaJadwal()">Hapus Semua</button>
                         </div>
-
-                        <div style="border-top: 1px solid var(--border-lcd); padding-top: 16px;">
+                        <div style="border-top: 1px solid var(--border-lcd); padding-top: 14px;">
                             <div id="stackedScheduleList" class="stacked-list">
                                 <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--text-muted);">Belum ada jadwal tersimpan.</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
-            <!-- VIEW 2: KATA PENGANTAR PROYEK -->
+            <!-- KATA PENGANTAR -->
             <div id="view-foreword" class="view-section">
                 <div class="card">
-                    <div class="card-title">
-                        <div class="card-title-left"><i class="fa-solid fa-book-open"></i> Kata Pengantar Proyek</div>
-                        <span style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-green);">KELOMPOK REKAYASA • XI-7</span>
-                    </div>
-
+                    <div class="card-title">Kata Pengantar Proyek</div>
                     <div class="foreword-hero">
-                        <img
-                            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg"
-                            onerror="this.style.display='none'"
-                            alt="Logo Kelompok Rekayasa"
-                            class="foreword-logo"
-                        />
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHMwi8YDfI9AUACebXcbEgWz8a8hegLliLnoOq67E8eTNI30dFuJnvNU9sNhW7EqBk-YcQkbbUafwknDkGN5i3p1m4TLbX4b2TpRshsINnewsjWXTILz1hyjhMUhGNQhDS7rjnwiHRSSvPYhPE5hyxc9QM0oaaMG8LcymGqavRcm0Vqf_ZmLh-_H31vXA/s320/cb4200c7-c305-4260-990c-d453d7902b25.jpg" onerror="this.style.display='none'" alt="Logo" class="foreword-logo" />
                         <div>
-                            <h2 style="font-family: var(--font-head); font-size: 18px; color: var(--lcd-green); margin-bottom: 4px;">
-                                SMART FEEDER IoT — DUAL WIRELESS SYSTEM
-                            </h2>
-                            <p style="font-family: var(--font-lcd); font-size: 12px; color: var(--lcd-yellow);">
-                                Proyek Rekayasa Teknologi • Kelas XI-7 • SMAN 14 Surabaya
-                            </p>
+                            <h2 style="font-size: 17px; color: var(--lcd-green); margin-bottom: 4px;">SMART FEEDER IoT — WIRELESS CLOUD SYSTEM</h2>
+                            <p style="font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow);">Proyek Rekayasa Teknologi • Kelas XI-7 • SMAN 14 Surabaya</p>
                         </div>
                     </div>
-
                     <div class="foreword-body">
-                        <p>
-                            Puji syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa karena atas rahmat dan karunia-Nya, perancangan serta pengembangan sistem <strong>Smart Feeder IoT Wireless</strong> ini dapat diselesaikan dengan baik oleh <strong>Kelompok Rekayasa (Kelas XI-7, SMAN 14 Surabaya)</strong>.
-                        </p>
-                        <div class="foreword-highlight">
-                            &gt; ARSITEKTUR SISTEM: NodeMCU ESP8266 Wireless (AP 192.168.4.1 + OTA) + Relay 1-Channel (Auto-Off 3 Detik) + LCD Matrix 16x2 I2C + Firebase Cloud &amp; Offline Lokal.
-                        </div>
+                        <p>Sistem <strong>Smart Feeder IoT Wireless</strong> dikembangkan oleh <strong>Kelompok Rekayasa (Kelas XI-7, SMAN 14 Surabaya)</strong> untuk mengotomatisasi pemberian pakan ikan dengan durasi presisi 3 detik melalui kendali cloud secara real-time maupun akses lokal Captive Portal.</p>
+                        <div class="foreword-highlight">&gt; ARSITEKTUR SISTEM: NodeMCU ESP8266 + Relay 1-Channel (Auto-Off 3 Detik) + LCD Matrix 16x2 I2C + Firebase Cloud.</div>
                     </div>
-
-                    <div class="foreword-sign">
-                        <span>SMAN 14 SURABAYA</span>
-                        <span>TIM PENYUSUN: KELOMPOK REKAYASA (XI-7)</span>
-                    </div>
+                    <div class="foreword-sign"><span>SMAN 14 SURABAYA</span><span>KELOMPOK REKAYASA (XI-7)</span></div>
                 </div>
             </div>
 
-            <!-- VIEW 3: LOG AKTIVITAS -->
+            <!-- LOG RIWAYAT -->
             <div id="view-log" class="view-section">
                 <div class="card">
-                    <div class="card-title">
-                        <div class="card-title-left"><i class="fa-solid fa-database"></i> Database Log Aktivitas</div>
-                    </div>
+                    <div class="card-title">Database Log Aktivitas</div>
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Waktu &amp; Tanggal</th>
-                                    <th>Aksi Sistem</th>
-                                    <th>Operator</th>
-                                    <th>Bukti Foto</th>
-                                </tr>
-                            </thead>
-                            <tbody id="logTableBody">
-                                <tr><td colspan="4" style="text-align: center; color: #666;">Memuat log server...</td></tr>
-                            </tbody>
+                            <thead><tr><th>Waktu &amp; Tanggal</th><th>Aksi Sistem</th><th>Operator</th><th>Bukti Foto</th></tr></thead>
+                            <tbody id="logTableBody"><tr><td colspan="4" style="text-align: center; color: #666;">Memuat log server...</td></tr></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
-            <!-- VIEW 4: SETTINGS & IP LOKAL -->
-            <div id="view-settings" class="view-section">
-                <div class="dashboard-grid">
-                    <div class="card">
-                        <div class="card-title"><div class="card-title-left">Pengaturan IP Wireless Lokal</div></div>
-                        <div class="form-group">
-                            <label>&gt; Mode Komunikasi Nirkabel:</label>
-                            <select id="wirelessModeSelect" class="cyber-input" onchange="setWirelessMode(this.value)">
-                                <option value="CLOUD">Online Cloud (Firebase Internet)</option>
-                                <option value="LOCAL">Offline Lokal (Direct IP ESP8266 Tanpa Internet)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>&gt; Alamat IP Wireless ESP8266:</label>
-                            <input type="text" id="espLocalIpInput" class="cyber-input" value="192.168.4.1" placeholder="Default AP: 192.168.4.1">
-                            <button class="btn-action btn-save" style="margin-top: 10px; margin-bottom: 0;" onclick="saveLocalIpConfig()">
-                                Simpan IP Wireless Lokal
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-title"><div class="card-title-left">Informasi Sistem</div></div>
-                        <div class="info-row"><span class="info-label">Perangkat:</span><span class="info-val">NodeMCU ESP8266 Wireless</span></div>
-                        <div class="info-row"><span class="info-label">Durasi Pompa:</span><span class="info-val" style="color: var(--lcd-yellow);">3 Detik (Auto-Off)</span></div>
-                        <div class="info-row"><span class="info-label">Status Firebase:</span><span class="info-val" id="dbStatusUI" style="color: var(--lcd-yellow);">Mengecek...</span></div>
-                        <div class="info-row" style="border: none; margin-bottom: 0;"><span class="info-label">Role &amp; Akun Aktif:</span><span class="info-val" id="roleUI">Tamu</span></div>
-                    </div>
-                </div>
-            </div>
-
         </main>
     </div>
 
     <script>
         /* =========================================================
-           0. STORAGE AMAN UNTUK MODE OFFLINE (ANTI-CRASH DI FILE://)
+           0. SPLASH & POP-UP INFORMASI OFFLINE
         ========================================================= */
-        const SafeStore = (() => {
-            const mem = {};
-            return {
-                get(key, fallback = null) {
-                    try {
-                        const v = window.localStorage.getItem(key);
-                        return v !== null ? v : (key in mem ? mem[key] : fallback);
-                    } catch (e) {
-                        return key in mem ? mem[key] : fallback;
-                    }
-                },
-                set(key, val) {
-                    mem[key] = String(val);
-                    try { window.localStorage.setItem(key, String(val)); } catch (e) {}
-                }
-            };
-        })();
-
-        /* =========================================================
-           1. TRANSISI OTOMATIS SPLASH LOGO -> INTRO SCENE
-        ========================================================= */
-        window.addEventListener('DOMContentLoaded', () => {
+        function dismissSplashNow() {
             const splash = document.getElementById('splash-overlay');
-            if (splash) {
-                setTimeout(() => {
-                    splash.style.opacity = '0';
-                    setTimeout(() => {
-                        splash.style.visibility = 'hidden';
-                        splash.style.display = 'none';
-                    }, 750);
-                }, 2400);
-            }
-        });
+            if (splash) splash.style.display = 'none';
+        }
+        setTimeout(dismissSplashNow, 1800);
+
+        function openOfflineInfo() {
+            CyberAudio.play('ui_click');
+            document.getElementById('offline-info-modal').classList.add('active');
+        }
+
+        function closeOfflineInfo() {
+            CyberAudio.play('ui_click');
+            document.getElementById('offline-info-modal').classList.remove('active');
+        }
 
         /* =========================================================
-           2. CYBER AUDIO ENGINE (LENGKAP DENGAN MUSIK INTRO & SFX)
+           1. CYBER AUDIO ENGINE RINGAN
         ========================================================= */
         const CyberAudio = (() => {
-            let ctx = null;
-            let isMuted = false;
-            let introTimer = null;
-            let stepIdx = 0;
-
-            const introMelody = [
-                261.63, 329.63, 392.00, 493.88,
-                523.25, 493.88, 392.00, 329.63,
-                293.66, 349.23, 440.00, 523.25,
-                493.88, 392.00, 329.63, 293.66
-            ];
-            const introBass = [
-                130.81, 130.81, 130.81, 130.81,
-                98.00,  98.00,  98.00,  98.00,
-                110.00, 110.00, 110.00, 110.00,
-                98.00,  98.00,  98.00,  98.00
-            ];
+            let ctx = null, isMuted = false, introTimer = null, stepIdx = 0;
+            const melody = [261.63, 329.63, 392.00, 493.88, 523.25, 493.88, 392.00, 329.63];
 
             function ensureCtx() {
-                if (!ctx) {
-                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                    if (AudioCtx) ctx = new AudioCtx();
-                }
-                if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+                try {
+                    if (!ctx) {
+                        const AC = window.AudioContext || window.webkitAudioContext;
+                        if (AC) ctx = new AC();
+                    }
+                    if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+                } catch (e) {}
                 return ctx;
             }
 
-            function playTone(freq, type = 'sine', duration = 0.15, vol = 0.08, delay = 0, endFreq = null) {
+            function playTone(freq, type = 'sine', dur = 0.14, vol = 0.06, delay = 0) {
                 if (isMuted) return;
-                const audio = ensureCtx();
-                if (!audio) return;
                 try {
-                    const now = audio.currentTime + delay;
-                    const osc = audio.createOscillator();
-                    const gain = audio.createGain();
+                    const a = ensureCtx();
+                    if (!a) return;
+                    const now = a.currentTime + delay;
+                    const osc = a.createOscillator();
+                    const g = a.createGain();
                     osc.type = type;
                     osc.frequency.setValueAtTime(freq, now);
-                    if (endFreq !== null) osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), now + duration);
-                    gain.gain.setValueAtTime(0.0001, now);
-                    gain.gain.linearRampToValueAtTime(vol, now + 0.015);
-                    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-                    osc.connect(gain);
-                    gain.connect(audio.destination);
-                    osc.start(now);
-                    osc.stop(now + duration + 0.02);
+                    g.gain.setValueAtTime(0.0001, now);
+                    g.gain.linearRampToValueAtTime(vol, now + 0.01);
+                    g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+                    osc.connect(g); g.connect(a.destination);
+                    osc.start(now); osc.stop(now + dur + 0.02);
                 } catch (e) {}
             }
 
@@ -1483,201 +810,95 @@
                 stepIdx = 0;
                 const viz = document.getElementById('musicVisualizer');
                 if (viz && !isMuted) viz.classList.add('playing');
-
-                const tickMusic = () => {
-                    if (!isMuted) {
-                        const note = introMelody[stepIdx % introMelody.length];
-                        const bass = introBass[stepIdx % introBass.length];
-                        playTone(note, 'triangle', 0.24, 0.045, 0);
-                        if (stepIdx % 2 === 0) playTone(bass, 'sine', 0.42, 0.055, 0);
-                    }
+                introTimer = setInterval(() => {
+                    if (!isMuted) playTone(melody[stepIdx % melody.length], 'triangle', 0.2, 0.04, 0);
                     stepIdx++;
-                };
-                tickMusic();
-                introTimer = setInterval(tickMusic, 280);
+                }, 300);
             }
 
             function stopIntroMusic() {
-                if (introTimer) {
-                    clearInterval(introTimer);
-                    introTimer = null;
-                }
+                if (introTimer) { clearInterval(introTimer); introTimer = null; }
                 const viz = document.getElementById('musicVisualizer');
                 if (viz) viz.classList.remove('playing');
             }
 
-            function play(effect) {
+            function play(ef) {
                 if (isMuted) return;
-                ensureCtx();
-                switch (effect) {
-                    case 'ui_click':
-                        playTone(950, 'sine', 0.055, 0.06, 0, 1250);
-                        break;
-                    case 'boot_step':
-                        playTone(680, 'square', 0.06, 0.035, 0, 920);
-                        break;
-                    case 'boot_ready':
-                        playTone(523.25, 'triangle', 0.14, 0.08, 0);
-                        playTone(659.25, 'triangle', 0.14, 0.08, 0.09);
-                        playTone(783.99, 'triangle', 0.16, 0.08, 0.18);
-                        playTone(1046.50, 'sine', 0.28, 0.09, 0.27);
-                        break;
-                    case 'login_success':
-                        playTone(587.33, 'sine', 0.12, 0.09, 0);
-                        playTone(739.99, 'sine', 0.12, 0.09, 0.08);
-                        playTone(880.00, 'sine', 0.14, 0.09, 0.16);
-                        playTone(1174.66, 'triangle', 0.30, 0.10, 0.24);
-                        break;
-                    case 'login_guest':
-                        playTone(440, 'sine', 0.12, 0.07, 0);
-                        playTone(554.37, 'sine', 0.18, 0.07, 0.10);
-                        break;
-                    case 'camera_shutter':
-                        playTone(1400, 'square', 0.04, 0.09, 0, 600);
-                        playTone(1850, 'sine', 0.07, 0.09, 0.05, 1100);
-                        break;
-                    case 'error':
-                        playTone(190, 'sawtooth', 0.14, 0.08, 0, 150);
-                        playTone(165, 'sawtooth', 0.18, 0.08, 0.16, 120);
-                        break;
-                    case 'pump_on':
-                        playTone(140, 'sawtooth', 0.42, 0.075, 0, 560);
-                        playTone(280, 'triangle', 0.38, 0.06, 0.05, 740);
-                        playTone(880, 'sine', 0.14, 0.08, 0.36);
-                        playTone(1174.66, 'sine', 0.22, 0.09, 0.46);
-                        break;
-                    case 'pump_off':
-                        playTone(520, 'sawtooth', 0.35, 0.07, 0, 110);
-                        playTone(320, 'sine', 0.18, 0.06, 0.22, 180);
-                        break;
-                    case 'lcd_on':
-                        playTone(783.99, 'sine', 0.10, 0.07, 0);
-                        playTone(1318.51, 'sine', 0.22, 0.08, 0.08);
-                        break;
-                    case 'lcd_off':
-                        playTone(987.77, 'sine', 0.12, 0.07, 0, 520);
-                        playTone(440.00, 'triangle', 0.20, 0.06, 0.10, 240);
-                        break;
-                    case 'sched_add':
-                        playTone(659.25, 'triangle', 0.11, 0.08, 0);
-                        playTone(987.77, 'triangle', 0.20, 0.09, 0.09);
-                        break;
-                    case 'sched_toggle':
-                        playTone(720, 'sine', 0.08, 0.07, 0, 960);
-                        break;
-                    case 'sched_delete':
-                        playTone(540, 'triangle', 0.10, 0.07, 0, 320);
-                        playTone(300, 'sine', 0.14, 0.07, 0.09, 180);
-                        break;
-                }
+                if (ef === 'ui_click') playTone(950, 'sine', 0.05, 0.05);
+                else if (ef === 'boot_step') playTone(680, 'square', 0.05, 0.03);
+                else if (ef === 'boot_ready') { playTone(523.25, 'triangle', 0.12, 0.07, 0); playTone(783.99, 'triangle', 0.16, 0.07, 0.1); }
+                else if (ef === 'login_success') { playTone(587.33, 'sine', 0.12, 0.08, 0); playTone(880, 'sine', 0.18, 0.08, 0.12); }
+                else if (ef === 'error') playTone(180, 'sawtooth', 0.16, 0.07);
+                else if (ef === 'pump_on') { playTone(220, 'sawtooth', 0.3, 0.06); playTone(880, 'sine', 0.14, 0.07, 0.25); }
+                else if (ef === 'pump_off') playTone(480, 'sawtooth', 0.25, 0.06);
             }
 
             function toggleMute() {
                 isMuted = !isMuted;
                 const btn = document.getElementById('audioToggleBtn');
-                const icon = document.getElementById('audioToggleIcon');
-                const text = document.getElementById('audioToggleText');
+                const txt = document.getElementById('audioToggleText');
                 const viz = document.getElementById('musicVisualizer');
-
-                if (isMuted) {
-                    btn.classList.add('muted');
-                    icon.className = 'fa-solid fa-volume-xmark';
-                    text.innerText = 'SFX & MUSIC: OFF';
-                    if (viz) viz.classList.remove('playing');
-                } else {
-                    btn.classList.remove('muted');
-                    icon.className = 'fa-solid fa-volume-high';
-                    text.innerText = 'SFX & MUSIC: ON';
-                    ensureCtx();
-                    play('ui_click');
-                    if (introTimer && viz) viz.classList.add('playing');
-                }
+                btn.classList.toggle('muted', isMuted);
+                txt.innerText = isMuted ? 'SFX: OFF' : 'SFX: ON';
+                if (isMuted && viz) viz.classList.remove('playing');
+                else if (!isMuted) { play('ui_click'); if (introTimer && viz) viz.classList.add('playing'); }
             }
 
             return { startIntroMusic, stopIntroMusic, play, toggleMute };
         })();
 
         /* =========================================================
-           3. INTERACTIVE INTRO SCENE & BOOT SEQUENCE
+           2. INTRO & BOOT SEQUENCE
         ========================================================= */
         let isBootStarted = false;
-
         function startBootSequence() {
             if (isBootStarted) return;
             isBootStarted = true;
-
+            dismissSplashNow();
+            document.getElementById('introTriggerZone').style.display = 'none';
+            document.getElementById('bootConsole').style.display = 'block';
             CyberAudio.startIntroMusic();
             CyberAudio.play('boot_step');
 
-            const triggerZone = document.getElementById('introTriggerZone');
-            const bootConsole = document.getElementById('bootConsole');
-            const progressBar = document.getElementById('bootProgressBar');
-            const btnEnter = document.getElementById('btnEnterLogin');
-
-            triggerZone.style.display = 'none';
-            bootConsole.style.display = 'block';
-
             const steps = [
-                { id: 'bootLine1', pct: 30, delay: 180, sfx: 'boot_step' },
-                { id: 'bootLine2', pct: 60, delay: 560, sfx: 'boot_step' },
-                { id: 'bootLine3', pct: 88, delay: 940, sfx: 'boot_step' },
-                { id: 'bootLine4', pct: 100, delay: 1320, sfx: 'boot_ready' }
+                { id: 'bootLine1', pct: 35, delay: 140, sfx: 'boot_step' },
+                { id: 'bootLine2', pct: 70, delay: 420, sfx: 'boot_step' },
+                { id: 'bootLine3', pct: 100, delay: 700, sfx: 'boot_ready' }
             ];
-
-            steps.forEach(step => {
+            steps.forEach(s => {
                 setTimeout(() => {
-                    document.getElementById(step.id).classList.add('show');
-                    progressBar.style.width = step.pct + '%';
-                    CyberAudio.play(step.sfx);
-                }, step.delay);
+                    document.getElementById(s.id).classList.add('show');
+                    document.getElementById('bootProgressBar').style.width = s.pct + '%';
+                    CyberAudio.play(s.sfx);
+                }, s.delay);
             });
-
-            setTimeout(() => {
-                btnEnter.style.display = 'block';
-                btnEnter.style.animation = 'slideUp 0.35s ease';
-            }, 1600);
+            setTimeout(() => { document.getElementById('btnEnterLogin').style.display = 'block'; }, 950);
         }
 
         function proceedToLogin() {
             CyberAudio.play('ui_click');
             const intro = document.getElementById('intro-overlay');
             intro.style.opacity = '0';
-            setTimeout(() => {
-                intro.style.visibility = 'hidden';
-                intro.style.display = 'none';
-                document.getElementById('username').focus();
-            }, 500);
+            setTimeout(() => { intro.style.display = 'none'; }, 320);
         }
 
         /* =========================================================
-           4. FUNGSI GOPAY ANIMATION POP-UP (SPRING ANIMATION ASLI)
+           3. GOPAY ANIMATION POP-UP
         ========================================================= */
         function triggerGoPayAnim(titleText, descText, isYellow = false) {
             const modal = document.getElementById('gopay-modal');
             const circle = document.getElementById('gopayCircle');
-            const icon = document.getElementById('gopayIcon');
             const title = document.getElementById('gopayTitle');
-            const desc = document.getElementById('gopayDesc');
-
             title.innerText = titleText;
-            desc.innerText = descText;
-
-            if (isYellow) {
-                circle.className = "gopay-circle yellow-mode";
-                title.style.color = "var(--lcd-yellow)";
-                icon.className = "fa-solid fa-clock";
-            } else {
-                circle.className = "gopay-circle";
-                title.style.color = "var(--lcd-green)";
-                icon.className = "fa-solid fa-check";
-            }
-
+            document.getElementById('gopayDesc').innerText = descText;
+            circle.className = isYellow ? "gopay-circle yellow-mode" : "gopay-circle";
+            title.style.color = isYellow ? "var(--lcd-yellow)" : "var(--lcd-green)";
             modal.classList.add('active');
-            setTimeout(() => modal.classList.remove('active'), 1800);
+            setTimeout(() => modal.classList.remove('active'), 1650);
         }
 
         /* =========================================================
-           5. PEMUAT FIREBASE NON-BLOCKING (TIDAK MACET SAAT OFFLINE)
+           4. FIREBASE NON-BLOCKING (1 MODE: ONLINE CLOUD)
         ========================================================= */
         let auth = null, database = null, dbRef = null, schedulesRef = null, lcdRef = null, logRef = null, usersRef = null, connectedRef = null;
         let isServerConnected = false;
@@ -1685,21 +906,16 @@
         function loadScriptAsync(src) {
             return new Promise((resolve, reject) => {
                 const s = document.createElement('script');
-                s.src = src;
-                s.async = true;
-                s.onload = resolve;
-                s.onerror = reject;
+                s.src = src; s.async = true; s.onload = resolve; s.onerror = reject;
                 document.head.appendChild(s);
             });
         }
 
         async function initFirebaseNonBlocking() {
-            if (!navigator.onLine) return;
             try {
                 await loadScriptAsync("https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js");
                 await loadScriptAsync("https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js");
                 await loadScriptAsync("https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js");
-
                 if (typeof firebase === 'undefined') return;
                 const firebaseConfig = {
                     apiKey: "AIzaSyB4eYa34ymjS8yaEC2kd9xzq6yJ-BauFPo",
@@ -1715,76 +931,17 @@
                 logRef = database.ref('perangkat/logs');
                 usersRef = database.ref('users');
                 connectedRef = database.ref(".info/connected");
-
                 attachFirebaseListeners();
-            } catch (e) {
-                // Tetap berjalan normal dalam mode offline jika Firebase gagal dimuat
-            }
+            } catch (e) {}
         }
 
         /* =========================================================
-           6. MANAJEMEN MODE WIRELESS (CLOUD VS OFFLINE LOKAL)
-        ========================================================= */
-        let wirelessMode = SafeStore.get('sf_wireless_mode', navigator.onLine ? 'CLOUD' : 'LOCAL');
-        let espLocalIp = SafeStore.get('sf_esp_local_ip', '192.168.4.1');
-
-        function setWirelessMode(mode) {
-            wirelessMode = mode;
-            SafeStore.set('sf_wireless_mode', mode);
-            updateWirelessUI();
-            renderButtonState();
-            CyberAudio.play('ui_click');
-            triggerGoPayAnim(
-                mode === 'LOCAL' ? "MODE OFFLINE LOKAL" : "MODE ONLINE CLOUD",
-                mode === 'LOCAL' ? `Target langsung ke ESP8266 (${espLocalIp})` : "Menggunakan sinkronisasi Cloud Firebase",
-                mode === 'LOCAL'
-            );
-        }
-
-        function updateWirelessUI() {
-            const btnCloud = document.getElementById('btnModeCloud');
-            const btnLocal = document.getElementById('btnModeLocal');
-            const sel = document.getElementById('wirelessModeSelect');
-            const ipInput = document.getElementById('espLocalIpInput');
-            const badge = document.getElementById('wirelessModeBadge');
-            const connDot = document.getElementById('connDot');
-            const connText = document.getElementById('connText');
-            const dbStatusUI = document.getElementById('dbStatusUI');
-
-            if (btnCloud && btnLocal) {
-                btnCloud.className = wirelessMode === 'CLOUD' ? 'qmode-btn active' : 'qmode-btn';
-                btnLocal.className = wirelessMode === 'LOCAL' ? 'qmode-btn active-yellow' : 'qmode-btn';
-            }
-            if (sel) sel.value = wirelessMode;
-            if (ipInput) ipInput.value = espLocalIp;
-            if (badge) badge.innerText = wirelessMode === 'LOCAL' ? `Offline Lokal (${espLocalIp})` : 'Online Cloud';
-
-            if (wirelessMode === 'LOCAL' && !isServerConnected) {
-                if (connDot) connDot.className = 'dot online';
-                if (connText) connText.innerText = "SIAP LOKAL";
-                if (dbStatusUI) {
-                    dbStatusUI.innerText = "Offline (Mode Lokal Aktif)";
-                    dbStatusUI.style.color = "var(--lcd-yellow)";
-                }
-            }
-        }
-
-        function saveLocalIpConfig() {
-            const val = document.getElementById('espLocalIpInput').value.trim();
-            if (!val) return alert("Masukkan alamat IP ESP8266 (contoh: 192.168.4.1)");
-            espLocalIp = val;
-            SafeStore.set('sf_esp_local_ip', espLocalIp);
-            updateWirelessUI();
-            CyberAudio.play('sched_add');
-            triggerGoPayAnim("IP TERSIMPAN", `Target Offline Lokal: http://${espLocalIp}`);
-        }
-
-        /* =========================================================
-           7. OTENTIKASI & AKSES MASUK OFFLINE ANTI-GAGAL
+           5. AUTHENTICATION & MASUK DASHBOARD
         ========================================================= */
         let userRole = 'GUEST';
         let currentUserProfile = { name: 'Tamu', email: '' };
         let cachedLogsList = [];
+        let hasShownOfflinePopup = false;
 
         function switchAuthTab(tabName) {
             CyberAudio.play('ui_click');
@@ -1794,60 +951,28 @@
             document.getElementById('tabRegisterBtn').classList.toggle('active', tabName === 'register');
         }
 
-        document.getElementById('password').addEventListener('keypress', e => { if (e.key === 'Enter') doLogin(); });
-        document.getElementById('regPassword').addEventListener('keypress', e => { if (e.key === 'Enter') doRegister(); });
-
-        function doOfflineDirect() {
-            userRole = 'ADMIN';
-            currentUserProfile = { name: 'Operator Offline (XI-7)', email: 'lokal@192.168.4.1' };
-            wirelessMode = 'LOCAL';
-            SafeStore.set('sf_wireless_mode', 'LOCAL');
-            CyberAudio.stopIntroMusic();
-            CyberAudio.play('login_success');
-            masukAplikasi("MODE OFFLINE LOKAL", 'ADMIN');
-            triggerGoPayAnim("OFFLINE SIAP!", `Terhubung ke target lokal ${espLocalIp}`, true);
-        }
-
         function doLogin() {
             const identifier = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value.trim();
 
             if (!identifier || !p) {
                 CyberAudio.play('error');
-                return alert("Isi Email / ID Admin dan Password terlebih dahulu, atau klik tombol 'Masuk Mode Offline Lokal' di bawah.");
+                return alert("Isi Email / ID Admin dan Password terlebih dahulu.");
             }
 
-            // 1. Login Master Admin (Case-insensitive agar mudah diketik di HP saat offline)
             if (identifier.toUpperCase() === 'XI-7' && p.toUpperCase() === 'REKAYASA') {
                 userRole = 'ADMIN';
                 currentUserProfile = { name: 'Admin XI-7', email: 'master@sman14sby.sch.id' };
-                if (!navigator.onLine || !isServerConnected) wirelessMode = 'LOCAL';
                 CyberAudio.stopIntroMusic();
                 CyberAudio.play('login_success');
                 masukAplikasi("HALO, ADMIN XI-7", 'ADMIN');
-                triggerGoPayAnim("LOGIN ADMIN", wirelessMode === 'LOCAL' ? "Mode Offline Lokal Siap!" : "Akses Penuh Master Admin XI-7 Aktif!");
-                return;
-            }
-
-            // 2. Cek Cache Akun Email saat Offline
-            let cachedAccounts = {};
-            try { cachedAccounts = JSON.parse(SafeStore.get('sf_cached_users', '{}')); } catch (e) {}
-            const lowerId = identifier.toLowerCase();
-
-            if ((!navigator.onLine || !auth) && cachedAccounts[lowerId] && cachedAccounts[lowerId].pass === p) {
-                userRole = 'USER_EMAIL';
-                currentUserProfile = { name: cachedAccounts[lowerId].name, email: lowerId };
-                wirelessMode = 'LOCAL';
-                CyberAudio.stopIntroMusic();
-                CyberAudio.play('login_success');
-                masukAplikasi(`HALO, ${currentUserProfile.name.toUpperCase()}`, 'USER_EMAIL');
-                triggerGoPayAnim("LOGIN OFFLINE OK", "Masuk menggunakan akun tersimpan (Mode Lokal).");
                 return;
             }
 
             if (!auth || !navigator.onLine) {
                 CyberAudio.play('error');
-                return alert("Saat ini HP tidak terhubung ke internet.\n\nUntuk langsung masuk tanpa internet, ketik ID: XI-7 dan Sandi: REKAYASA, atau tekan tombol kuning 'Masuk Mode Offline Lokal'.");
+                openOfflineInfo();
+                return;
             }
 
             const btnSubmit = document.getElementById('btnLoginSubmit');
@@ -1862,39 +987,25 @@
                         const snap = await usersRef.child(user.uid).once('value');
                         if (snap.exists() && snap.val().name) displayName = snap.val().name;
                     } catch (e) {}
-
-                    cachedAccounts[lowerId] = { name: displayName, pass: p };
-                    SafeStore.set('sf_cached_users', JSON.stringify(cachedAccounts));
-
                     userRole = 'USER_EMAIL';
                     currentUserProfile = { uid: user.uid, name: displayName, email: user.email };
                     CyberAudio.stopIntroMusic();
                     CyberAudio.play('login_success');
                     masukAplikasi(`HALO, ${displayName.toUpperCase()}`, 'USER_EMAIL');
-                    triggerGoPayAnim("LOGIN BERHASIL", `Selamat datang, ${displayName}!`);
                 })
-                .catch((err) => {
-                    CyberAudio.play('error');
-                    alert("Gagal login: " + err.message);
-                })
-                .finally(() => {
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerText = "Masuk Sistem";
-                });
+                .catch(err => { CyberAudio.play('error'); alert("Gagal login: " + err.message); })
+                .finally(() => { btnSubmit.disabled = false; btnSubmit.innerText = "Masuk Sistem"; });
         }
 
         function doRegister() {
             if (!auth || !navigator.onLine) {
-                CyberAudio.play('error');
-                return alert("Pendaftaran email baru membutuhkan internet. Untuk langsung memakai alat tanpa internet, klik 'Masuk Mode Offline Lokal'.");
+                openOfflineInfo();
+                return;
             }
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const pass = document.getElementById('regPassword').value;
-            if (!name || !email.includes('@') || pass.length < 6) {
-                CyberAudio.play('error');
-                return alert("Lengkapi nama, email valid, dan password minimal 6 karakter.");
-            }
+            if (!name || !email.includes('@') || pass.length < 6) return alert("Lengkapi nama, email valid, dan password minimal 6 karakter.");
 
             const btnReg = document.getElementById('btnRegisterSubmit');
             btnReg.disabled = true;
@@ -1902,18 +1013,13 @@
                 .then(async (cred) => {
                     await cred.user.updateProfile({ displayName: name });
                     await usersRef.child(cred.user.uid).set({ name, email, role: 'OPERATOR_SELFIE' });
-                    let cachedAccounts = {};
-                    try { cachedAccounts = JSON.parse(SafeStore.get('sf_cached_users', '{}')); } catch (e) {}
-                    cachedAccounts[email.toLowerCase()] = { name, pass };
-                    SafeStore.set('sf_cached_users', JSON.stringify(cachedAccounts));
-
                     userRole = 'USER_EMAIL';
                     currentUserProfile = { uid: cred.user.uid, name, email };
                     CyberAudio.stopIntroMusic();
                     CyberAudio.play('login_success');
                     masukAplikasi(`HALO, ${name.toUpperCase()}`, 'USER_EMAIL');
                 })
-                .catch(err => { CyberAudio.play('error'); alert("Gagal daftar: " + err.message); })
+                .catch(err => alert("Gagal daftar: " + err.message))
                 .finally(() => { btnReg.disabled = false; });
         }
 
@@ -1928,7 +1034,7 @@
             userRole = 'GUEST';
             currentUserProfile = { name: 'Tamu', email: '' };
             CyberAudio.stopIntroMusic();
-            CyberAudio.play('login_guest');
+            CyberAudio.play('login_success');
             masukAplikasi("HALO, TAMU", 'GUEST');
         }
 
@@ -1938,7 +1044,6 @@
             authEl.style.opacity = '0';
 
             setTimeout(() => {
-                authEl.style.visibility = 'hidden';
                 authEl.style.display = 'none';
                 appEl.style.display = 'flex';
                 document.getElementById('greeting').innerText = greetText;
@@ -1960,16 +1065,22 @@
                     document.getElementById('lock-schedule').style.display = 'none';
                 }
 
-                updateWirelessUI();
                 renderButtonState();
-            }, 350);
+
+                // Tampilkan Pop-up Informasi Mode Offline (Captive Portal) saat masuk dashboard
+                if (!hasShownOfflinePopup) {
+                    hasShownOfflinePopup = true;
+                    setTimeout(() => {
+                        document.getElementById('offline-info-modal').classList.add('active');
+                    }, 450);
+                }
+            }, 280);
         }
 
         function logout() {
-            CyberAudio.play('lcd_off');
             stopCameraStream();
             if (auth) auth.signOut().catch(() => {});
-            setTimeout(() => location.reload(), 200);
+            location.reload();
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -1986,22 +1097,16 @@
         });
 
         /* =========================================================
-           8. KONTROL POMPA 3 DETIK AUTO-OFF & FIREBASE LISTENERS
+           6. POMPA 3 DETIK AUTO-OFF & FIREBASE LISTENERS
         ========================================================= */
         const btn = document.getElementById('toggleBtn');
         const btnLabel = document.getElementById('btnLabel');
         const statusText = document.getElementById('statusText');
         const connDot = document.getElementById('connDot');
         const connText = document.getElementById('connText');
-        const dbStatusUI = document.getElementById('dbStatusUI');
 
-        let currentState = 0;
-        let currentLcdState = 1;
-        let lastActiveTs = 0;
-        let stackedSchedules = [];
-        let autoOffTimer = null;
-        let countdownInterval = null;
-        let remainingSec = 3;
+        let currentState = 0, currentLcdState = 1, lastActiveTs = 0;
+        let stackedSchedules = [], autoOffTimer = null, countdownInterval = null, remainingSec = 3;
 
         function clearAutoOffTimers() {
             if (autoOffTimer) { clearTimeout(autoOffTimer); autoOffTimer = null; }
@@ -2028,27 +1133,16 @@
                 document.getElementById('durationUI').innerText = "3 dtk";
                 CyberAudio.play('pump_off');
                 renderButtonState();
-
-                if (wirelessMode === 'CLOUD' && dbRef && isServerConnected) {
-                    dbRef.update({ status: 0, lastDuration: "3 dtk" }).catch(() => {});
-                }
+                if (dbRef && isServerConnected) dbRef.update({ status: 0, lastDuration: "3 dtk" }).catch(() => {});
             }, 3000);
         }
 
         function attachFirebaseListeners() {
             if (!connectedRef) return;
-
             connectedRef.on("value", (snap) => {
-                if (snap.val() === true) {
-                    isServerConnected = true;
-                    connDot.className = 'dot online';
-                    connText.innerText = "CLOUD ONLINE";
-                    dbStatusUI.innerText = "Terhubung OK";
-                    dbStatusUI.style.color = "var(--lcd-green)";
-                } else {
-                    isServerConnected = false;
-                    updateWirelessUI();
-                }
+                isServerConnected = snap.val() === true;
+                connDot.className = isServerConnected ? 'dot online' : 'dot offline';
+                connText.innerText = isServerConnected ? "CLOUD ONLINE" : "OFFLINE";
                 renderButtonState();
             });
 
@@ -2105,7 +1199,7 @@
                 return;
             }
 
-            if (wirelessMode === 'LOCAL' || isServerConnected) {
+            if (isServerConnected) {
                 btn.disabled = false;
                 if (currentState === 1) {
                     btn.className = "main-btn btn-on";
@@ -2114,24 +1208,19 @@
                     statusText.style.color = "var(--lcd-green)";
                 } else {
                     btn.className = "main-btn btn-off";
-                    btnLabel.innerText = wirelessMode === 'LOCAL' ? "LONTAR LOKAL 3s" : "LONTAR CLOUD 3s";
-                    statusText.innerText = wirelessMode === 'LOCAL'
-                        ? `Siap kirim perintah lokal ke http://${espLocalIp} (tanpa internet).`
-                        : "Siap kirim perintah via Cloud Firebase (3 detik).";
+                    btnLabel.innerText = "LONTAR PAKAN 3s";
+                    statusText.innerText = "Siap melontar pakan otomatis selama 3 detik.";
                     statusText.style.color = "var(--text-muted)";
                 }
             } else {
                 btn.disabled = true;
                 btn.className = "main-btn btn-locked";
                 btnLabel.innerText = "NO INTERNET";
-                statusText.innerText = "Internet terputus! Klik tombol 'Offline Lokal' di atas untuk memberi pakan tanpa internet.";
+                statusText.innerText = "Tidak ada internet. Hubungkan Wi-Fi ke SmartFeeder_Wireless untuk kontrol offline di Captive Portal.";
                 statusText.style.color = "var(--lcd-yellow)";
             }
         }
 
-        /* =========================================================
-           9. SELFIE & EKSEKUSI POMPA 3 DETIK
-        ========================================================= */
         let activeCameraStream = null;
         function stopCameraStream() {
             if (activeCameraStream) {
@@ -2171,19 +1260,21 @@
             const video = document.getElementById('selfieVideo');
             const canvas = document.getElementById('selfieCanvas');
             const ctx = canvas.getContext('2d');
-            ctx.save();
-            ctx.translate(canvas.width, 0);
-            ctx.scale(-1, 1);
+            ctx.save(); ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             ctx.restore();
-            const selfieBase64 = canvas.toDataURL('image/jpeg', 0.65);
-            CyberAudio.play('camera_shutter');
+            const selfieBase64 = canvas.toDataURL('image/jpeg', 0.6);
             stopCameraStream();
             document.getElementById('selfie-modal').classList.remove('active');
             eksekusiPerintahPompa(1, selfieBase64);
         }
 
         function eksekusiPerintahPompa(newState, selfieData = null) {
+            if (!dbRef || !isServerConnected) {
+                openOfflineInfo();
+                return;
+            }
+
             const operatorLabel = userRole === 'USER_EMAIL'
                 ? `${currentUserProfile.name} (${currentUserProfile.email})`
                 : 'Admin XI-7';
@@ -2193,36 +1284,9 @@
                 currentState = 0;
                 renderButtonState();
                 CyberAudio.play('pump_off');
-                if (wirelessMode === 'CLOUD' && dbRef && isServerConnected) {
-                    dbRef.update({ status: 0, lastDuration: "Dihentikan" }).catch(() => {});
-                }
+                dbRef.update({ status: 0, lastDuration: "Dihentikan" }).catch(() => {});
                 triggerGoPayAnim("MESIN DIMATIKAN", "Pompa dihentikan manual.", true);
                 return;
-            }
-
-            // JALUR OFFLINE LOKAL (TANPA INTERNET)
-            if (wirelessMode === 'LOCAL') {
-                startWebAutoOff3Sec();
-                CyberAudio.play('pump_on');
-
-                fetch(`http://${espLocalIp}/feed`, { mode: 'cors' })
-                    .then(res => {
-                        if (!res.ok) throw new Error("HTTP error");
-                        triggerGoPayAnim("PAKAN LOKAL 3 DETIK!", `Perintah terkirim langsung ke ${espLocalIp}`);
-                    })
-                    .catch(() => {
-                        window.open(`http://${espLocalIp}/feed?autoclose=1`, '_blank', 'width=360,height=280');
-                        triggerGoPayAnim("MENGIRIM LOKAL...", `Membuka jembatan lokal ${espLocalIp} (3 detik)`);
-                    });
-
-                const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                document.getElementById('lastActiveUI').innerText = nowStr + " (Lokal)";
-                return;
-            }
-
-            // JALUR ONLINE CLOUD FIREBASE
-            if (!dbRef || !isServerConnected) {
-                return alert("Tidak ada koneksi internet. Pindahkan sakelar di atas ke 'Offline Lokal'.");
             }
 
             startWebAutoOff3Sec();
@@ -2239,14 +1303,14 @@
                 clearAutoOffTimers();
                 currentState = 0;
                 renderButtonState();
-                alert("Gagal mengirim ke Firebase: " + e.message);
+                alert("Gagal mengirim perintah: " + e.message);
             });
         }
 
         btn.onclick = () => {
             if (btn.disabled) return;
             const newState = currentState === 1 ? 0 : 1;
-            if (userRole === 'USER_EMAIL' && newState === 1 && wirelessMode === 'CLOUD') {
+            if (userRole === 'USER_EMAIL' && newState === 1) {
                 openSelfieVerificationModal();
                 return;
             }
@@ -2255,11 +1319,11 @@
         };
 
         function toggleLcdBacklight() {
-            if (userRole !== 'ADMIN' || !lcdRef || !isServerConnected) return alert("Kontrol LCD membutuhkan koneksi Online Cloud.");
+            if (userRole !== 'ADMIN' || !lcdRef || !isServerConnected) return openOfflineInfo();
             const next = currentLcdState === 1 ? 0 : 1;
             lcdRef.set(next).then(() => {
-                CyberAudio.play(next === 1 ? 'lcd_on' : 'lcd_off');
-                triggerGoPayAnim(next === 1 ? "LCD NYALA" : "LCD SLEEP", "Backlight diperbarui.", next === 0);
+                CyberAudio.play('ui_click');
+                triggerGoPayAnim(next === 1 ? "LCD NYALA" : "LCD SLEEP", "Backlight LCD diperbarui.", next === 0);
             });
         }
 
@@ -2280,7 +1344,7 @@
             }
             tbody.innerHTML = cachedLogsList.map((item, idx) => {
                 const t = new Date(item.waktu).toLocaleString('id-ID', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', second:'2-digit'});
-                const proof = item.selfieData ? `<button class="btn-mini" onclick="openProofModal(${idx})">Lihat Selfie</button>` : '-';
+                const proof = item.selfieData ? `<button type="button" class="btn-mini" onclick="openProofModal(${idx})">Lihat Selfie</button>` : '-';
                 return `<tr><td>${t}</td><td class="log-nyala">${item.aksi}</td><td>${item.oleh}</td><td>${proof}</td></tr>`;
             }).join('');
         }
@@ -2291,7 +1355,7 @@
         }
 
         function tambahJadwalBertumpuk() {
-            if (userRole !== 'ADMIN' || !schedulesRef || !isServerConnected) return alert("Penambahan jadwal cloud membutuhkan koneksi internet.");
+            if (userRole !== 'ADMIN' || !schedulesRef || !isServerConnected) return openOfflineInfo();
             const timeVal = document.getElementById('schedTime').value;
             const labelVal = document.getElementById('schedLabel').value.trim() || `Jadwal ${timeVal} WIB`;
             const selectedDays = Array.from(document.querySelectorAll('#daysSelector input:checked')).map(cb => parseInt(cb.value, 10));
@@ -2300,19 +1364,19 @@
             schedulesRef.push({ time: timeVal, label: labelVal, days: selectedDays, active: true, lastTriggeredDate: "" })
                 .then(() => {
                     document.getElementById('schedLabel').value = "";
-                    CyberAudio.play('sched_add');
+                    CyberAudio.play('ui_click');
                     triggerGoPayAnim("JADWAL DITAMBAH", `${labelVal} (${timeVal} WIB)`, true);
                 });
         }
 
         function toggleStatusJadwal(id, cur) {
-            if (schedulesRef) schedulesRef.child(id).update({ active: !cur }).then(() => CyberAudio.play('sched_toggle'));
+            if (schedulesRef) schedulesRef.child(id).update({ active: !cur }).then(() => CyberAudio.play('ui_click'));
         }
         function hapusSatuJadwal(id) {
-            if (schedulesRef) schedulesRef.child(id).remove().then(() => CyberAudio.play('sched_delete'));
+            if (schedulesRef) schedulesRef.child(id).remove().then(() => CyberAudio.play('ui_click'));
         }
         function hapusSemuaJadwal() {
-            if (schedulesRef && confirm("Hapus semua jadwal?")) schedulesRef.remove().then(() => CyberAudio.play('sched_delete'));
+            if (schedulesRef && confirm("Hapus semua jadwal?")) schedulesRef.remove().then(() => CyberAudio.play('ui_click'));
         }
 
         function renderStackedSchedules() {
@@ -2325,16 +1389,16 @@
             }
             container.innerHTML = stackedSchedules.map(item => `
                 <div class="sched-item ${item.active ? '' : 'paused'}">
-                    <div class="sched-item-left">
+                    <div style="display: flex; align-items: center; gap: 12px;">
                         <div class="sched-clock">${item.time}</div>
                         <div>
-                            <div class="sched-label-text">${item.label}</div>
+                            <div style="font-size: 13px; font-weight: 700;">${item.label}</div>
                             <div class="sched-days-text">Setiap: ${item.days.map(d => DAY_NAMES[d]).join(', ')}</div>
                         </div>
                     </div>
-                    ${userRole === 'ADMIN' ? `<div class="sched-controls">
-                        <button class="btn-mini" onclick="toggleStatusJadwal('${item.id}', ${item.active})">${item.active ? 'AKTIF' : 'NONAKTIF'}</button>
-                        <button class="btn-mini del-mode" onclick="hapusSatuJadwal('${item.id}')">Hapus</button>
+                    ${userRole === 'ADMIN' ? `<div style="display: flex; gap: 6px;">
+                        <button type="button" class="btn-mini" onclick="toggleStatusJadwal('${item.id}', ${item.active})">${item.active ? 'AKTIF' : 'NONAKTIF'}</button>
+                        <button type="button" class="btn-mini del-mode" onclick="hapusSatuJadwal('${item.id}')">Hapus</button>
                     </div>` : ''}
                 </div>
             `).join('');
@@ -2368,8 +1432,6 @@
             }
         }, 1000);
 
-        // Jalankan inisialisasi latar belakang setelah UI tampil
-        updateWirelessUI();
         initFirebaseNonBlocking();
     </script>
 </body>
