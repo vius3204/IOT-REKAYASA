@@ -214,7 +214,7 @@
             width: 46%; height: 68%; border: 2px solid var(--lcd-yellow); border-radius: 50%; pointer-events: none;
         }
 
-        /* --- LOGIN OVERLAY --- */
+        /* --- LOGIN & REGISTER OVERLAY --- */
         #auth-overlay {
             position: fixed; inset: 0; background: #030504;
             display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 14px;
@@ -241,17 +241,35 @@
         }
         .auth-tab-btn.active { background: rgba(0, 255, 102, 0.18); color: var(--lcd-green); }
 
-        .input-group { margin-bottom: 12px; text-align: left; }
-        .input-group label { display: block; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 4px; }
+        .input-group { margin-bottom: 11px; text-align: left; }
+        .input-group label { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-family: var(--font-lcd); color: var(--lcd-green); margin-bottom: 4px; }
+        .opt-tag { color: var(--text-muted); font-size: 10px; }
         .input-group input {
             width: 100%; padding: 10px 12px; border-radius: 6px; background: #010d07;
             border: 1px solid var(--lcd-green); color: var(--lcd-yellow); font-family: var(--font-lcd); font-size: 14px; outline: none;
+        }
+        .input-group input.referral-input {
+            border-style: dashed;
+            border-color: var(--border-yellow);
+            text-transform: uppercase;
+        }
+        .input-group input.referral-input.valid-code {
+            border-style: solid;
+            border-color: var(--lcd-green);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+        }
+        .referral-status {
+            display: none;
+            margin-top: 4px;
+            font-family: var(--font-lcd);
+            font-size: 10px;
+            color: var(--lcd-green);
         }
         .forgot-link { display: inline-block; font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow); text-decoration: underline; cursor: pointer; margin-bottom: 8px; }
         .selfie-policy-note {
             font-family: var(--font-lcd); font-size: 11px; color: var(--lcd-yellow);
             background: rgba(255, 204, 0, 0.08); border: 1px dashed var(--border-yellow);
-            border-radius: 6px; padding: 7px 9px; margin-bottom: 10px; text-align: left;
+            border-radius: 6px; padding: 7px 9px; margin-bottom: 10px; text-align: left; line-height: 1.45;
         }
 
         .btn-auth {
@@ -519,7 +537,7 @@
         </div>
     </div>
 
-    <!-- LAYAR LOGIN -->
+    <!-- LAYAR LOGIN & PENDAFTARAN -->
     <div id="auth-overlay">
         <div class="lcd-bezel-frame">
             <div class="lcd-screen">
@@ -560,7 +578,7 @@
                 <div id="formRegisterBox" style="display: none;">
                     <div class="input-group">
                         <label>&gt; NAMA LENGKAP_</label>
-                        <input type="text" id="regName" placeholder="Nama Operator" autocomplete="off">
+                        <input type="text" id="regName" placeholder="Nama Lengkap Anda" autocomplete="off">
                     </div>
                     <div class="input-group">
                         <label>&gt; ALAMAT EMAIL_</label>
@@ -570,8 +588,16 @@
                         <label>&gt; BUAT PASSWORD_</label>
                         <input type="password" id="regPassword" placeholder="Minimal 6 karakter">
                     </div>
-                    <div class="selfie-policy-note">
-                        Akun email dapat menyalakan pompa pakan dengan <strong>verifikasi selfie kamera</strong>.
+                    <div class="input-group">
+                        <label>
+                            <span>&gt; KODE REFERAL ADMIN_</span>
+                            <span class="opt-tag">[OPSIONAL]</span>
+                        </label>
+                        <input type="text" id="regReferral" class="referral-input" placeholder="Kosongkan jika mendaftar Operator biasa" autocomplete="off" oninput="previewReferralCode(this.value)">
+                        <div class="referral-status" id="referralStatusHint">&#10004; Kode Referal Valid — Akun akan terdaftar sebagai Master Admin!</div>
+                    </div>
+                    <div class="selfie-policy-note" id="registerRoleNote">
+                        Tanpa kode referal: mendaftar sebagai <strong>Operator</strong> (lontar pakan dengan verifikasi selfie kamera). Isi kode referal jika ingin menjadi <strong>Master Admin</strong>.
                     </div>
                     <button type="button" class="btn-auth btn-login" id="btnRegisterSubmit" onclick="doRegister()">Daftar &amp; Masuk</button>
                 </div>
@@ -970,12 +996,31 @@
         }
 
         /* =========================================================
-           5. AUTHENTICATION & MASUK DASHBOARD
+           5. AUTHENTICATION, KODE REFERAL ADMIN & MASUK DASHBOARD
         ========================================================= */
+        const ADMIN_REFERRAL_CODE = "REKAYASA14"; // Kode referal opsional untuk menjadi Master Admin
+
         let userRole = 'GUEST';
         let currentUserProfile = { name: 'Tamu', email: '' };
         let cachedLogsList = [];
         let hasShownOfflinePopup = false;
+
+        function previewReferralCode(val) {
+            const inputEl = document.getElementById('regReferral');
+            const hintEl = document.getElementById('referralStatusHint');
+            const noteEl = document.getElementById('registerRoleNote');
+            const clean = val.trim().toUpperCase();
+
+            if (clean === ADMIN_REFERRAL_CODE) {
+                inputEl.classList.add('valid-code');
+                hintEl.style.display = 'block';
+                noteEl.innerHTML = 'Kode referal terverifikasi! Akun Anda akan mendapat hak akses penuh <strong>Master Admin</strong> (kontrol langsung, LCD, & jadwal).';
+            } else {
+                inputEl.classList.remove('valid-code');
+                hintEl.style.display = 'none';
+                noteEl.innerHTML = 'Tanpa kode referal: mendaftar sebagai <strong>Operator</strong> (lontar pakan dengan verifikasi selfie kamera). Isi kode referal jika ingin menjadi <strong>Master Admin</strong>.';
+            }
+        }
 
         function switchAuthTab(tabName) {
             CyberAudio.play('ui_click');
@@ -996,7 +1041,7 @@
 
             if (identifier.toUpperCase() === 'XI-7' && p.toUpperCase() === 'REKAYASA') {
                 userRole = 'ADMIN';
-                currentUserProfile = { name: 'Admin XI-7', email: 'master@sman14sby.sch.id' };
+                currentUserProfile = { name: 'XI-7', email: 'master@sman14sby.sch.id' };
                 CyberAudio.stopIntroMusic();
                 CyberAudio.play('login_success');
                 masukAplikasi("HALO, ADMIN XI-7", 'ADMIN');
@@ -1017,15 +1062,27 @@
                 .then(async (cred) => {
                     const user = cred.user;
                     let displayName = user.displayName || identifier.split('@')[0];
+                    let savedRole = 'OPERATOR_SELFIE';
                     try {
                         const snap = await usersRef.child(user.uid).once('value');
-                        if (snap.exists() && snap.val().name) displayName = snap.val().name;
+                        if (snap.exists()) {
+                            if (snap.val().name) displayName = snap.val().name;
+                            if (snap.val().role) savedRole = snap.val().role;
+                        }
                     } catch (e) {}
-                    userRole = 'USER_EMAIL';
-                    currentUserProfile = { uid: user.uid, name: displayName, email: user.email };
+
                     CyberAudio.stopIntroMusic();
                     CyberAudio.play('login_success');
-                    masukAplikasi(`HALO, ${displayName.toUpperCase()}`, 'USER_EMAIL');
+
+                    if (savedRole === 'ADMIN') {
+                        userRole = 'ADMIN';
+                        currentUserProfile = { uid: user.uid, name: displayName, email: user.email };
+                        masukAplikasi(`HALO, ADMIN ${displayName.toUpperCase()}`, 'ADMIN');
+                    } else {
+                        userRole = 'USER_EMAIL';
+                        currentUserProfile = { uid: user.uid, name: displayName, email: user.email };
+                        masukAplikasi(`HALO, ${displayName.toUpperCase()}`, 'USER_EMAIL');
+                    }
                 })
                 .catch(err => { CyberAudio.play('error'); alert("Gagal login: " + err.message); })
                 .finally(() => { btnSubmit.disabled = false; btnSubmit.innerText = "Masuk Sistem"; });
@@ -1039,22 +1096,60 @@
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const pass = document.getElementById('regPassword').value;
-            if (!name || !email.includes('@') || pass.length < 6) return alert("Lengkapi nama, email valid, dan password minimal 6 karakter.");
+            const referralInput = document.getElementById('regReferral').value.trim().toUpperCase();
+
+            if (!name || !email.includes('@') || pass.length < 6) {
+                CyberAudio.play('error');
+                return alert("Lengkapi nama, email valid, dan password minimal 6 karakter.");
+            }
+
+            // Validasi kode referal (opsional: boleh kosong, tetapi jika diisi harus sesuai)
+            let isReferralAdmin = false;
+            if (referralInput !== "") {
+                if (referralInput === ADMIN_REFERRAL_CODE) {
+                    isReferralAdmin = true;
+                } else {
+                    CyberAudio.play('error');
+                    return alert("Kode referal admin tidak sesuai. Kosongkan kolom kode referal jika ingin mendaftar sebagai Operator biasa.");
+                }
+            }
 
             const btnReg = document.getElementById('btnRegisterSubmit');
             btnReg.disabled = true;
+            btnReg.innerText = "MENDAFTARKAN...";
+
             auth.createUserWithEmailAndPassword(email, pass)
                 .then(async (cred) => {
                     await cred.user.updateProfile({ displayName: name });
-                    await usersRef.child(cred.user.uid).set({ name, email, role: 'OPERATOR_SELFIE' });
-                    userRole = 'USER_EMAIL';
-                    currentUserProfile = { uid: cred.user.uid, name, email };
+                    await usersRef.child(cred.user.uid).set({
+                        name,
+                        email,
+                        role: isReferralAdmin ? 'ADMIN' : 'OPERATOR_SELFIE',
+                        referralUsed: isReferralAdmin ? referralInput : null,
+                        createdAt: firebase.database.ServerValue.TIMESTAMP
+                    });
+
                     CyberAudio.stopIntroMusic();
                     CyberAudio.play('login_success');
-                    masukAplikasi(`HALO, ${name.toUpperCase()}`, 'USER_EMAIL');
+
+                    if (isReferralAdmin) {
+                        userRole = 'ADMIN';
+                        currentUserProfile = { uid: cred.user.uid, name, email };
+                        masukAplikasi(`HALO, ADMIN ${name.toUpperCase()}`, 'ADMIN');
+                    } else {
+                        userRole = 'USER_EMAIL';
+                        currentUserProfile = { uid: cred.user.uid, name, email };
+                        masukAplikasi(`HALO, ${name.toUpperCase()}`, 'USER_EMAIL');
+                    }
                 })
-                .catch(err => alert("Gagal daftar: " + err.message))
-                .finally(() => { btnReg.disabled = false; });
+                .catch(err => {
+                    CyberAudio.play('error');
+                    alert("Gagal daftar: " + err.message);
+                })
+                .finally(() => {
+                    btnReg.disabled = false;
+                    btnReg.innerText = "Daftar & Masuk";
+                });
         }
 
         function resetPasswordEmail() {
@@ -1093,7 +1188,7 @@
                     document.getElementById('lock-lcd').style.display = 'flex';
                     document.getElementById('lock-schedule').style.display = 'flex';
                 } else {
-                    document.getElementById('roleUI').innerText = "Master Admin (XI-7)";
+                    document.getElementById('roleUI').innerText = `Master Admin (${currentUserProfile.name})`;
                     document.getElementById('lock-control').style.display = 'none';
                     document.getElementById('lock-lcd').style.display = 'none';
                     document.getElementById('lock-schedule').style.display = 'none';
@@ -1256,7 +1351,6 @@
                 document.getElementById('btnLcdText').innerText = currentLcdState === 1 ? "Matikan Layar LCD" : "Nyalakan Layar LCD";
             });
 
-            // Listener Real-Time Database Log (tanpa orderByChild agar langsung aktif)
             logRef.limitToLast(25).on('value',
                 snap => parseLogsSnapshot(snap),
                 err => {
@@ -1352,7 +1446,7 @@
 
             const operatorLabel = userRole === 'USER_EMAIL'
                 ? `${currentUserProfile.name} (${currentUserProfile.email})`
-                : 'Admin XI-7';
+                : `Admin ${currentUserProfile.name}`;
 
             if (newState === 0) {
                 clearAutoOffTimers();
